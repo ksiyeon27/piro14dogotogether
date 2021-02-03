@@ -25,13 +25,15 @@ def signup(request):
             user = form.save()
             # auth_login 인자로 user를 넘겨줘서 자동 로그인
             auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            url = reverse("accounts:base")
-            return redirect(url)
+            next_url = request.GET.get('next') or reverse("accounts:base") #회원가입 후 이동
+            return redirect(next_url)
     else:
         form=UserCreationForm()
         return render(request, "accounts/signup.html", {'form':form})
 
-
+@login_required
+def signup_completed(request):
+    return render(request, 'accounts/signup_completed.html')
 
 @login_required
 def profile(request):
