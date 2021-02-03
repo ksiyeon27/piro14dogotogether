@@ -1,3 +1,6 @@
+{% load socialaccount %}
+{% providers_media_js %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +16,8 @@
     {% else %}
         <ul>
             <li><a href="{% url 'accounts:login' %}">일반 로그인</a></li>
-            <li><a href="">구글 로그인</a></li>
-            <li><a href="">네이버 로그인</a></li>
+            <li><a href="{% provider_login_url 'google' %}">구글 로그인</a></li>
+            <li><a href="{% provider_login_url 'naver' %}">네이버 로그인</a></li>
         </ul>
         <a href="{% url 'accounts:signup' %}">회원가입</a>  
     {% endif %}
