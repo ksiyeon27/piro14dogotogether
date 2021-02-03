@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    프로필 test입니다.<br />
+
+    {% if profile.nickname and profile.image.url %}
+        user: {{profile.user}}<br />
+        profile nickname: {{profile.nickname}}<br />
+        profile image: <img src="{{profile.image.url}}"><br />
+    {% endif %}
+    <a href="{% url 'accounts:profile_edit' %}">프로필 편집</a>
+</body>
+</html>
