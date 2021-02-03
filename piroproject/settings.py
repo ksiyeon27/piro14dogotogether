@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     'taggit',
     'taggit_templatetags2',
 
+    # app
+    'accounts',
+    
+    # pip installed app
+    'imagekit',
 ]
 
 MIDDLEWARE = [
