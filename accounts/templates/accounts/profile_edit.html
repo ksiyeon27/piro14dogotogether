@@ -9,7 +9,6 @@
     <form action="{% url 'accounts:profile_edit' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         
-        {% comment %}
         <label for="name">이름</label>
         <input id="name" name="name" value="{{profile.name}}">
         <br />
@@ -23,12 +22,13 @@
         <input id="image" name="image" type="file">
         <button type='submit'>업로드</button>
         <br />
-        {% endcomment %}
 
+        {% comment %}
         <table>
             {{profileform.as_table}}
         </table>
         <input type='submit' />
+        {% endcomment %}
     </form>
 </body>
 </html>
