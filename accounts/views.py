@@ -17,18 +17,21 @@ from django.core.files.storage import FileSystemStorage
 def base(request):
     return render(request, 'accounts/base.html')
 
+
 def signup(request):
     if request.method=='POST':
         form=UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             # auth_login 인자로 user를 넘겨줘서 자동 로그인
-            auth_login(request, user)
+            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             url = reverse("accounts:base")
             return redirect(url)
     else:
         form=UserCreationForm()
         return render(request, "accounts/signup.html", {'form':form})
+
+
 
 @login_required
 def profile(request):
