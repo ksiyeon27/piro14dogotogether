@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from . import views
 
@@ -15,4 +16,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('profile/edit', views.profile_edit, name='profile_edit'),
     path('profile/delete', views.user_delete, name='user_delete'),
+
+    
+
 ]
