@@ -10,6 +10,7 @@
 
     {% if profile.nickname and profile.image.url %}
         user: {{profile.user}}<br />
+        profile name: {{profile.name}}<br />
         profile nickname: {{profile.nickname}}<br />
         profile image: <img src="{{profile.image_thumbnail.url}}"><br />
     {% endif %}
