@@ -16,7 +16,7 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('profile/edit', views.profile_edit, name='profile_edit'),
     path('profile/delete', views.user_delete, name='user_delete'),
-
-    
+    path('signup_completed', views.signup_completed, name='signup_completed'),
+       
 
 ]
