@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'blog',
     'taggit',
     'taggit_templatetags2',
-
+    'widget_tweaks',
+    
     #allauth
     'allauth',
     'allauth.account',
