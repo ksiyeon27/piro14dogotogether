@@ -27,6 +27,8 @@ def signup(request):
             auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             next_url = request.GET.get('next') or reverse("accounts:base") #회원가입 후 이동
             return redirect(next_url)
+        else:
+            return render(request, "accounts/signup.html", {'form':form})
     else:
         form=UserCreationForm()
         return render(request, "accounts/signup.html", {'form':form})
