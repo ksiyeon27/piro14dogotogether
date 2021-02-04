@@ -19,8 +19,11 @@
         <input id="email" name="email" value="{{profile.email}}">
         <br />
         <label for="image">이미지</label>
-        <input id="image" name="image" type="file">
-        <button type='submit'>업로드</button>
+        <input id="image" name="image" type="file"><br />
+        {% if profile.image %}
+            <img src="{{profile.image_thumbnail.url}}" alt="profile_thumbnail" />
+        {% endif %}
+        <button type='submit'>제출</button>
         <br />
 
         {% comment %}
