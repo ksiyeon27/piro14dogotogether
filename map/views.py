@@ -19,3 +19,5 @@ def showmap(request):
             parkdict.append(content)
     parkJson = json.dumps(parkdict, ensure_ascii=False)
     return render(request, 'map/showmap.html', {'parkJson': parkJson})
+
+# 위치 기반으로, 
