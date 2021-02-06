@@ -50,6 +50,7 @@ def profile_edit(request):
         nickname = request.POST['nickname']
         email = request.POST['nickname']
         image = request.FILES['image']
+        # 따로 이미지 저장소를 파고, 이미지 링크만 남기는게 일반적.
         if image:
             fs=FileSystemStorage()
             filename=fs.save(image.name, image)
