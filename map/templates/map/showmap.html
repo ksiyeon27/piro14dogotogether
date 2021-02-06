@@ -16,6 +16,7 @@
 		};
 
 		var map = new kakao.maps.Map(container, options);
+		
 		var parks = JSON.parse("{{ parkJson|escapejs }}");
 		console.log(parks)
 		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -31,6 +32,7 @@
     			title: parks[i].title, 
     			image: markerImage 
 				  });
+				  
 			(function(marker, place) {
 				kakao.maps.event.addListener(marker, 'click', function() {
 				    var iwContent='<div class="wrap">' +
