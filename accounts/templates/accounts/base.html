@@ -13,6 +13,7 @@
         <a href="{% url 'accounts:logout' %}?next={{ request.path }}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a>    
         <a href="{% url 'accounts:profile' %}">프로필</a>
         <a href="{% url 'accounts:user_delete' %}">계정 탈퇴</a>  
+        <a href="{% url 'map:showmap'%}">산책지도</a>
         <a href="{% url 'blog:post_list' %}">후기 게시판으로 가기</a> 
     {% else %}
         <ul>
