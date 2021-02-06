@@ -47,3 +47,13 @@ class Post(models.Model):
         self.slug = slugify(self.title, allow_unicode=True)
         super().save(*args, **kwargs)
 # Create your models here.
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name="mother_post")
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name="commenter")
+    created = models.DateTimeField(auto_now_add=True, verbose_name='작성일')
+    content = models.TextField(default=None, verbose_name='댓글내용')
+    deleted = models.BooleanField(default=False, verbose_name='삭제여부')
+
+    def __str__(self):
+        return self.comments

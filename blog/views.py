@@ -14,12 +14,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import FormView
 from django.db.models import Q
 from blog.forms import PostSearchForm
-from blog.models import Post
+from blog.models import Post, Comment
 from django.conf import settings
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.views.generic import ListView, DetailView, TemplateView, UpdateView, DeleteView, CreateView
 from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.http import HttpResponse
+import json
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
+
 
 @login_required
 @require_POST
@@ -49,10 +54,7 @@ class PostDV(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['disqus_short'] = f"{settings.DISQUS_SHORTNAME}"
-        context['disqus_id'] = f"post-{self.object.id}"
-        context['disqus_url'] = f"{settings.DISQUS_MY_DOMAIN}{self.object.get_absolute_url()}"
-        context['disqus_title'] = f"{self.object.title}"
+        context['comments'] = Comment.objects.all()
         return context
 
 class PostAV(ArchiveIndexView):
@@ -126,5 +128,38 @@ class PostDeleteView(OwnerOnlyMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('blog:index')
 
+
+def comment_write_view(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    writer = request.POST.get('writer')
+    content = request.POST.get('content')
+    if content:
+        comment = Comment.objects.create(post=post, content=content, writer=request.user)
+        post.save()
+        data = {
+            'writer': writer,
+            'content': content,
+            'created': '방금 전',
+            'comment_id': comment.id
+        }
+        if request.user == post.owner:
+            data['self_comment'] = '(글쓴이)'
+
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
+
+
+def comment_delete_view(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    comment_id = request.POST.get('comment_id')
+    target_comment = Comment.objects.get(pk=comment_id)
+
+    if request.user == target_comment.writer or request.user.level == '1' or request.user.level == '0':
+        target_comment.deleted = True
+        target_comment.save()
+        post.save()
+        data = {
+            'comment_id': comment_id,
+        }
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
 
 # Create your views here.
