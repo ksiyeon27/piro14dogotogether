@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',
     'taggit',
     'taggit_templatetags2',
     'widget_tweaks',
@@ -55,7 +54,13 @@ INSTALLED_APPS = [
 
     # app
     'accounts',
+<<<<<<< Updated upstream
     'map',
+=======
+    'blog',
+    'map',
+
+>>>>>>> Stashed changes
     
     # pip installed app
     'imagekit',

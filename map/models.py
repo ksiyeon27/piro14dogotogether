@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+<<<<<<< Updated upstream
 
 class Spot(models.Model):
 	name = models.CharField()
@@ -49,3 +50,5 @@ return content
 - 느린데, 쓸 수 있음.
 
 3. 클라우드
+=======
+>>>>>>> Stashed changes
