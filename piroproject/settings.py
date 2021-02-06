@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     'accounts',
     'map',
     'blog',
+    'calculator',
+    
+    # pip installed app
     'imagekit',
 ]
 
