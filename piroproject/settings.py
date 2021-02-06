@@ -54,15 +54,8 @@ INSTALLED_APPS = [
 
     # app
     'accounts',
-<<<<<<< Updated upstream
     'map',
-=======
     'blog',
-    'map',
-
->>>>>>> Stashed changes
-    
-    # pip installed app
     'imagekit',
 ]
 
