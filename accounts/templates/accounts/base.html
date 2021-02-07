@@ -1,0 +1,27 @@
+{% load socialaccount %}
+{% providers_media_js %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <a href="{% url 'accounts:logout' %}?next={{ request.path }}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a>    
+        <a href="{% url 'accounts:profile' %}">프로필</a>
+        <a href="{% url 'accounts:user_delete' %}">계정 탈퇴</a>  
+        <a href="{% url 'map:showmap'%}">산책지도</a>
+        <a href="{% url 'blog:post_list' %}">후기 게시판으로 가기</a> 
+    {% else %}
+        <ul>
+            <li><a href="{% url 'accounts:login' %}">일반 로그인</a></li>
+            <li><a href="{% provider_login_url 'google' %}">구글 로그인</a></li>
+            <li><a href="{% provider_login_url 'naver' %}">네이버 로그인</a></li>
+        </ul>
+        <a href="{% url 'accounts:signup' %}?next={% url 'accounts:signup_completed' %}">회원가입</a>  
+    {% endif %}
+</body>
+</html>
