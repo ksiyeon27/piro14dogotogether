@@ -1,5 +1,3 @@
-<!--calculate.html-->
-<!--calculate_result.html 페이지는 따로 만들어야 한다.-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +8,7 @@
 </head>
 <body>
     <form action="" method="POST">
+        {% csrf_token %}
         <!--강아지 모습 선택-->
         <label for="level1"><img src="" alt="사진"></label><br />
         <input type="checkbox" name='level' id='level1' value="5" onclick="checkOnlyOne(this)"/><br />
