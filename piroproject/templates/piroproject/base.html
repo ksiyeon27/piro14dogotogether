@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Django Web Programming{% endblock %}</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {% block extra-style %}{% endblock %}
+</head>
+<body style="padding-top:90px;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <a class="navbar-brand" href="/">
+        <span class ="navbar-brand mx-5 mb-0 font-weight-bold font-italic">Django - Python Web Programming</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'bookmark:index' %}">Bookmark</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blog:index' %}">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'photo:index' %}">Photo</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                    role="button" data-toggle="dropdown">
+                        Util
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'admin:index' %}">Admin Page</a>
+                        <a class="dropdown-item" href="{% url 'blog:post_archive' %}">Blog Archive</a>
+                        <a class="dropdown-item" href="{% url 'blog:search' %}">Search</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something Else Here</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" action="" method="POST">{% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="Global Search" name="search_word" >
+            </form>
+            <ul class="navbar-nav ml-5 mr-5">
+                <li class="nav-item dropdown mx-1 btn btn-primary">
+                    {% if user.is_active %}
+                    <a class="nav-link dropdown-toggle text-white" href="#" data-toggle="dropdown">
+                        <i class="fas fa-user"></i>&ensp;{% firstof user.get_short_name user.get_username %}&ensp;</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
+                    </div>
+                    {% else %}
+                    <a class="nav-link dropdown-toggle text-white" href="#" data-toggle="dropdown">
+                        <i class="fas fa-user"></i>&ensp;Anonymous&ensp;
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                        <a class="dropdown-item" href="{% url 'register' %}">Register</a>
+                    </div>
+                    {% endif %}
+                </li>
+                <li class="nav-item dropdown mx-1 btn btn-primary">
+                    <a class="nav-link dropdown-toggle text-white" href="#" data-toggle="dropdown">add</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'bookmark:add' %}">Bookmark</a>
+                        <a class="dropdown-item" href="{% url 'blog:add' %}">Post</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'photo:album_add' %}">Album</a>
+                        <a class="dropdown-item" href="{% url 'photo:photo_add' %}">Photo</a>
+                    </div>
+                </li>
+
+            <li class="nav-item dropdown mx-1 btn btn-primary">
+                <a class="nav-link dropdown-toggle text-white" href="" data-toggle="dropdown">Change</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'bookmark:change' %}">Bookmark</a>
+                    <a class="dropdown-item" href="{% url 'blog:change' %}">Post</a>
+                    <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'photo:album_add' %}">Album</a>
+                        <a class="dropdown-item" href="{% url 'photo:photo_add' %}">Photo</a>
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+{% block footer %}{% endblock %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script id="dsq-count-scr" src="//yunsik-web-programming.disqus.com/count.js" async></script>
+{% block extra-script %}{% endblock %}
+</body>
+</html>

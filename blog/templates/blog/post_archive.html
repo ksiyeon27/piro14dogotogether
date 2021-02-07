@@ -1,0 +1,24 @@
+{% block title %}post_detail.html{% endblock %}
+
+{% block content %}
+
+    <h1>Post Archives Until {% now "N d, Y" %}</h1>
+    {% for date in date_list %}
+    <a href="{% url 'blog:post_year_archive' date|date:'Y' %}"
+       class="btn btn-outline-primary btn-sm mx-1">
+        Year-{{ date|date:"Y" }}</a>
+    {% endfor %}
+    <br><br>
+
+    <div>
+        <ul>
+            {% for post in object_list %}
+                {{ post.modified_at|date:"Y-m-d" }}&emsp;
+            <li class="h5">
+                <a href="{{  post.get_absolute_url }}"><strong>{{ post.title }}</strong></a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

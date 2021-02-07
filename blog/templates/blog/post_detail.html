@@ -1,0 +1,183 @@
+
+{% block title %} post_detail.html{% endblock %}
+
+{% block extra-style %}
+<style>
+    .post-body{
+        width:80%;
+        margin: auto;
+        font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+        font-size:16px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2>{{ object.title }}</h2>
+
+        <a href="{{ object.image.url }}">
+            <img src="{{ object.image.url }}" alt="이미지" style="width:50%;">
+        </a>
+  
+    <p>
+    {% if object.get_previous %}
+    <a href="{{ object.get_previous.get_absolute_url }}" title="View Previous Post">
+        &laquo;-- {{ object.get_previous }}
+    </a>
+    {% endif %}
+
+    {% if object.get_next %}
+    <a href="{{ object.get_next.get_absolute_url }}" title="View Next Post">
+        {{ object.get_next }} --&raquo;
+    </a>
+    {% endif %}
+</p>
+
+<p>
+    {{ object.created_at|date:'Y-m-d'}}
+</p>
+<br/>
+
+<div>
+    <input type="button" class="btn btn-info btn-sm like" name="{{ post.id }}" value="Like"
+        style="margin-top: 7px">
+    <p id="count-{{ post.id }}" style="font:bold 1em; margin-top: 3px">
+        좋아요&nbsp;{{ post.likes_user.all.count }}개</p>
+</div>
+<div class="body">
+    {{ object.content|linebreaks }}
+</div>
+<button type="button"  onclick="location.href='{% url 'blog:post_list'%}'; ">목록</button>
+<button type="button"  onclick="location.href='{% url 'blog:update' object.pk%}'; ">수정</button>
+<button type="button"  onclick="location.href='{% url 'blog:delete' object.pk%}'; ">삭제</button>
+
+<br>
+<div>
+<b>TAGS</b> <i class="fas fa-tag"></i>
+{% load taggit_templatetags2_tags %}
+{% get_tags_for_object object as "tags" %}
+{% for tag in tags %}
+<a href="{% url 'blog:tagged_object_list' tag.name %}">{{ tag.name }}</a>
+{% endfor %}
+&emsp;
+<a href="{% url 'blog:tag_cloud' %}"><span class="btn btn-info btn-sm">Tag Cloud</span></a>
+
+<div class="card">
+    <div class="card-header">
+        <div class="col-md-12">
+            {% csrf_token %}
+            <div class="form-group row">
+                <textarea class="form-control" id="content_id" rows="3" placeholder="댓글을 입력해주세요."></textarea>
+            </div>
+            <div class="text-right" style="float:right">
+                <button id="comment_write" class="btn btn-sm">댓글달기</button>
+            </div>
+        </div>
+        <hr>
+        <div id="more_comment">
+            {% if comments %}
+                {% for comment in comments %}
+                <div id='{{ comment.id }}'>
+                    {% if comment.deleted %}
+                    <span>삭제된 댓글입니다.</span><hr>
+                    {% else %}
+                        {% if comment.writer == free.writer %}
+                        <strong>{{ comment.writer }}&nbsp;<span>(글쓴이)</span></strong>
+                        {% else  %}
+                        <strong>{{ comment.writer }}</strong>
+                        {% endif %}
+                        <span style="float:right">{{ comment.created }}</span>
+                        {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
+                        <div>
+                            <div style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</div>
+                            <div style="text-align: right;">
+                                <a onclick="commentDelete('{{comment.id}}');">댓글삭제</a>
+                            </div>
+                        </div>
+                        <hr>
+                        {% else %}
+                        <div>
+                            <div style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</div>
+                        </div>
+                        <hr>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class='{{ comment.id }}'></div>
+                {% endfor %}
+            {% endif %}
+            <input type="hidden" id="comment_writer" value={{request.user}}>
+            <div id="comment_list"></div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+    {% block extra-script %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript">
+    $(document).ready(function () {
+        $('#comment_write').click(function () {
+            var content= $("#content_id").val();
+            var writer= $("#comment_writer").val();
+            $.ajax({
+                type: "POST",
+                url: "{% url 'blog:comment_new' post.id %}",
+                dataType: "json",
+                data: {
+                    'writer': writer,
+                    'content': content,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                },
+                success: function (response) {
+                    if (response.self_comment) {
+                        $('#comment_list').append(
+                           '<div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
+                           '<span style="float:right;">'+response.created+'</span>'+
+                           '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+
+                           '</div><div style="text-align:right;"><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                        );
+                    }
+                    else{
+                        $('#comment_list').append(
+                            '<div><div id='+response.comment_id+'><strong>'+response.writer+'</strong>'+
+                            '<span style="float:right;">'+response.created+'</span>'+
+                            '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+
+                            '</div><div style="text-align:right;"><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                        );
+                    }
+                    $('#content_id').val("");
+                },
+                error: function () {
+                    if ($('#content_id').val()=="") {
+                        alert('댓글을 입력해주세요.');
+                    }
+                },
+            })
+        });
+    });
+</script>
+     <script type="text/javascript">
+    function commentDelete(value) {
+        var comment_id = value;
+        var delete_warning = confirm('댓글을 삭제하시겠습니까?');
+        if (delete_warning == true) {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'blog:comment_delete' post.id %}",
+                dataType: "json",
+                data: {
+                    'comment_id': comment_id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                },
+                success: function (response) {
+                    $('#'+response.comment_id).replaceWith('<span style="color:gray;">삭제된 댓글입니다.</span><hr>');
+                },
+                error: function () {
+                    alert('본인 댓글이 아닙니다.');
+                },
+            });
+        }
+    }
+</script>
+    {% endblock %}
