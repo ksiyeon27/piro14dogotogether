@@ -36,3 +36,6 @@ class userLocationInfo(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
     userLocation = models.ForeignKey(currentLocation, on_delete=models.CASCADE,)
 
+
+
+    

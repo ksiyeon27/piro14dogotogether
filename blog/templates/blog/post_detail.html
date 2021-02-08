@@ -1,4 +1,5 @@
 
+{% load taggit_templatetags2_tags %}
 {% block title %} post_detail.html{% endblock %}
 
 {% block extra-style %}
@@ -51,10 +52,11 @@
 <button type="button"  onclick="location.href='{% url 'blog:update' object.pk%}'; ">수정</button>
 <button type="button"  onclick="location.href='{% url 'blog:delete' object.pk%}'; ">삭제</button>
 
-<br>
+<br/>
+
 <div>
 <b>TAGS</b> <i class="fas fa-tag"></i>
-{% load taggit_templatetags2_tags %}
+
 {% get_tags_for_object object as "tags" %}
 {% for tag in tags %}
 <a href="{% url 'blog:tagged_object_list' tag.name %}">{{ tag.name }}</a>
@@ -113,9 +115,29 @@
 </div>
 </div>
 {% endblock %}
-    {% block extra-script %}
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script type="text/javascript">
+{% block extra-script %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+            $(".like").click(function () { // .like 버튼을 클릭 감지
+                var pk = $(this).attr('name')
+                $.ajax({ // ajax로 서버와 통신
+                    type: "POST", // 데이터를 전송하는 방법 
+                    url: "{% url 'blog:post_like' %}", // 통신할 url을 지정
+                    data: { 'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}' }, // 서버로 데이터 전송시 옵션, pk를 넘겨야 어떤 post인지 알 수 있음
+                    dataType: "json",
+                    success: function (response) { // 성공
+                       
+                        $("#count-" + pk).html("좋아요&nbsp;" + response.likes_count + "개"); // 좋아요 개수 변경
+                    },
+                    error: function (request, status, error) { // 실패
+                        alert("로그인이 필요합니다.")
+                        window.location.replace("/login/") // 로그인 페이지로 넘어가기
+                    },
+                });
+            })
+ </script>    
+ 
+ <script type="text/javascript">
     $(document).ready(function () {
         $('#comment_write').click(function () {
             var content= $("#content_id").val();
@@ -157,7 +179,8 @@
         });
     });
 </script>
-     <script type="text/javascript">
+
+<script type="text/javascript">
     function commentDelete(value) {
         var comment_id = value;
         var delete_warning = confirm('댓글을 삭제하시겠습니까?');
@@ -179,5 +202,24 @@
             });
         }
     }
+</script>
+        <script>
+    $(".like").click(function () { // .like 버튼을 클릭 감지
+        var pk = $(this).attr('name')
+        $.ajax({ // ajax로 서버와 통신
+            type: "POST", // 데이터를 전송하는 방법
+            url: "{% url 'blog:post_like' %}", // 통신할 url을 지정
+            data: { 'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}' }, // 서버로 데이터 전송시 옵션, pk를 넘겨야 어떤 video인지 알 수 있음
+            dataType: "json",
+            success: function (response) { // 성공
+
+                $("#count-" + pk).html("좋아요&nbsp;" + response.likes_count + "개"); // 좋아요 개수 변경
+            },
+            error: function (request, status, error) { // 실패
+                alert("로그인이 필요합니다.")
+                window.location.replace("/login/") // 로그인 페이지로 넘어가기
+            },
+        });
+    })
 </script>
     {% endblock %}
