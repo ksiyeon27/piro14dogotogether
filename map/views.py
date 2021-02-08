@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.conf import settings
 import json
 # Create your views here.
+
 
 
 def showmap(request):
@@ -17,7 +19,9 @@ def showmap(request):
                 "addr1": str(park['소재지지번주소']),
             }
             parkdict.append(content)
+    API_KEY = getattr(settings, 'API_KEY', 'API_KEY')
     parkJson = json.dumps(parkdict, ensure_ascii=False)
+<<<<<<< Updated upstream
     return render(request, 'map/showmap.html', {'parkJson': parkJson})
 
 import json
@@ -59,3 +63,6 @@ def testmap(request):
     return render(request, 'map/testmap.html', {'parkJson': parkJson})
 
 # 위치 기반으로, 
+=======
+    return render(request, 'map/showmap.html', {'parkJson': parkJson, 'apiKey' : API_KEY})
+>>>>>>> Stashed changes
