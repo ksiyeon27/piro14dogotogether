@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',
     'taggit',
     'taggit_templatetags2',
     'widget_tweaks',
@@ -56,6 +55,8 @@ INSTALLED_APPS = [
     # app
     'accounts',
     'map',
+    'blog',
+    'calculator',
     
     # pip installed app
     'imagekit',

@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('sociallogin/', include('allauth.urls')),
     path('map/',include('map.urls')),
+    path('calculator/', include('calculator.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
