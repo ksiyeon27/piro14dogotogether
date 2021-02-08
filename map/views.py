@@ -21,10 +21,7 @@ def showmap(request):
             parkdict.append(content)
     API_KEY = getattr(settings, 'API_KEY', 'API_KEY')
     parkJson = json.dumps(parkdict, ensure_ascii=False)
-<<<<<<< Updated upstream
     return render(request, 'map/showmap.html', {'parkJson': parkJson})
-
-import json
 
 def showanimalavail(request):
     with open('static/json/animalavail.json', encoding='utf-8') as json_file:
@@ -46,6 +43,7 @@ def showanimalavail(request):
             places.append(content)
         placeJson = json.dumps(places, ensure_ascii=False)
         return render(request, 'map.html', {'placeJson': placeJson})
+
 def testmap(request):
     with open('static/map/test.json', encoding='utf-8') as json_file:
         parks = json.load(json_file)
@@ -62,7 +60,3 @@ def testmap(request):
     parkJson = json.dumps(parkdict, ensure_ascii=False)
     return render(request, 'map/testmap.html', {'parkJson': parkJson})
 
-# 위치 기반으로, 
-=======
-    return render(request, 'map/showmap.html', {'parkJson': parkJson, 'apiKey' : API_KEY})
->>>>>>> Stashed changes
