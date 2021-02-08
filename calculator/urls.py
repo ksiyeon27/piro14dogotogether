@@ -1,8 +1,8 @@
 from django.urls import path
-from blog import views
+from . import views
 
 app_name = 'calculator'
 
 urlpatterns = [
-    path('', views.calculator, name='calculator'),
+    path('', views.calculator, name='calculate'),
 ]
