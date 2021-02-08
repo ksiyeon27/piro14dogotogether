@@ -1,0 +1,2 @@
+This is a breed that requires some physical activity. There is a wide variance in the activity levels, but all require some regular exercise. Fortunately, they do have an “off switch” when they come indoors.
+width: 60%;
