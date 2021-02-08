@@ -43,6 +43,7 @@
 </style>
 </head>
 <body>
+<<<<<<< Updated upstream
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
@@ -280,6 +281,19 @@ function removeAllChildNods(el) {
     }
 }
 var parks = JSON.parse("{{ parkJson|escapejs }}");
+	<a href="{% url 'accounts:base'%}">메인홈페이지로</a>
+	<div id="map" style="width:1000px;height:400px;"></div>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{ apiKey }}"></script>
+	<script>
+		var container = document.getElementById('map');
+		var options = {
+			center: new kakao.maps.LatLng(37.5442779444, 126.9592546183),
+			level: 3
+		};
+
+		var map = new kakao.maps.Map(container, options);
+		
+		var parks = JSON.parse("{{ parkJson|escapejs }}");
 		console.log(parks)
 		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 		for (var i = 0; i < parks.length; i++) {
