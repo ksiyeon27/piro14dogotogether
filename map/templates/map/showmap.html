@@ -281,7 +281,6 @@ function removeAllChildNods(el) {
     }
 }
 var parks = JSON.parse("{{ parkJson|escapejs }}");
-=======
 	<a href="{% url 'accounts:base'%}">메인홈페이지로</a>
 	<div id="map" style="width:1000px;height:400px;"></div>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{ apiKey }}"></script>
@@ -295,7 +294,6 @@ var parks = JSON.parse("{{ parkJson|escapejs }}");
 		var map = new kakao.maps.Map(container, options);
 		
 		var parks = JSON.parse("{{ parkJson|escapejs }}");
->>>>>>> Stashed changes
 		console.log(parks)
 		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 		for (var i = 0; i < parks.length; i++) {
