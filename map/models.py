@@ -1,6 +1,4 @@
 from django.db import models
-
-from django.db import models
 from django.conf import settings
 """
 Don't Use the User Model Directly
@@ -27,6 +25,8 @@ class currentLocation(models.Model):
     """
     xmap = models.DecimalField(max_digits=9, decimal_places=6)
     ymap = models.DecimalField(max_digits=9, decimal_places=6)
+
+
 class userLocationInfo(models.Model):
     """
     feedback 반영 : userlocationInfo따로 분리하여 관리
