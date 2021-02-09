@@ -1,4 +1,7 @@
-dog_krname_list=[('siberian-husky', '시베리아 허스키'),
+from django import forms
+
+class CalculatorForm(forms.Form):
+    dog_krname_list=[('siberian-husky', '시베리아 허스키'),
                     ('poodle-standard', '푸들'),
                     ('german-shepherd-dog', '저먼 셰퍼드'),
                     ('alaskan-malamute', '알래스칸맬러뮤트'),
@@ -43,16 +46,18 @@ dog_krname_list=[('siberian-husky', '시베리아 허스키'),
                     ('Vizsla', '비즐라'),
                     ('Rottweiler', '로트 와일러'),
                     ('Bernese-Mountain-Dog', '버니즈 마운틴독')] # db, form_display
+    levels = [('5', 'level 1'),
+         ('10', 'level 2'),
+         ('20', 'level 3'),
+         ('30', 'level 4'),
+         ('40', 'level 5')]
 
-# POST 값으로 받아온 후, calculate_result.html 로 render하는 변수 return
-def to_calculate_result(dog_breed):
-    with open(f'./calculator/crawl_text/{dog_breed}.txt', 'r', -1, 'utf-8') as f:
-        press_text = f.readline()
-        press_graph = f.readline()
-    return press_text, press_graph
+    bcs = forms.ChoiceField(choices=levels, widget=forms.RadioSelect)
+    breeds = forms.ChoiceField(required = True, choices = dog_krname_list, label = 'breeds')
+    current_weight = forms.IntegerField(required = True)
 
-def return_dogkrname():
-    return dog_krname_list
 
-# if __name__=='__main__':
-#     # print(return_dogkrname(dognames_list))
+
+
+
+    
