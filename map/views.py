@@ -3,20 +3,26 @@ from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.conf import settings
 import json
 # Create your views here.
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.conf import settings
+import json
+# Create your views here.
 
 
 
 def showmap(request):
-    with open('static/map/test.json', encoding='utf-8') as json_file:
+    with open('static/map/parks.json', encoding='utf-8') as json_file:
         parks = json.load(json_file)
     parkdict = []
     for park in parks:
-        if park.get('위도'):
+        if park.get('이름'):
             content = {
-                "title": park['공원명'],
+                "title": (park['이름']),
                 "mapx": str(park['위도']),
                 "mapy": str(park['경도']),
-                "addr1": str(park['소재지지번주소']),
+                "addr1": str(park["기타"])
             }
             parkdict.append(content)
     API_KEY = getattr(settings, 'API_KEY', 'API_KEY')
@@ -59,4 +65,5 @@ def testmap(request):
             parkdict.append(content)
     parkJson = json.dumps(parkdict, ensure_ascii=False)
     return render(request, 'map/testmap.html', {'parkJson': parkJson})
+
 
