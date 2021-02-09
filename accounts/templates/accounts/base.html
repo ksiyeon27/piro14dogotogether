@@ -13,9 +13,12 @@
         <a href="{% url 'accounts:logout' %}?next={{ request.path }}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a>    
         <a href="{% url 'accounts:profile' %}">프로필</a>
         <a href="{% url 'accounts:user_delete' %}">계정 탈퇴</a>  
-        <a href="{% url 'map:showmap'%}">산책지도</a>
-        <a href="{% url 'blog:post_list' %}">후기 게시판으로 가기</a> 
-        <a href="{% url 'calculator:calculate' %}">계산기</a>
+        <a href="{% url 'map:showmap'%}">같이가개</a>
+        <a href="{% url 'calculator:calculate' %}">참고하개</a>
+        <a href="{% url 'blog:post_list' %}">물어보개</a> 
+        <div>
+            
+        </div>
     {% else %}
         <ul>
             <li><a href="{% url 'accounts:login' %}">일반 로그인</a></li>

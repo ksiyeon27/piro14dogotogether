@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>같이가개</title>
+    <title>키워드로 장소검색하고 목록으로 표출하기</title>
     <style>
 .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
@@ -283,7 +283,6 @@ function removeAllChildNods(el) {
 var parks = JSON.parse("{{ parkJson|escapejs }}");
 		console.log(parks)
 		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-		//공원용 마크 이미지
 		for (var i = 0; i < parks.length; i++) {
   			
   			var imageSize = new kakao.maps.Size(24, 35);
