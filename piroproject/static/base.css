@@ -1,4 +1,80 @@
-a {
-    text-decoration: none;
-    color:blue;
-}
+/*@import reset.css*/
+        body{
+            text-align:center;
+            margin:0;
+        }
+        nav {
+            margin: 0;
+            position: fixed;
+            top: 0;
+            width: 100vw;
+            background-color:white;
+        }
+
+        .logo>a {
+            color: orange;
+            font-size: 18px;
+            padding: 0 20px;
+            float: left;
+            line-height: 75px;
+            text-decoration: none;
+        }
+
+        .menu {
+            display: inline;
+            font-size: 15px;
+            color: black;
+            list-style: none;
+            float: right;
+            padding: 0 20px;
+            margin: 0;
+        }
+
+        .menu li {
+            float: left;
+            line-height: 75px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: black;
+            padding: 0 15px;
+            display: block;
+        }
+
+        .menu a:hover {
+            color: orange;
+        }
+        #main1{
+            background-color: orange;
+            padding:10%;
+        }
+        
+        .main-container{
+            display:flex;
+        }
+        .main-item{
+            text-align: left;
+            font-size:15px;
+            background-color:white;
+            margin:10% 15px;
+            padding:60px;
+            width:350px;
+            border-radius:30px;
+            flex:1;
+        }
+        button{
+            border:1px solid gray;
+            border-radius: 20px;
+            background-color: rgba(0,0,0,0);
+            padding:7px;
+        }
+        button>a{
+            text-decoration: none;
+            color:gray;
+        }
+
+        footer{
+            padding:10px;
+            color: gray;
+        }
