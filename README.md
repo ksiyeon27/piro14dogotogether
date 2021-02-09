@@ -77,7 +77,7 @@
 >#### 1. Django (WebFramework For Python)
 > <img src="/markdown/icons/장고 아이콘.png" width="20%"></img>
 > <img src="/markdown/icons/piroicon.jpg" width="20%"></img><br/>
-> 피로그래밍 14기 세션 및 인강학습기간(12/29/2020 ~ 01/28/2021) 동안 학습한 Django WebFramework를 이용하여
+> 피로그래밍 14기 세션 및 인강학습기간(12/29/2020 ~ 01/28/2021) 동안 학습한 Django WebFramework를 이용하여<br/>
 > 배운 내용을 복습하고, 사이드 프로젝트 구현을 통해 학습한 내용을 한 층 더 굳혀나가는 기회를 얻기 위함입니다.
 >#### 2. Pandas (공공API 및 홈페이지 데이터 크롤링)
 > 공공 API 데이터를 적절히 크롤링하여, 사용자에게 제공하는데 필요한 데이터를 적절히 정제하여<br/>
