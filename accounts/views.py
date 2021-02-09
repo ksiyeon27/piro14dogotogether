@@ -11,10 +11,12 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 # needed when define profile_edit:
 from django.core.files.storage import FileSystemStorage
-
+from blog.models import Post 
 
 # 이름 수정 필요.
 def base(request):
+    posts = Post.objects.all()
+    
     return render(request, 'accounts/base.html')
 
 
