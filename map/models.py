@@ -4,6 +4,7 @@ from django.conf import settings
 Don't Use the User Model Directly
 https://stackoverflow.com/questions/34305805/django-foreignkeyuser-in-models
 """
+
 class placeAddByUser(models.Model):
     """
     사용자에 의해 추가될 장소를 저장하기 위한 모델
@@ -11,12 +12,16 @@ class placeAddByUser(models.Model):
     xmap, ymap = 지도 api를 위한 좌표 저장
     created_by => 등록자 표기를 위한 모델 -> 등록자 탈퇴시 탈퇴한 유저로 설정되도록 디폴트 설정
     """
+    TYPE = "kr"
+    CATEGORY_CHOICES = ((TYPE, "식당"), (TYPE, "카페"), (TYPE, "공원"))
     name = models.CharField(max_length=30)
     region = models.CharField(max_length=30, blank=True)
     xmap = models.DecimalField(max_digits=9, decimal_places=6)
     ymap = models.DecimalField(max_digits=9, decimal_places=6)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_DEFAULT, default="탈퇴한 유")
-    created_at = models.DateTimeField(auto_now_add=True)
+    category = models.CharField(choices=CATEGORY_CHOICES, max_length=10, null=True, blank=True) #카테고리 추가
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_DEFAULT, default="탈퇴한 유저")
+    available = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now=True)
 
 class currentLocation(models.Model):
     """
@@ -36,7 +41,3 @@ class userLocationInfo(models.Model):
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
     userLocation = models.ForeignKey(currentLocation, on_delete=models.CASCADE,)
-
-
-
-    
