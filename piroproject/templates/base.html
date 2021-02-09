@@ -1,36 +1,76 @@
-{% load socialaccount %}
 {% load static %}
-{% providers_media_js %}
-
-<!DOCTYPE html>
-<html lang="en">
+{% load socialaccount %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'base.css' %}" />
+    <title>가치가개!-강아지 산책 정보 공유 사이트</title>
+    {% block extra-head %}
+        <link rel="stylesheet" href="{% static 'base.css' %}"> 
     {% endblock %}
 </head>
 <body>
-    
-    {% if user.is_authenticated %}
-        <a href="{% url 'accounts:logout' %}?next={{ request.path }}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a>    
-        <a href="{% url 'accounts:profile' %}">프로필</a>
-        <a href="{% url 'accounts:user_delete' %}">계정 탈퇴</a>  
-        <a href="{% url 'map:showmap'%}">같이가개</a>
-        <a href="{% url 'calculator:calculate' %}">참고하개</a>
-        <a href="{% url 'blog:post_list' %}">물어보개</a> 
-        <div>
-            
+    <nav>
+        {% block nav %}
+        <div class="header">
+            <span class="logo"><a href="#">가치가개로고</a></span>
+            <ul class="menu">
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
+                <li><a href="{% url 'calculator:calculate' %}">참고하개</a></li>
+                <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
+                <li><a href="#">알아보개</a></li>
+                <li><a href="{% url 'accounts:logout' %}?next={{ request.path }}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
+                <li><a href="{% url 'accounts:profile' %}">내프로필</a></li>
+            {% else %}
+                <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
+                <li><a href="{% url 'calculator:calculate' %}">참고하개</a></li>
+                <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
+                <li><a href="#">알아보개</a></li>
+                <li><a href="{% url 'accounts:login' %}">로그인</a></li>
+                <li><a href="{% url 'accounts:signup' %}?next={% url 'accounts:signup_completed' %}">회원가입</a></li>
+            {% endif %}
+            </ul>
+        {% endblock nav %}
         </div>
-    {% else %}
-        <ul>
-            <li><a href="{% url 'accounts:login' %}">일반 로그인</a></li>
-            <li><a href="{% provider_login_url 'google' %}">구글 로그인</a></li>
-            <li><a href="{% provider_login_url 'naver' %}">네이버 로그인</a></li>
-        </ul>
-        <a href="{% url 'accounts:signup' %}?next={% url 'accounts:signup_completed' %}">회원가입</a>  
-    {% endif %}
+    </nav>
+    <main>
+        {% block content %}
+            <section id="main1">
+                <div class="header">
+                <h1>강아지 산책 정보는 모두 가치가개에서!</h1>
+                <p>강아지 활동량,애견 동반 가능한 카페,식당,반려견 놀이터까지<br>강아지와 함께하는 활동에 대한 모든 정보를 가치가개에서 쉽게 찾아보세요!</p>
+                </div>
+                <div class="main-container">
+                <div class="main-item">
+                    <h4>같이가개</h4>
+                    <p> 반려견과의 나들이 어디로 갈까? 애견 동반 가능한 장소들을 지도에서 한눈에 찾기!</p>
+                    <button><a href="{% url 'map:showmap'%}">바로가기</a></button>
+                </div>
+                <div class="main-item">
+                    <h4>참고하개</h4>
+                    <p> 우리 강아지는 산책을 얼마나 시켜야 할까? 활동량과 기초대사량,적정체중,견종별 특징까지 한번에 알아보기!</p>
+                    <button><a href="{% url 'calculator:calculate' %}">바로가기</a></button>
+                </div>
+                <div class="main-item">
+                    <h4>물어보개</h4>
+                    <p>반려견과 다녀온 애견동반 핫플을 모아모아 다른 사람들과 공유하고 소통하기!</p>
+                    <button><a href="{% url 'blog:post_list' %}">바로가기</a></button>
+                </div>
+                <div class="main-item">
+                    <h4>알아보개</h4>
+                    <p>반려견과 산책할 때 알아야 할 기본적인 지식들을 한번에 체크하기!</p>
+                    <button><a href="#">바로가기</a></button>
+                </div>
+                </div>
+            </section>
+            <section id="main2">
+            </section>
+        {% endblock %}
+    </main>
+    <footer>
+        {% block footer %}
+            <small>copyright pirogramming 14기 5조 가치가개 | 전태수 김시연 김윤식 임채원 조은기</small>
+        {% endblock %}
+    </footer>
 </body>
 </html>
