@@ -5,11 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .bar-graph-bg{ width: 100px; background-color: white; border: 1px solid black;}
+        .bar-graph_section{ background-color: red; border: 1px solid blue;}
+    </style>
+
 </head>
 <body>
     견종: {{dog_breed}}<br />
-    적정체중: {{appropriate_weight}}<br />
+    적정체중: {{appropriate_weight}} kg<br />
+    대사 에너지 요구량: {{base_metabolism}} kcal<br/>
     견종 정보: {{press_text}}<br />
-    그래프 css: {{press_graph}}<br />
+    <div class="bar-graph-bg">
+        <div class="bar-graph_section" style="{{press_graph}}">ddd</div>
+    </div>
+
 </body>
 </html>
