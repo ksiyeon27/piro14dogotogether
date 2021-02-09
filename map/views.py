@@ -21,7 +21,7 @@ def showmap(request):
             parkdict.append(content)
     API_KEY = getattr(settings, 'API_KEY', 'API_KEY')
     parkJson = json.dumps(parkdict, ensure_ascii=False)
-    return render(request, 'map/showmap.html', {'parkJson': parkJson})
+    return render(request, 'map/showmap.html', {'parkJson': parkJson, 'API_KEY' : API_KEY})
 
 def showanimalavail(request):
     with open('static/json/animalavail.json', encoding='utf-8') as json_file:
