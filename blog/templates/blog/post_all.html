@@ -8,11 +8,12 @@
 {% for post in posts %}
     <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
     {{ post.modified_at|date:"N d, Y" }}
-    <p>{{ post.description }}</p>
+    <p>{{ post.owner}}</p>
 {% endfor %}
 
 <br/>
-
+<button type="button"  onclick="location.href='{% url 'blog:add'%}'; ">생성</button>
+<button type="button"  onclick="location.href='{% url 'accounts:base'%}'; ">메인 홈페이지</button>
 <div>
     <span>
         {% if page_obj.has_previous %}

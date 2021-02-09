@@ -1,18 +1,47 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, TemplateView, UpdateView, DeleteView, CreateView
-from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
-from django.views.generic.dates import DayArchiveView, TodayArchiveView
-from django.conf import settings
-
-from blog.models import Post
-from blog.forms import PostSearchForm
-from django.db.models import Q
-
-from django.views.generic import FormView
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.utils.text import slugify
+from django.contrib.auth.models import User
+from taggit.managers import TaggableManager
+from django.urls import reverse
+from django.db import models
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from piroproject.views import OwnerOnlyMixin
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import FormView
+from django.db.models import Q
+from blog.forms import PostSearchForm
+from blog.models import Post, Comment
+from django.conf import settings
+from django.views.generic.dates import DayArchiveView, TodayArchiveView
+from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
+from django.views.generic import ListView, DetailView, TemplateView, UpdateView, DeleteView, CreateView
+from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.http import HttpResponse
+import json
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
+
+
+@login_required
+@require_POST
+def post_like(request):
+    pk = request.POST.get('pk', None)
+    post = get_object_or_404(Post, pk=pk)
+    user = request.user
+
+    if post.likes_user.filter(id=user.id):
+        post.likes_user.remove(user)
+        message = '좋아요 취소'
+    else:
+        post.likes_user.add(user)
+        message = '좋아요'
+
+    context = {'likes_count': post.count_likes_user(), 'message': message}
+    return HttpResponse(json.dumps(context), content_type="application/json")
 
 class PostLV(ListView):
     model = Post
@@ -25,10 +54,7 @@ class PostDV(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['disqus_short'] = f"{settings.DISQUS_SHORTNAME}"
-        context['disqus_id'] = f"post-{self.object.id}"
-        context['disqus_url'] = f"{settings.DISQUS_MY_DOMAIN}{self.object.get_absolute_url()}"
-        context['disqus_title'] = f"{self.object.title}"
+        context['comments'] = Comment.objects.all()
         return context
 
 class PostAV(ArchiveIndexView):
@@ -84,26 +110,56 @@ class SearchFormView(FormView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'description', 'content', 'tags']
+    fields = ['title', 'content', 'image','tags','owner']
     success_url = reverse_lazy('blog:index')
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
-class PostChangeLV(LoginRequiredMixin, ListView):
-    template_name = 'blog/post_change_list.html'
-    def get_queryset(self):
-        return Post.objects.filter(owner=self.request.user)
+
 
 class PostUpdateView(OwnerOnlyMixin, UpdateView):
     model = Post
-    fields = ['title', 'description','image', 'content', 'tags']
+    fields = ['title', 'content', 'image','tags']
     success_url = reverse_lazy('blog:index')
     
 class PostDeleteView(OwnerOnlyMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('blog:index')
 
+
+def comment_write_view(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    writer = request.POST.get('writer')
+    content = request.POST.get('content')
+    if content:
+        comment = Comment.objects.create(post=post, content=content, writer=request.user)
+        post.save()
+        data = {
+            'writer': writer,
+            'content': content,
+            'created': '방금 전',
+            'comment_id': comment.id
+        }
+        if request.user == post.owner:
+            data['self_comment'] = '(글쓴이)'
+
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
+
+
+def comment_delete_view(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    comment_id = request.POST.get('comment_id')
+    target_comment = Comment.objects.get(pk=comment_id)
+
+    if request.user == target_comment.writer or request.user.level == '1' or request.user.level == '0':
+        target_comment.deleted = True
+        target_comment.save()
+        post.save()
+        data = {
+            'comment_id': comment_id,
+        }
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
 
 # Create your views here.
