@@ -121,7 +121,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(OwnerOnlyMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'image','tags']
+    fields = ['title', 'content', 'image', 'tags']
     success_url = reverse_lazy('blog:index')
     
 class PostDeleteView(OwnerOnlyMixin, DeleteView):
