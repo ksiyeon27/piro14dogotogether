@@ -17,7 +17,12 @@
         <a href="{% url 'calculator:calculate' %}">참고하개</a>
         <a href="{% url 'blog:post_list' %}">물어보개</a> 
         <div>
-            
+            {% for post in posts %}
+            <h3><a href="{{ post.0.get_absolute_url }}">{{ post.0.title }}</a></h3>
+            {{ post.0.modified_at|date:"N d, Y" }}
+            <p>{{ post.0.owner}}</p>
+            <p> 댓글 수 : {{ post.0.comment_set.all.count }}/좋아요 {{post.0.count_likes_user}}</p>
+            {% endfor %}
         </div>
     {% else %}
         <ul>
