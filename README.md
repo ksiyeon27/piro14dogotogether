@@ -85,3 +85,6 @@
 > 2번 Pandas 사용 이유와 동일합니다.
 > #### 4. ChromeWebDriver
 > 2번 Pandas 사용 이유와 동일합니다.
+
+### 5. 활동 과정 사진들.....!!
+<img src="/markdown/icons/역할상세.png"></img>
