@@ -23,7 +23,18 @@ def base(request):
         new_post.append(a)
     
     sorted_post=sorted(new_post, key=lambda x: x[1], reverse=True)
-    ctx={'posts':sorted_post}
+    final_post=[]
+    if len(sorted_post) <= 5:
+        for i in range(len(sorted_post)):
+            a=sorted_post[i][0]
+            final_post.append(a)
+    else:
+        for i in range(5):
+            a=sorted_post[i][0]
+            final_post.append(a)
+
+        
+    ctx={'posts':final_post}
     
     return render(request, 'accounts/base.html',ctx)                                   
 
