@@ -1,3 +1,4 @@
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,8 @@
         <table>
             {{form.as_table}}
         </table>
+        <li><a href="{% provider_login_url 'google' %}">구글 로그인</a></li>
+        <li><a href="{% provider_login_url 'naver' %}">네이버 로그인</a></li>
         <input type='submit' />
     </form>
 </body>
