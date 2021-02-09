@@ -43,6 +43,7 @@
 </style>
 </head>
 <body>
+    <a href="{% url 'accounts:base' %}">메인홈페이지로</a>
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
@@ -61,7 +62,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2f373f5b006f021ab989fa50cf097d7d&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{ API_KEY }}"></script>
 <script>
 // 마커를 담을 배열입니다
 var markers = [];
