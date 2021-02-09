@@ -1,29 +1,38 @@
 
 from django.shortcuts import render
+from .forms import CalculatorForm
 
 # Create your views here.
 def calculator(request):
-    if request.method =="POST":
-        bcs = int(request.POST['level']) # 사진 선택한 값 가져오기.
-        dog_breed = request.POST.get("dog_breed") # 종 선택 값 가져오기
-        current_weight = int(request.POST['current_weight']) # 체중 가져오기
-        appropriate_weight = int(current_weight)*(100-bcs)/100/0.8
-        base_metabolism = 70*current_weight**0.75
-        
-        from .utils import to_calculate_result
-        press_text, press_graph = to_calculate_result(dog_breed)
-        
-        ctx={
-            'dog_breed':dog_breed, 
-            'appropriate_weight':appropriate_weight, 
-            'base_metabolism':base_metabolism,
-            'press_text':press_text,
-            'press_graph':press_graph,
-            }
+    if request.method == 'POST':
+        form = CalculatorForm(request.POST)
+        if form.is_valid():
+            bcs = int(form.cleaned_data['bcs'])
+            dog_breed = form.cleaned_data['breeds']
+            current_weight =form.cleaned_data['current_weight']
+            appropriate_weight = current_weight*(100-bcs)/100/0.8
+            base_metabolism = 70*current_weight**0.75
 
-        return render(request, 'calculator/calculate_result.html', ctx)
+            # 크롤링 한 문단과 그래프 css style 가져오기
+            from .utils import to_calculate_result
+            press_text, press_graph = to_calculate_result(dog_breed)
+
+            # 강아지 한글 이름을 template으로 넘겨주기 위해 딕셔너리로 key, value 전환
+            from .utils import return_dogkrname
+            dogkrname_list = return_dogkrname()
+            dogkrname_dict = {key:value for key, value in dogkrname_list}
+            dogkrname = dogkrname_dict[dog_breed]
+
+            ctx={
+                'dog_breed':dogkrname, 
+                'appropriate_weight':appropriate_weight, 
+                'base_metabolism':base_metabolism,
+                'press_text':press_text,
+                'press_graph':press_graph,
+                }
+
+            return render(request, 'calculator/calculate_result.html', ctx)
     else:
-        from .utils import return_dognames_list
-        dognames_list = return_dognames_list()
-        ctx={'breeds':dognames_list} # 데이터에 담겨 있어야 한다.
+        form = CalculatorForm()
+        ctx = {'form':form}
         return render(request, 'calculator/calculate.html', ctx) 

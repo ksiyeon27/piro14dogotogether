@@ -47,33 +47,33 @@ def profile(request):
 
 @login_required
 def profile_edit(request):
-    if request.method=='POST':
-        name = request.POST['name']
-        nickname = request.POST['nickname']
-        email = request.POST['nickname']
-        image = request.FILES['image']
-        # 따로 이미지 저장소를 파고, 이미지 링크만 남기는게 일반적.
-        if image:
-            fs=FileSystemStorage()
-            filename=fs.save(image.name, image)
-            uploaded_file_url = fs.url(filename)
-        Profile.objects.filter(user=request.user).update(name=name, nickname=nickname, email=email, image=image)
-        url = reverse("accounts:profile")
-        return redirect(url)
-    else:
-        profile = get_object_or_404(Profile, user=request.user)
-        return render(request, 'accounts/profile_edit.html', {'profile':profile})
-
-    # profile = Profile.objects.get(user=request.user)
     # if request.method=='POST':
-    #     profileform = ProfileForm(request.POST, request.FILES, instance=profile)
-    #     if profileform.is_valid():
-    #         profile = profileform.save()
-    #         url = reverse("accounts:profile")
-    #         return redirect(url)
+    #     name = request.POST['name']
+    #     nickname = request.POST['nickname']
+    #     email = request.POST['nickname']
+    #     image = request.FILES['image']
+    #     # 따로 이미지 저장소를 파고, 이미지 링크만 남기는게 일반적.
+    #     if image:
+    #         fs=FileSystemStorage()
+    #         filename=fs.save(image.name, image)
+    #         uploaded_file_url = fs.url(filename)
+    #     Profile.objects.filter(user=request.user).update(name=name, nickname=nickname, email=email, image=image)
+    #     url = reverse("accounts:profile")
+    #     return redirect(url)
     # else:
-    #     profileform = ProfileForm(instance=profile)
-    #     return render(request, 'accounts/profile_edit.html', {'profileform':profileform})
+    #     profile = get_object_or_404(Profile, user=request.user)
+    #     return render(request, 'accounts/profile_edit.html', {'profile':profile})
+
+    profile = Profile.objects.get(user=request.user)
+    if request.method=='POST':
+        profileform = ProfileForm(request.POST, request.FILES, instance=profile)
+        if profileform.is_valid():
+            profile = profileform.save()
+            url = reverse("accounts:profile")
+            return redirect(url)
+    else:
+        profileform = ProfileForm(instance=profile)
+        return render(request, 'accounts/profile_edit.html', {'profileform':profileform})
 
 # 계정 탈퇴(redirect url 추후 수정 필요)
 @login_required
