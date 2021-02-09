@@ -75,8 +75,8 @@
 
 ### 4. 구현에 사용할 라이브러리/플러그인
 >#### 1. Django (WebFramework For Python)
-> <img src="/markdown/icons/장고 아이콘.png"></img>
-> <img src="/markdown/icons/piroicon.jpg"></img><br/>
+> <img src="/markdown/icons/장고 아이콘.png" width="80%"></img>
+> <img src="/markdown/icons/piroicon.jpg" width="50%"></img><br/>
 > 피로그래밍 14기 세션 및 인강학습기간(12/29/2020 ~ 01/28/2021) 동안 학습한 Django WebFramework를 이용하여
 > 배운 내용을 복습하고, 사이드 프로젝트 구현을 통해 학습한 내용을 한 층 더 굳혀나가는 기회를 얻기 위함입니다.
 >#### 2. Pandas (공공API 및 홈페이지 데이터 크롤링)
