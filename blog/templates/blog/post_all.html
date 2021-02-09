@@ -9,6 +9,7 @@
     <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
     {{ post.modified_at|date:"N d, Y" }}
     <p>{{ post.owner}}</p>
+    <p>좋아요 {{post.count_likes_user}}</p>
 {% endfor %}
 
 <br/>
