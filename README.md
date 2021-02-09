@@ -23,7 +23,6 @@
     1. Backend
         - 커뮤니티 앱 내부 기본 기능(포스트 수정, 생성, 삭제, 목록) 구현
         - Ajax를 이용하여 내부 댓글 기능 사용을 위한 모델, 뷰 함수 구현
-        - secret.json 분
     2. Data Mining
         - KAKAO MAP API에 적용하기 위한 데이터 크롤링(반려동물 병원, 위치정보, 기타설명 등등, excel 파일)
         - 데이터 출처 (https://www.culture.go.kr/data/openapi/openapiView.do?id=519&gubun=B)
