@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from . import views
 
-app_name='accounts'
+app_name = 'accounts'
 
 urlpatterns = [
     # 이름 수정 필요

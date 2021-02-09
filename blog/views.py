@@ -162,4 +162,20 @@ def comment_delete_view(request, pk):
         }
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
 
-# Create your views here.
+def comment_modify_view(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    writer = request.POST.get('writer')
+    content = request.POST.get('content')
+    if content:
+        comment = Comment.objects.create(post=post, content=content, writer=request.user)
+        post.save()
+        data = {
+            'writer': writer,
+            'content': content,
+            'created': '방금 전',
+            'comment_id': comment.id
+        }
+        if request.user == post.owner:
+            data['self_comment'] = '(글쓴이)'
+
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
