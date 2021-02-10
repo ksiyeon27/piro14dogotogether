@@ -45,7 +45,7 @@ def post_like(request):
 
 class PostLV(ListView):
     model = Post
-    template_name = 'blog/post_all.html'  
+    template_name = 'blog/post_all.html'
     context_object_name = 'posts'
     paginate_by = 5
 
@@ -54,9 +54,9 @@ class PostLV(ListView):
         posts = Post.objects.all()
         new_post = []
         for post in posts:
-            a=[post,post.count_likes_user()]
+            a = [post, post.count_likes_user()]
             new_post.append(a)
-    
+
         sorted_post=sorted(new_post, key=lambda x: x[1], reverse=True)
         final_post=[]
         if len(sorted_post) <= 5:
@@ -69,11 +69,7 @@ class PostLV(ListView):
                 final_post.append(a)
         context['sorted']=final_post
         return context
-    
-   
-   
-   
-    
+
 
 class PostDV(DetailView):
     model = Post
@@ -126,7 +122,7 @@ class SearchFormView(FormView):
 
     def form_valid(self, form):
         searchWord = form.cleaned_data['search_word']
-        post_list = Post.objects.filter(Q(title__icontains=searchWord) | Q(description__icontains=searchWord)).distinct()
+        post_list = Post.objects.filter(Q(title__icontains=searchWord) | Q(content__icontains=searchWord)).distinct()
 
         context = {}
         context['form'] = form
