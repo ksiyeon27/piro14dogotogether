@@ -3,25 +3,58 @@ from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.conf import settings
 import json
 # Create your views here.
-
-
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.conf import settings
+import json
+# Create your views here.
 
 def showmap(request):
-    with open('static/map/test.json', encoding='utf-8') as json_file:
+    with open('static/map/parks.json', encoding='utf-8') as json_file:
         parks = json.load(json_file)
     parkdict = []
     for park in parks:
-        if park.get('위도'):
+        if park.get('이름'):
             content = {
-                "title": park['공원명'],
+                "title": (park['이름']),
                 "mapx": str(park['위도']),
                 "mapy": str(park['경도']),
-                "addr1": str(park['소재지지번주소']),
+                "addr1": str(park["기타"])
             }
             parkdict.append(content)
     API_KEY = getattr(settings, 'API_KEY', 'API_KEY')
     parkJson = json.dumps(parkdict, ensure_ascii=False)
-    return render(request, 'map/showmap.html', {'parkJson': parkJson, 'API_KEY' : API_KEY})
+
+    with open('static/map/hospital.json', encoding='utf-8') as json_file:
+        hospitals = json.load(json_file)
+    with open('static/map/pharmacy.json', encoding='utf-8') as json_file:
+        pharmacies = json.load(json_file)
+    hospitaldict = []
+    pharmacydict = []
+    for hospital in hospitals:
+        if hospital.get('이름'):
+            content = {
+                "title": hospital['이름'],
+                "address": hospital['주소'],
+                "category": hospital['구분'],
+                "area": hospital['지역']
+            }
+            hospitaldict.append(content)
+
+    for pharmacy in pharmacies:
+        if pharmacy.get('이름'):
+            content = {
+                "title": pharmacy['이름'],
+                "address": pharmacy['주소'],
+                "categroy": pharmacy['구분'],
+                "area": hospital['지역'],
+            }
+            pharmacydict.append(content)
+        hospitalJson = json.dumps(hospitaldict, ensure_ascii=False)
+        pharmacyJson = json.dumps(pharmacydict, ensure_ascii=False)
+
+    return render(request, 'map/showmap.html', {'parkJson': parkJson, 'hospitalJson': hospitalJson, 'pharmacyJson' : pharmacyJson , 'API_KEY' : API_KEY})
 
 def showanimalavail(request):
     with open('static/json/animalavail.json', encoding='utf-8') as json_file:
@@ -59,4 +92,5 @@ def testmap(request):
             parkdict.append(content)
     parkJson = json.dumps(parkdict, ensure_ascii=False)
     return render(request, 'map/testmap.html', {'parkJson': parkJson})
+
 

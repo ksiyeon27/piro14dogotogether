@@ -1,31 +1,14 @@
-{% load socialaccount %}
-{% providers_media_js %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {% if user.is_authenticated %}
-        <a href="{% url 'accounts:logout' %}?next={{ request.path }}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a>    
-        <a href="{% url 'accounts:profile' %}">프로필</a>
-        <a href="{% url 'accounts:user_delete' %}">계정 탈퇴</a>  
-        <a href="{% url 'map:showmap'%}">같이가개</a>
-        <a href="{% url 'calculator:calculate' %}">참고하개</a>
-        <a href="{% url 'blog:post_list' %}">물어보개</a> 
-        <div>
-            
-        </div>
-    {% else %}
-        <ul>
-            <li><a href="{% url 'accounts:login' %}">일반 로그인</a></li>
-            <li><a href="{% provider_login_url 'google' %}">구글 로그인</a></li>
-            <li><a href="{% provider_login_url 'naver' %}">네이버 로그인</a></li>
-        </ul>
-        <a href="{% url 'accounts:signup' %}?next={% url 'accounts:signup_completed' %}">회원가입</a>  
-    {% endif %}
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+{{ block.super }}
+<div>
+    <p>좋아요 top 5 게시물</p>
+    {% for post in posts %}
+        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+        작성날짜: {{ post.modified_at|date:"N d, Y" }}
+        <p>글쓴이:{{ post.owner}}</p>
+        <p> 좋아요 {{post.count_likes_user}} / 댓글 수 : {{ post.comment_set.all.count }}</p>
+    {% endfor %}
+</div>
+{% endblock %}
+    

@@ -1,16 +1,45 @@
-
+{% load static %}
 {% block title %} post_all.html {% endblock %}
 
 {% block content %}
+<form class="form-inline my-2 my-lg-0" action="/community/search/" method="POST">{% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="Global Search" name="search_word" >
+            </form>
+    <p>좋아요 top 5 게시물</p>
+    {% for post in sorted %}
+    <div>
+        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+        작성날짜: {{ post.modified_at|date:"N d, Y" }}
+        <p>글쓴이:{{ post.owner}}</p>
+        <p> 좋아요 {{post.count_likes_user}} / 댓글 수 : {{ post.comment_set.all.count }}</p>
+    </div>
+    {% endfor %}
+
 <h1>Post List</h1>
 <br/>
 
 {% for post in posts %}
-    <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-    {{ post.modified_at|date:"N d, Y" }}
-    댓글 수 : {{ post.comment_set.all.count }}
-    <p>{{ post.owner}}</p>
-    <p>좋아요 {{post.count_likes_user}}</p>
+    {%if post.secret %}
+        {%if request.user == post.owner %}
+            <h3><a href="{{ post.get_absolute_url }}">{{ post.title }} 비밀글</a></h3>
+            {{ post.modified_at|date:"N d, Y" }}
+            댓글 수 : {{ post.comment_set.all.count }}
+            <p>{{ post.owner}}</p>
+            <p>좋아요 {{post.count_likes_user}}</p>
+        {% else %}
+            <h3>비밀글입니다.</a></h3>
+            {{ post.modified_at|date:"N d, Y" }}
+            댓글 수 : 비공개
+            <p>비공개</p>
+            <p>좋아요 비공개</p>
+        {% endif %}
+    {% else %}
+        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+        {{ post.modified_at|date:"N d, Y" }}
+        댓글 수 : {{ post.comment_set.all.count }}
+        <p>{{ post.owner}}</p>
+        <p>좋아요 {{post.count_likes_user}}</p>
+    {% endif %}
 {% endfor %}
 
 <br/>
@@ -24,9 +53,9 @@
 
         Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
 
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">NextPage</a>
-    {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">NextPage</a>
+        {% endif %}
     </span>
 </div>
 {% endblock %}
