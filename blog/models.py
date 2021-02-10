@@ -15,6 +15,7 @@ class Post(models.Model):
         blank=True,
         related_name='likes_user'
     )
+    secret= models.BooleanField ('secret', default=False)
     created_at = models.DateTimeField('CREATE DATE', auto_now_add=True)
     modified_at = models.DateTimeField('MODIFY DATE', auto_now=True)
     tags = TaggableManager(blank=True)
