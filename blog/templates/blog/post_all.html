@@ -1,8 +1,10 @@
-
+{% load static %}
 {% block title %} post_all.html {% endblock %}
 
 {% block content %}
-
+<form class="form-inline my-2 my-lg-0" action="/community/search/" method="POST">{% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="Global Search" name="search_word" >
+            </form>
     <p>좋아요 top 5 게시물</p>
     {% for post in sorted %}
     <div>
