@@ -5,6 +5,14 @@ Don't Use the User Model Directly
 https://stackoverflow.com/questions/34305805/django-foreignkeyuser-in-models
 """
 
+class areaselection(models.Model):
+    TYPE = "kr"
+    REGION_CATEGORY_CHOICES = ((TYPE, '전체'), (TYPE, '강남구'), (TYPE, '강동구'), (TYPE, '강북구'), (TYPE, '강서구'), (TYPE, '관악구'), (TYPE, '광진구'), (TYPE, '구로구'), (TYPE, '금천구'),
+                               (TYPE, '노원구'), (TYPE, '도봉구'), (TYPE, '동대문구'), (TYPE, '동작구'), (TYPE, '마포구'), (TYPE, '서대문구'), (TYPE, '서초구'),
+                        (TYPE, '성동구'), (TYPE, '성북구'), (TYPE, '송파구'), (TYPE, '양천구'), (TYPE, '영등포구'), (TYPE, '용산구'), (TYPE, '은평구'), (TYPE, '종로구'),
+                        (TYPE, '중구'), (TYPE, '중랑구'))
+    map_region = models.CharField(choices=REGION_CATEGORY_CHOICES, max_length=5, blank=True)
+
 class placeAddByUser(models.Model):
     """
     사용자에 의해 추가될 장소를 저장하기 위한 모델
