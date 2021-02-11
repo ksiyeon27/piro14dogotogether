@@ -12,12 +12,12 @@
     {% endblock %}
 </head>
 <body>
-    <nav>
+    
         {% block nav %}
-        <div class="navbar">
-            <span class="logo">
-                <a href="{% url 'accounts:base' %}">가치가개로고</a>
-            </span>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="{% url 'accounts:base' %}"><i class="fas fa-paw"></i>가치가개</a>
+            </div>
             <ul class="menu">
             {% if user.is_authenticated %}
                 <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
@@ -41,9 +41,22 @@
                 </form>
             {% endif %}
             </ul>
+            <a href="" class="navbar_toggleBtn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </nav>
         {% endblock %}
-        </div>
-    </nav>
+    <script>
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.menu');
+
+        toggleBtn.addEventListener('click',function(e){
+            menu.classList.toggle('active')
+            e.preventDefault();
+        });
+    </script>
+        
+    
     <main>
         {% block body %}
             <section id="main1">
