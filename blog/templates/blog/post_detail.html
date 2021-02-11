@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block content %}
+
 <h2>{{ object.title }}</h2>
 
         <a href="{{ object.image.url }}">
@@ -95,6 +96,7 @@
                             <div style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</div>
                             <div style="text-align: right;">
                                 <a onclick="commentDelete('{{comment.id}}');">댓글삭제</a>
+                                <a onclick="commentModification('{{ comment.id }}');">댓글수정</a>
                             </div>
                         </div>
                         <hr>
@@ -196,6 +198,33 @@
                 },
                 success: function (response) {
                     $('#'+response.comment_id).replaceWith('<span style="color:gray;">삭제된 댓글입니다.</span><hr>');
+                },
+                error: function () {
+                    alert('본인 댓글이 아닙니다.');
+                },
+            });
+        }
+    }
+</script>
+    <script type="text/javascript">
+    function commentModification(value){
+        var comment_id = value;
+        var modification_warning = confirm('댓글을 수정하시겠습니까?');
+        if (modification_warning == true) {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'blog:comment_modify' post.id %}",
+                dataType: "json",
+                data: {
+                    'comment_id': comment_id,
+                    'content': content,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                },
+                success: function (response) {
+                    $('#'+response.comment_id).replaceWith('<div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
+                           '<span style="float:right;">'+response.created+'</span>'+
+                           '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+
+                           '</div><div style="text-align:right;"><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>');
                 },
                 error: function () {
                     alert('본인 댓글이 아닙니다.');

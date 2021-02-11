@@ -16,8 +16,27 @@ from blog.models import Post
 # 이름 수정 필요.
 def base(request):
     posts = Post.objects.all()
+    new_post = []
+
+    for post in posts:
+        a=[post,post.count_likes_user()]
+        new_post.append(a)
     
-    return render(request, 'accounts/base.html')
+    sorted_post=sorted(new_post, key=lambda x: x[1], reverse=True)
+    final_post=[]
+    if len(sorted_post) <= 5:
+        for i in range(len(sorted_post)):
+            a=sorted_post[i][0]
+            final_post.append(a)
+    else:
+        for i in range(5):
+            a=sorted_post[i][0]
+            final_post.append(a)
+
+        
+    ctx={'posts':final_post}
+    
+    return render(request, 'accounts/base.html',ctx)                                   
 
 
 def signup(request):
