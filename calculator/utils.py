@@ -54,5 +54,6 @@ def to_calculate_result(dog_breed):
 def return_dogkrname():
     return dog_krname_list
 
+
 # if __name__=='__main__':
 #     # print(return_dogkrname(dognames_list))
