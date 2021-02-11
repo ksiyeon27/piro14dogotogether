@@ -3,9 +3,9 @@ from .models import placeAddByUser
 
 @admin.register(placeAddByUser)
 class PlaceAddedByUser(admin.ModelAdmin):
-    list_display = ('name', 'region', 'xmap', 'ymap', 'created_at', 'created_by')
-    list_filter = ('created_at', 'region')
-    search_fields = ('name', 'region')
+    list_display = ('name', 'region', 'xmap', 'ymap', 'category', 'created_at', 'created_by')
+    list_filter = ('created_at', 'region', 'category')
+    search_fields = ('name', 'region', 'category')
 
     def get_queryset(self, request):
-        return super().get_queryset(request).prefetch_related('region')
+        return super().get_queryset(request).prefetch_related('category')

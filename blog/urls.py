@@ -9,6 +9,7 @@ urlpatterns = [
     path('post/<int:pk>', views.PostDV.as_view(), name='post_detail'),
     path('post/<int:pk>/comment/create', views.comment_write_view, name="comment_new"),
     path('post/<int:pk>/comment/delete', views.comment_delete_view, name = "comment_delete"),
+    path('post/<int:pk>/comment/modify', views.comment_modify_view, name="comment_modify"),
 
     path('archive/', views.PostAV.as_view(), name='post_archive'),
     path('archive/<int:year>/', views.PostYAV.as_view(), name='post_year_archive'),

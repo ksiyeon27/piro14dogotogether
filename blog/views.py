@@ -45,13 +45,36 @@ def post_like(request):
 
 class PostLV(ListView):
     model = Post
-    template_name = 'blog/post_all.html' # 왜 기본값 세팅이 post_list가 되는건가?
+    template_name = 'blog/post_all.html'
     context_object_name = 'posts'
     paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        posts = Post.objects.all()
+        new_post = []
+        for post in posts:
+            a = [post, post.count_likes_user()]
+            new_post.append(a)
+
+        sorted_post=sorted(new_post, key=lambda x: x[1], reverse=True)
+        final_post=[]
+        if len(sorted_post) <= 5:
+            for i in range(len(sorted_post)):
+                a=sorted_post[i][0]
+                final_post.append(a)
+        else:
+            for i in range(5):
+                a=sorted_post[i][0]
+                final_post.append(a)
+        context['sorted']=final_post
+        return context
+
 
 class PostDV(DetailView):
     model = Post
 
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comments'] = Comment.objects.all()
@@ -99,7 +122,7 @@ class SearchFormView(FormView):
 
     def form_valid(self, form):
         searchWord = form.cleaned_data['search_word']
-        post_list = Post.objects.filter(Q(title__icontains=searchWord) | Q(description__icontains=searchWord)).distinct()
+        post_list = Post.objects.filter(Q(title__icontains=searchWord) | Q(content__icontains=searchWord)).distinct()
 
         context = {}
         context['form'] = form
@@ -110,7 +133,7 @@ class SearchFormView(FormView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content', 'image','tags','owner']
+    fields = ['title', 'content', 'image','secret','tags','owner']
     success_url = reverse_lazy('blog:index')
 
     def form_valid(self, form):
@@ -121,7 +144,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(OwnerOnlyMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'image', 'tags']
+    fields = ['title', 'content', 'image','secret', 'tags']
     success_url = reverse_lazy('blog:index')
     
 class PostDeleteView(OwnerOnlyMixin, DeleteView):
@@ -162,4 +185,20 @@ def comment_delete_view(request, pk):
         }
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
 
-# Create your views here.
+def comment_modify_view(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    writer = request.POST.get('writer')
+    content = request.POST.get('content')
+    if content:
+        comment = Comment.objects.create(post=post, content=content, writer=request.user)
+        post.save()
+        data = {
+            'writer': writer,
+            'content': content,
+            'created': '방금 전',
+            'comment_id': comment.id
+        }
+        if request.user == post.owner:
+            data['self_comment'] = '(글쓴이)'
+
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
