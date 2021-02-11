@@ -1,13 +1,63 @@
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-    {% for qna in qnas %}
-    <div>
-        질문: {{ qna.question }} <br /><br/>
-        답변: {{ qna.answer }} <br />
+{% block extra_head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'faq/qna.css' %}"> 
+{% endblock %}
+
+{% block body %}
+    <div class="main">
+        <h3 class="title">알아보개</h3>
+        <p class="sub-title">반려견 산책과 관련된 기본적인 상식들을 알아보세요!</p>
     </div>
+    <section id="wrapper">
+        <div class="accordion">
+            <!--
+            {% for qna in qnas  %}
+                <div class="contentBx">
+                    <div class="label">Q.{{ qna.question }}</div>
+                    <div class="content">
+                        <p>A.{{ qna.answer }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            -->
+            <div class="contentBx">
+                <div class="label">Q.List two</div>
+                <div class="content">
+                    <p>A.hihihhihhih</p>
+                </div>
+            </div>
+            <div class="contentBx">
+                <div class="label">Q.List three</div>
+                <div class="content">
+                    A.iihhihiiihihihii
+                </div>
+            </div>
+            <div class="contentBx">
+                <div class="label">Q.List three</div>
+                <div class="content">
+                    A.iihhihiiihihihii
+                </div>
+            </div>
+            <div class="contentBx">
+                <div class="label">Q.List three</div>
+                <div class="content">
+                    A.iihhihiiihihihii
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            const accordion = document.getElementsByClassName('contentBx');
 
-    {% endfor %}
+            for(i=0; i<accordion.length;i++){
+                accordion[i].addEventListener('click',function(){
+                    this.classList.toggle('active')
+                })
+            }
+        </script>
+    </section>
 
-</body>
-</html>
+{% endblock %}
