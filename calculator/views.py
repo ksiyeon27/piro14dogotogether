@@ -10,8 +10,8 @@ def calculator(request):
             bcs = int(form.cleaned_data['bcs'])
             dog_breed = form.cleaned_data['breeds']
             current_weight =form.cleaned_data['current_weight']
-            appropriate_weight = current_weight*(100-bcs)/100/0.8
-            base_metabolism = 70*current_weight**0.75
+            appropriate_weight = round(current_weight*(100-bcs)/100/0.8, 3)
+            base_metabolism = round(70*current_weight**0.75, 3)
 
             # 크롤링 한 문단과 그래프 css style 가져오기
             from .utils import to_calculate_result
