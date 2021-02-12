@@ -1,7 +1,7 @@
 # 피로그래밍 14기 프로젝트(5조) : 가치가개
 
 
-## 1. 팀원소개 / 역할분
+## 팀원소개 / 역할분담
 
 ### 1. <a href="https://github.com/jts159753">전태수</a>  (Taesu Jeon, TEAM LEADER)
     1. BackEnd
