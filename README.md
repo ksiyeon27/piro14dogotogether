@@ -27,6 +27,7 @@
         - KAKAO MAP API에 적용하기 위한 데이터 크롤링(반려동물 병원, 위치정보, 기타설명 등등, excel 파일)
         - 데이터 출처 (https://www.culture.go.kr/data/openapi/openapiView.do?id=519&gubun=B)
         - 데이터를 구현된 kakao api에 정보 전달될 수 있도록 수정 작업. (기존 테스트 데이터 -> 실사용데이터)
+    3. ReadMe.md 작성
 
 ### 4. 김시연 (Siyeon, Kim)
     1. Backend
