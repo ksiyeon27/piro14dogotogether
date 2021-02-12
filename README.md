@@ -91,7 +91,7 @@
 > #### 4. ChromeWebDriver
 > 2번 Pandas 사용 이유와 동일합니다.
 
-### 5. 활동 과정
+## 3. 활동 과정
 <img src="/markdown/icons/역할상세.png"></img>
 <br/>
 > ### 활동 과정 중 고민이었던 부분들!
