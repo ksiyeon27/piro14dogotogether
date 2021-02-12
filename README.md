@@ -115,8 +115,9 @@
 > > 일단 병원. 약국 마커는 기획 의도에 맞지 않다고 판단하여 제거하였으나, <a href="https://apis.map.kakao.com/web/sample/basicClusterer/">Clustering</a>을 통해 해결 가능할듯함.<br/><br/><br/>
 > - 팀원간 개발도중 나타나는 pip dependencies로 인한 오류 예방 어떻게 해 할까?
 > > 팀원간 가상환경 venv (python -m venv venv)을 이용하고, pip freeze > requirements.txt를 이용해 의존성 기록<br/>
-> > 환경 생성할때 pip(3) -r requirements.txt를 이용해 의존성 플러그인 설치 가능<br/><br/>
+> > 환경 생성할때 pip(3) -r requirements.txt를 이용해 의존성 플러그인 설치 가능
+<br/><br/>
 > - Create Project 이후에 장고 버전 다운그레이드로 인한 충돌 해결방법?
-> > 처음에 팀원간 장고 프로젝트 버전을 합의하고 createproject를 하는게 좋다. (자동으로 최신버전을 깔아버린 탓에..)<br/><br/>
+> > 처음에 팀원간 장고 프로젝트 버전을 합의하고 createproject를 하는게 좋다. (자동으로 최신버전을 깔아버린 탓에..)
 > - Class Based View Vs Function Based View?
->> 필요에 따라 사용하기로 함. 처음 배운 내용은 함수형 뷰였기에, 클래스형 뷰는 팀원간 코드 리뷰하는 시간을 가졌음.<br/><br/>
+>> 필요에 따라 사용하기로 함. 처음 배운 내용은 함수형 뷰였기에, 클래스형 뷰는 팀원간 코드 리뷰하는 시간을 가졌음.
