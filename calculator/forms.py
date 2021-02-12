@@ -53,8 +53,8 @@ class CalculatorForm(forms.Form):
          ('40', 'level 5')]
 
     bcs = forms.ChoiceField(choices=levels, widget=forms.RadioSelect)
-    breeds = forms.ChoiceField(required = True, choices = dog_krname_list, label = 'breeds')
-    current_weight = forms.IntegerField(required = True)
+    breeds = forms.ChoiceField(required = True, choices = dog_krname_list, label = '견종')
+    current_weight = forms.IntegerField(required = True, label='현재 체중', widget=forms.TextInput(attrs={'placeholder':'현재 체중을 입력하세요'}))
 
 
 

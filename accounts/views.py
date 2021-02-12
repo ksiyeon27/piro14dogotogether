@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .models import Profile
-from .forms import ProfileForm, CheckPasswordForm
+from .forms import ProfileForm, CheckPasswordForm, LoginForm
 # decorators import
 from django.contrib.auth.decorators import login_required
 # needed when define signup:
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as auth_login, authenticate
 # needed when define user_delete:
 from django.contrib.auth import logout as auth_logout
 # needed when define profile_edit:
@@ -16,28 +16,48 @@ from blog.models import Post
 # 이름 수정 필요.
 def base(request):
     posts = Post.objects.all()
-    
     return render(request, 'accounts/base.html')
+
+
+def login(request):
+    if request.method =='POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            user = authenticate(username=username, password=password)
+
+            if user:
+                auth_login(request, user)
+                return redirect('accounts:profile')
+            else:
+                form.add_error(None, '아이디 또는 비밀번호가 유효하지 않습니다.')
+    else:
+        form = LoginForm()
+    return render(request, 'accounts/login.html', {'form':form})
 
 
 def signup(request):
     if request.method=='POST':
         form=UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            # auth_login 인자로 user를 넘겨줘서 자동 로그인
-            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            next_url = request.GET.get('next') or reverse("accounts:base") #회원가입 후 이동
+            username = form.cleaned_data['username']
+            password1 = form.cleaned_data['password1']
+            password2 = form.cleaned_data['password2']
+            if password1 != password2:
+                form.add_error(None, '비밀번호가 일치하지 않습니다.')
+            else:
+                user = form.save()
+                # auth_login 인자로 user를 넘겨줘서 자동 로그인
+                auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            next_url = reverse("accounts:profile") #회원가입 후 이동
             return redirect(next_url)
         else:
             return render(request, "accounts/signup.html", {'form':form})
     else:
         form=UserCreationForm()
         return render(request, "accounts/signup.html", {'form':form})
-
-@login_required
-def signup_completed(request):
-    return render(request, 'accounts/signup_completed.html')
 
 @login_required
 def profile(request):
@@ -47,23 +67,6 @@ def profile(request):
 
 @login_required
 def profile_edit(request):
-    # if request.method=='POST':
-    #     name = request.POST['name']
-    #     nickname = request.POST['nickname']
-    #     email = request.POST['nickname']
-    #     image = request.FILES['image']
-    #     # 따로 이미지 저장소를 파고, 이미지 링크만 남기는게 일반적.
-    #     if image:
-    #         fs=FileSystemStorage()
-    #         filename=fs.save(image.name, image)
-    #         uploaded_file_url = fs.url(filename)
-    #     Profile.objects.filter(user=request.user).update(name=name, nickname=nickname, email=email, image=image)
-    #     url = reverse("accounts:profile")
-    #     return redirect(url)
-    # else:
-    #     profile = get_object_or_404(Profile, user=request.user)
-    #     return render(request, 'accounts/profile_edit.html', {'profile':profile})
-
     profile = Profile.objects.get(user=request.user)
     if request.method=='POST':
         profileform = ProfileForm(request.POST, request.FILES, instance=profile)
@@ -73,7 +76,7 @@ def profile_edit(request):
             return redirect(url)
     else:
         profileform = ProfileForm(instance=profile)
-        return render(request, 'accounts/profile_edit.html', {'profileform':profileform})
+        return render(request, 'accounts/profile_edit.html', {'profileform':profileform, 'profile':profile})
 
 # 계정 탈퇴(redirect url 추후 수정 필요)
 @login_required

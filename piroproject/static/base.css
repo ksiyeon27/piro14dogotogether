@@ -1,7 +1,7 @@
 /*@import reset.css*/
         body{
             text-align:center;
-            margin:0;
+            margin:75px 0 0 0;
         }
         nav {
             margin: 0;
@@ -77,4 +77,8 @@
         footer{
             padding:10px;
             color: gray;
+            position:fixed;
+            bottom:0;
+            background-color: white;
+            width:100%;
         }

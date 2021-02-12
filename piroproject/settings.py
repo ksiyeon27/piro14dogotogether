@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'taggit',
     'taggit_templatetags2',
     'widget_tweaks',
+    'django.contrib.humanize',
     
     #allauth
     'allauth',

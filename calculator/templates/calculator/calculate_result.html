@@ -1,24 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .bar-graph-bg{ width: 100px; background-color: white; border: 1px solid black;}
-        .bar-graph_section{ background-color: red; border: 1px solid blue;}
-    </style>
-
-</head>
-<body>
-    견종: {{dog_breed}}<br />
-    적정체중: {{appropriate_weight}} kg<br />
-    대사 에너지 요구량: {{base_metabolism}} kcal<br/>
-    견종 정보: {{press_text}}<br />
-    <div class="bar-graph-bg">
-        <div class="bar-graph_section" style="{{press_graph}}">ddd</div>
+{% extends "calculator/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% load humanize %}
+{% block extra-head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'calculator/result.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="wrap">
+        <div class="top_container">
+            <p><span class="dog_breed"><strong>{{dog_breed}}</strong></span></p>
+            <div class="calculate_container">
+                <div class="upper_content">
+                    <p><small>적정체중</small></p>
+                    <p><strong>{{appropriate_weight}}kg</strong></p>
+                    <div class="bar-graph-bg">
+                        <div class="bar-graph_section" style="{{press_graph}}"></div>
+                    </div>
+                    <p style="font-size:0.7rem;"><small>현재체중: {{current_weight}}kg</small></p>
+                </div>
+                <div class="lower_content">
+                    <p><small>기초대사량</small></p>
+                    <p><strong>{{base_metabolism|intcomma}}kcal</strong></p>
+                    <p><small>활동량</small></p>
+                    <div class="bar-graph-bg">
+                        <div class="bar-graph_section" style="{{press_graph}}"></div>
+                    </div>
+                    <div class="less_or_more">
+                        <span style="font-size:0.7rem; padding-left: 0.3rem;"><small>적음</small></span>
+                        <span style="font-size:0.7rem; padding-right: 0.3rem;"><small>많음</small></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <br />
+        <div class="bottom_container">
+            <div class="text_container">
+                <div class="text_header">
+                    <p><strong>{{dog_breed}}는?</strong></p>
+                </div>
+                <p class="empty_div"></div>
+                <div class="text_content">
+                    <p>{{press_text|linebreaks}}</p>
+                </div>
+                <div class="url_btns">
+                    <a href="#">활동 장소 찾아보기</a>
+                    <a href="#">산책 장소 공유하기</a>
+                </div>
+            </div>
+        </div>
     </div>
+{% endblock %}
 
-</body>
-</html>
