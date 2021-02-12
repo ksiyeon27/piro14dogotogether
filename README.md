@@ -3,7 +3,7 @@
 
 ## 1. 팀원소개 / 역할분
 
-### 1. 전태수  (Taesu Jeon, TEAM LEADER)
+### 1. <a href="https://github.com/jts159753">전태수</a>  (Taesu Jeon, TEAM LEADER)
     1. BackEnd
         - Ajax 통신을 위한 모델 및 뷰 구현(Community 내부)
     2. Frontend
@@ -12,14 +12,14 @@
     3. IDEA Designer
         - 가치가개 아이디어 제공, 구현에 필요한 기능 구상 발표
 
-### 2. 임채원 (Chaewon, Im)
+### 2. <a href="https://github.com/lisa425">임채원</a> (Chaewon, Im)
     1. Backend
     2. Frontend
         - WireFrame Constructor(Frontend Lead Member) : Adobe XD를 이용한 와이어프레임 개발
         - 와이어프레임 프론트엔드 적용 및 수정(프론트엔드 단 기획, 개발 리딩)
         - 전반 템플릿 구현(Home화면 및 Base.html)
 
-### 3. 김윤식 (Yunsik, Kim)
+### 3. <a href="https://github.com/yunsik0115">김윤식</a> (Yunsik, Kim)
     1. Backend
         - 커뮤니티 앱 내부 기본 기능(포스트 수정, 생성, 삭제, 목록) 구현
         - Ajax를 이용하여 내부 댓글 기능 사용을 위한 모델, 뷰 함수 구현
@@ -29,14 +29,14 @@
         - 데이터를 구현된 kakao api에 정보 전달될 수 있도록 수정 작업. (기존 테스트 데이터 -> 실사용데이터)
     3. ReadMe.md 작성
 
-### 4. 김시연 (Siyeon, Kim)
+### 4. <a href="https://github.com/ksiyeon27">김시연</a> (Siyeon, Kim)
     1. Backend
         - 소셜 로그인, 로그인, 회원가입을 포함한 accounts 앱 구현당 담당
         - Naver, Google 소셜 로그인 구현
         - 견종별 산책 시간 계산을 위한 데이터 크롤링 담당
     2. Frontend
 
-### 5. 조은기 (Eungi, Cho)
+### 5. <a href="https://github.com/eungi78">조은기</a> (Eungi, Cho)
     1. Backend
         - 소셜 로그인, 로그인, 회원가입을 포함한 accounts 앱 구현 담당
         - Naver, Google 소셜 로그인 구현
