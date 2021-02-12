@@ -1,24 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {{ user.username }}의 프로필입니다. <br /><br /><br />
+{% extends "accounts/base.html" %}
+{% load static %}
+{% block extra-head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'accounts/profile.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+{% endblock %}
 
-    {% if profile.nickname and profile.image.url %}
-        user: {{profile.user}}<br />
-        profile name: {{profile.name}}<br />
-        profile nickname: {{profile.nickname}}<br />
-        profile image: <img src="{{profile.image_thumbnail.url}}"><br />
-    {% endif %}
-
-    <br /><br />
-    
-    <a href="{% url 'accounts:profile_edit' %}">프로필 편집</a>
-    <a href="{% url 'accounts:base' %}">메인으로 이동</a>
-    <a href="{% url 'accounts:user_delete' %}">계정 탈퇴</a>
-</body>
-</html>
+{% block content %}
+    <div class="main_container">
+        <div class="profile_container">
+            {% if profile.nickname and profile.image.url %}
+                <div><img src="{{profile.image_thumbnail.url}}" style="width:80px; height: 80px;"></div>  
+                <br />  
+                <p><strong>{{profile.nickname}}</strong></p>
+                <p><small>{{profile.email}}</small></p>
+                <br /><br />
+                <a class="profile_edit" href="{% url 'accounts:profile_edit' %}">편집하기</a>
+            {% else %}
+                <div class="none_img"><i class="far fa-user"></i></div>
+                <p>등록된 프로필이 없습니다.</p>
+                <p>편집하러 가시겠습니까?</p>
+                <div class="profile_edit_new"><a href="{% url 'accounts:profile_edit' %}">편집하기</a></div>               
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

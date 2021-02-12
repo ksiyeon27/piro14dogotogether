@@ -1,26 +1,58 @@
+{% extends "accounts/base.html" %}
 {% load socialaccount %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
-        <li><a href="{% provider_login_url 'google' %}">구글 로그인</a></li>
-        <li><a href="{% provider_login_url 'naver' %}">네이버 로그인</a></li>
-        <input type='submit' />
-    </form>
-</body>
-</html>
+{% load static %}
+{% load widget_tweaks %}
+{% block extra-head %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'accounts/login.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script> 
+{% endblock %}
 
-<!-- {#% extends "accounts/base.html" %#}
-{#% load static %}
-{#% block extra_head %}
-<link rel="stylesheet" href="{#% static 'accounts/base.css' %}">
-{#% endblock %} -->
+{% block content %}
+<div class="form_container">
+    <div class="input_container">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <p>
+                {{ form.username|add_class:"input-lg" }}
+                {% if username.errors %}
+					{% for error in username.errors %}
+					<p class="error_message_lg">{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+            </p>
+            <p>
+                {{ form.password|add_class:"input-pw" }}
+                {% if password.errors %}
+					{% for error in password.errors %}
+					<p class="error_message_pw">{{ error }}</p>
+					{% endfor %}
+				{% endif %} 
+            </p>   
+            <input type='submit' name='login_btn' value='로그인'/><br />
+            <div class="btns">
+                <div class="social_login">
+                    <a class="google" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i></a>
+                    <a class="naver" href="{% provider_login_url 'naver' %}"><strong>N</strong></a>
+                </div>
+                <a class="signup" href="{% url 'accounts:signup' %}">회원가입</a>
+            </div>
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class="error_message">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    $( document ).ready( function() {
+        $( '.input-lg' ).attr( 'placeholder', 'ID' );
+        $( '.input-pw' ).attr( 'placeholder', 'PASSWD' );
+    } );
+</script>
+{% endblock %}
