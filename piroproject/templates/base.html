@@ -18,9 +18,12 @@
                 <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
                 <li><a href="{% url 'calculator:calculate' %}">참고하개</a></li>
                 <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
-                <li><a href="#">알아보개</a></li>
+                <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
                 <li><a href="{% url 'accounts:logout' %}?next={{ request.path }}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
                 <li><a href="{% url 'accounts:profile' %}">내프로필</a></li>
+                <form class="form-inline my-2 my-lg-0" action="{% url 'blog:search' %}" method="POST">{% csrf_token %}
+                    <input class="form-control mr-sm-2" type="search" placeholder="Global Search" name="search_word" >
+                </form>
             {% else %}
                 <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
                 <li><a href="{% url 'calculator:calculate' %}">참고하개</a></li>
@@ -28,7 +31,11 @@
                 <li><a href="#">알아보개</a></li>
                 <li><a href="{% url 'accounts:login' %}">로그인</a></li>
                 <li><a href="{% url 'accounts:signup' %}?next={% url 'accounts:signup_completed' %}">회원가입</a></li>
+                <form class="form-inline my-2 my-lg-0" action="{% url 'blog:search' %}" method="POST">{% csrf_token %}
+                    <input class="form-control mr-sm-2" type="search" placeholder="Global Search" name="search_word" >
+                </form>
             {% endif %}
+
             </ul>
         {% endblock nav %}
         </div>
