@@ -1,0 +1,38 @@
+.form_container {
+    background-color: skyblue;
+    display:flex;
+    height:100%;
+    justify-content: center;
+    align-items:center;
+}
+
+.input_container {
+    width:13%;
+    max-width:13%;
+}
+
+input[name='signup_btn']{
+    display: block;
+    margin:0 auto;
+    width: 100%;
+    border-radius:20rem;
+    box-sizing: border-box;
+    border-color:transparent;
+    margin-top: 2rem;
+    padding: 0.5rem;
+    background-color: gray;
+    color:white;
+}
+
+.input-id, .input-pw1, .input-pw2 {
+    width:100%;
+    border:1px solid transparent;
+    border-radius: 20rem;
+    padding:0.5rem;
+}
+
+/* error_message */
+.error_message_lg, .error_message_pw1, .error_message_pw2 {
+    color:red;
+    font-size:0.7rem;
+}

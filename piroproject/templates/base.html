@@ -24,7 +24,7 @@
                 <li><a href="{% url 'calculator:calculate' %}">참고하개</a></li>
                 <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
                 <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
-                <li><a href="{% url 'accounts:logout' %}?next={{ request.path }}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
+                <li><a href="{% url 'accounts:logout' %}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
                 <li><a href="{% url 'accounts:profile' %}">내프로필</a></li>
                 <form class="form-inline my-2 my-lg-0" action="{% url 'blog:search' %}" method="POST">{% csrf_token %}
                     <input class="form-control mr-sm-2" type="search" placeholder="Global Search" name="search_word" >
@@ -35,10 +35,7 @@
                 <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
                 <li><a href="#">알아보개</a></li>
                 <li><a href="{% url 'accounts:login' %}">로그인</a></li>
-                <li><a href="{% url 'accounts:signup' %}?next={% url 'accounts:signup_completed' %}">회원가입</a></li>
-                <form class="form-inline my-2 my-lg-0" action="{% url 'blog:search' %}" method="POST">{% csrf_token %}
-                    <input class="form-control mr-sm-2" type="search" placeholder="Global Search" name="search_word" >
-                </form>
+                <li><a href="{% url 'accounts:signup' %}">회원가입</a></li>
             {% endif %}
             </ul>
             <a href="" class="navbar_toggleBtn">
@@ -121,6 +118,8 @@
         <footer>
             <small>copyright pirogramming 14기 5조 가치가개 | 전태수 김시연 김윤식 임채원 조은기</small>
         </footer>
+    {% endblock %}
+    {% block extra_body %}
     {% endblock %}
 </body>
 </html>
