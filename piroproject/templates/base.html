@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가치가개!-강아지 산책 정보 공유 사이트</title>
     <script src="https://kit.fontawesome.com/9ada8679dc.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static 'base.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/base.css' %}"> 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     {% block extra_head %}
     {% endblock %}
@@ -23,7 +23,7 @@
             <li><a href="{% url 'calculator:calculate' %}">참고하개</a></li>
             <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
             <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
-            <li><a href="{% url 'accounts:logout' %}?next={{ request.path }}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
+            <li><a href="{% url 'accounts:logout' %}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
             <li><a href="{% url 'accounts:profile' %}">내프로필</a></li>
         {% else %}
             <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
@@ -31,7 +31,7 @@
             <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
             <li><a href="#">알아보개</a></li>
             <li><a href="{% url 'accounts:login' %}">로그인</a></li>
-            <li><a href="{% url 'accounts:signup' %}?next={% url 'accounts:signup_completed' %}">회원가입</a></li>
+            <li><a href="{% url 'accounts:signup' %}">회원가입</a></li>
         {% endif %}
         </ul>
         <a href="" class="navbar_toggleBtn">
@@ -115,9 +115,9 @@
             <small>copyright pirogramming 14기 5조 가치가개 | 전태수 김시연 김윤식 임채원 조은기</small>
         </footer>
     {% endblock %}
-
-    {% block script %}
-        <script type="text/javascript" src="{% static 'js/navbar_toggle.js' %}"></script>
+    
+    <script type="text/javascript" src="{% static 'js/navbar_toggle.js' %}"></script>
+    {% block script %}        
     {% endblock %}
 </body>
 </html>
