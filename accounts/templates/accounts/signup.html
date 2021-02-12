@@ -1,17 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
-        <input type='submit' />
-    </form>
-</body>
-</html>
+{% extends "accounts/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'accounts/signup.css' %}">
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script> 
+{% endblock %}
+{% block body %}
+    <div class="form_container">
+        <div class="input_container">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="input_window">
+                    <p>
+                        {{ form.username|add_class:"input-id" }}
+                        {% if form.username.errors %}
+                            {% for error in form.username.errors %}
+                                <p class="error_message_lg">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </p>
+                    <p>
+                        {{ form.password1|add_class:"input-pw1" }}
+                        {% if form.password1.errors %}
+                            {% for error in form.password1.errors %}
+                                <p class="error_message_pw1">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %} 
+                    </p>
+                    <p>
+                        {{ form.password2|add_class:"input-pw2" }}
+                        {% if form.password2.errors %}
+                            {% for error in form.password2.errors %}
+                                <p class="error_message_pw2">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %} 
+                    </p>
+                </div>
+                <input type='submit' name='signup_btn' value='가입하기' />
+                
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $( document ).ready( function() {
+        $( '.input-id' ).attr( 'placeholder', 'ID' );
+        $( '.input-pw1' ).attr( 'placeholder', 'PASSWD' );
+        $( '.input-pw2' ).attr( 'placeholder', 'PASSWD' );
+    } );
+</script>
+{% endblock %}
