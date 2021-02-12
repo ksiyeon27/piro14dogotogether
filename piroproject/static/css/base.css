@@ -132,7 +132,7 @@ main{
 
 /*------------ main1 -------------*/
 #main1{
-    background-image:url("mainHeader.png");
+    background-image:url('../img/mainHeader.png');
     background-repeat: no-repeat;
     height: 25rem;
     margin:0;
