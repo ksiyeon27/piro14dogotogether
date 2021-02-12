@@ -1,24 +1,29 @@
 {% load static %}
 {% load socialaccount %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가치가개!-강아지 산책 정보 공유 사이트</title>
-    {% block extra-head %}
+    {% block extra_head %}
+        <script src="https://kit.fontawesome.com/9ada8679dc.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{% static 'base.css' %}"> 
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     {% endblock %}
 </head>
 <body>
-    <nav>
+    
         {% block nav %}
-        <div class="header">
-            <span class="logo"><a href="#">가치가개로고</a></span>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="{% url 'accounts:base' %}"><i class="fas fa-paw"></i>가치가개</a>
+            </div>
             <ul class="menu">
             {% if user.is_authenticated %}
                 <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
                 <li><a href="{% url 'calculator:calculate' %}">참고하개</a></li>
                 <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
-                <li><a href="#">알아보개</a></li>
+                <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
                 <li><a href="{% url 'accounts:logout' %}?next={{ request.path }}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
                 <li><a href="{% url 'accounts:profile' %}">내프로필</a></li>
                 <form class="form-inline my-2 my-lg-0" action="{% url 'blog:search' %}" method="POST">{% csrf_token %}
@@ -35,49 +40,87 @@
                     <input class="form-control mr-sm-2" type="search" placeholder="Global Search" name="search_word" >
                 </form>
             {% endif %}
-
             </ul>
-        {% endblock nav %}
-        </div>
-    </nav>
+            <a href="" class="navbar_toggleBtn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </nav>
+        {% endblock %}
+    <script>
+        const toggleBtn = document.querySelector('.navbar_toggleBtn');
+        const menu = document.querySelector('.menu');
+
+        toggleBtn.addEventListener('click',function(e){
+            menu.classList.toggle('active')
+            e.preventDefault();
+        });
+    </script>
+        
+    
     <main>
-        {% block content %}
+        {% block body %}
             <section id="main1">
                 <div class="header">
-                <h1>강아지 산책 정보는 모두 가치가개에서!</h1>
-                <p>강아지 활동량,애견 동반 가능한 카페,식당,반려견 놀이터까지<br>강아지와 함께하는 활동에 대한 모든 정보를 가치가개에서 쉽게 찾아보세요!</p>
+                    <h1 style="display:inline-block"><span class="header-title-left">반려견 산책정보</span></h1>
+                    <div class="header-title-right">전부 다<br>
+                        <span style="font-weight:bold">가치가개</span>에서!
+                    </div>
+                    <p>강아지 활동량,애견 동반 가능한 카페,식당,반려견 놀이터까지<br>강아지와 함께하는 활동에 대한 모든 정보를 가치가개에서 쉽게 찾아보세요!</p>
                 </div>
-                <div class="main-container">
+            </section>
+
+            <section id="main2" class="main2-container">
                 <div class="main-item">
-                    <h4>같이가개</h4>
-                    <p> 반려견과의 나들이 어디로 갈까? 애견 동반 가능한 장소들을 지도에서 한눈에 찾기!</p>
+                    <i class="fas fa-dog"></i>
+                    <h6>같이가개</h6>
+                    <p> 반려견과의 나들이 어디로 갈까? <br>애견 동반 가능한 장소들을 지도에서 한눈에 찾기!</p>
                     <button><a href="{% url 'map:showmap'%}">바로가기</a></button>
                 </div>
+
                 <div class="main-item">
-                    <h4>참고하개</h4>
+                    <i class="fas fa-paw"></i>
+                    <h6>참고하개</h6>
                     <p> 우리 강아지는 산책을 얼마나 시켜야 할까? 활동량과 기초대사량,적정체중,견종별 특징까지 한번에 알아보기!</p>
                     <button><a href="{% url 'calculator:calculate' %}">바로가기</a></button>
                 </div>
+
                 <div class="main-item">
-                    <h4>물어보개</h4>
-                    <p>반려견과 다녀온 애견동반 핫플을 모아모아 다른 사람들과 공유하고 소통하기!</p>
+                    <i class="fas fa-comments"></i>
+                    <h6>물어보개</h6>
+                    <p>반려견과 다녀온 애견동반 핫플들을<br>모아 다른 사람들과 함께 공유하고<br>자유롭게 소통하기!</p>
                     <button><a href="{% url 'blog:post_list' %}">바로가기</a></button>
                 </div>
+
                 <div class="main-item">
-                    <h4>알아보개</h4>
-                    <p>반려견과 산책할 때 알아야 할 기본적인 지식들을 한번에 체크하기!</p>
-                    <button><a href="#">바로가기</a></button>
-                </div>
+                    <i class="fas fa-book"></i>
+                    <h6>알아보개</h6>
+                    <p>반려견과 산책할 때 알아두어야 할<br>기본 지식들을 알아보개 리스트에서<br>한번에 체크하기!</p>
+                    <button><a href="{% url 'faq:qna' %}">바로가기</a></button>
                 </div>
             </section>
-            <section id="main2">
+
+            <section id="main3">
+                <h2>BEST top5 모아보개!</h2>
+                <p>다른 사람들이 관심있게 본 새로운 산책 관련 정보들을 확인해보세요!</p>
+                <div class="recommend-place">
+                    <h5 class="recom-title">오늘의 추천 산책장소</h5>
+                    <ul class="recommend-ul">
+                        <li class="recommend-list">for문으로 데이터 가져오기</li><hr>
+                        <li class="recommend-list">for문으로 데이터 가져오기</li><hr>
+                        <li class="recommend-list">for문으로 데이터 가져오기</li><hr>
+                        <li class="recommend-list">for문으로 데이터 가져오기</li><hr>
+                    </ul>
+                    <button class="org-btn-sm"><a href="{% url 'map:showmap'%}">더 알아보기</a></button>
+                </div>
+                <img class="mainDog" src="{% static 'mainDog.png' %}">
             </section>
         {% endblock %}
     </main>
-    <footer>
-        {% block footer %}
+
+    {% block footer %}
+        <footer>
             <small>copyright pirogramming 14기 5조 가치가개 | 전태수 김시연 김윤식 임채원 조은기</small>
-        {% endblock %}
-    </footer>
+        </footer>
+    {% endblock %}
 </body>
 </html>

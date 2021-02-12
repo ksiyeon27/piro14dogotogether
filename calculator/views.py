@@ -36,3 +36,4 @@ def calculator(request):
         form = CalculatorForm()
         ctx = {'form':form}
         return render(request, 'calculator/calculate.html', ctx) 
+
