@@ -106,7 +106,7 @@
 > > npm convert-xlsx-to-json을 이용하여 엑셀파일 -> json방식으로 변환하여 저장
 > - Json을 통한 데이터 저장 이후 파싱 VS Json 파일을 SQL에 입력 이후 장고에서 사용(어떤게 효율적인가?)
 > > <a href="https://softwareengineering.stackexchange.com/questions/235707/using-a-relational-database-vs-json-objects-for-event-activity-data">StackExchange 관련자료</a><br/>
-> > <img src="/markdown/etc/조언.jpeg"> <br/>
+> > <img src="/markdown/etc/조언.jpeg" width="50%"></img> <br/>
 > > "변환한 Json파일을 Database에 적용시킬 방법을 알아보도록 하자" -> <a href="https://stackoverflow.com/questions/36123877/django-saving-json-value-to-database-model"> 참고</a>
 > - Django Secret Key와 API Secret Key를 어떻게 분리하는게 좋을까?
 > >방법 1) 시스템 내부 환경변수에 지정한 뒤, os.environ 이용<br/>
