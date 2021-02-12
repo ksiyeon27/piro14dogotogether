@@ -96,27 +96,26 @@
 <br/>
 > ### 활동 과정 중 고민이었던 부분들!
 > - KAKAO API 위치 정보를 얻어오려면 Geolocation이 필요한데 HTTPS 프로토콜을 통해 배포할 수 있을까?
-> > HTTPS 배포 세션을 따로 진행하신다고 하신다! // SSL인증 관련 (곧 해결 될 수 있을 것 같다)<br/><br/>
+> > HTTPS 배포 세션을 따로 진행하신다고 하신다! // SSL인증 관련 (곧 해결 될 수 있을 것 같다)
 > - 크롤링을 어디서 어떻게 해올것인지(대상 API를 찾아야한다....)
 > > 구글링을 통해 공공데이터포털(서울시) 및 해외 사이트에서 대상 정보를 크롤링해오는것으로 해결<br/>
 > > &#43; 카카오 맵 API검색기능 활용예정!<br/><br/>
 > - 사이트 접속 시도마다 크롤링을 해오면, 비용측면에서 비효율적이지 않을까?
-> > Code Review 도중 얻은 Feedback, 크롤링으로 데이터를 만든 이후 저장하여 활용하는 방법으로 변경<br/><br/>
+> > Code Review 도중 얻은 Feedback, 크롤링으로 데이터를 만든 이후 저장하여 활용하는 방법으로 변경
 > - Pandas와 Webdriver를 이용해 크롤링으로 엑셀파일까지는 만들었다 -> 어떻게 활용하지?
-> > npm convert-xlsx-to-json을 이용하여 엑셀파일 -> json방식으로 변환하여 저장<br/><br/>
+> > npm convert-xlsx-to-json을 이용하여 엑셀파일 -> json방식으로 변환하여 저장
 > - Json을 통한 데이터 저장 이후 파싱 VS Json 파일을 SQL에 입력 이후 장고에서 사용(어떤게 효율적인가?)
 > > <a href="https://softwareengineering.stackexchange.com/questions/235707/using-a-relational-database-vs-json-objects-for-event-activity-data">StackExchange 관련자료</a><br/>
 > > <img src="/markdown/etc/조언.jpeg" width="50%"></img> <br/>
-> > "변환한 Json파일을 Database에 적용시킬 방법을 알아보도록 하자" -> <a href="https://stackoverflow.com/questions/36123877/django-saving-json-value-to-database-model"> 참고</a><br/><br/>
+> > "변환한 Json파일을 Database에 적용시킬 방법을 알아보도록 하자" -> <a href="https://stackoverflow.com/questions/36123877/django-saving-json-value-to-database-model"> 참고</a>
 > - Django Secret Key와 API Secret Key를 어떻게 분리하는게 좋을까?
 > >방법 1) 시스템 내부 환경변수에 지정한 뒤, os.environ 이용<br/>
-> >방법 2) secrets.json 생성 이후 .gitignore에 추가 -------------------> 현 프로젝트에 사용한 방법<br/><br/>
+> >방법 2) secrets.json 생성 이후 .gitignore에 추가 -------------------> 현 프로젝트에 사용한 방법
 > - MAP 마커가 많으면 Ajax에서 ERR_INSUFFICIENT_RESOURCES 오류가 나타난다 어떻게 해야할까?
-> > 일단 병원. 약국 마커는 기획 의도에 맞지 않다고 판단하여 제거하였으나, <a href="https://apis.map.kakao.com/web/sample/basicClusterer/">Clustering</a>을 통해 해결 가능할듯함.<br/><br/><br/>
+> > 일단 병원. 약국 마커는 기획 의도에 맞지 않다고 판단하여 제거하였으나, <a href="https://apis.map.kakao.com/web/sample/basicClusterer/">Clustering</a>을 통해 해결 가능할듯함.<br
 > - 팀원간 개발도중 나타나는 pip dependencies로 인한 오류 예방 어떻게 해 할까?
 > > 팀원간 가상환경 venv (python -m venv venv)을 이용하고, pip freeze > requirements.txt를 이용해 의존성 기록<br/>
 > > 환경 생성할때 pip(3) -r requirements.txt를 이용해 의존성 플러그인 설치 가능
-<br/><br/>
 > - Create Project 이후에 장고 버전 다운그레이드로 인한 충돌 해결방법?
 > > 처음에 팀원간 장고 프로젝트 버전을 합의하고 createproject를 하는게 좋다. (자동으로 최신버전을 깔아버린 탓에..)
 > - Class Based View Vs Function Based View?
