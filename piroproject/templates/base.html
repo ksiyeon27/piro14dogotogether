@@ -29,7 +29,7 @@
             <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
             <li><a href="{% url 'calculator:calculate' %}">참고하개</a></li>
             <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
-            <li><a href="#">알아보개</a></li>
+            <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
             <li><a href="{% url 'accounts:login' %}">로그인</a></li>
             <li><a href="{% url 'accounts:signup' %}">회원가입</a></li>
         {% endif %}
@@ -42,7 +42,7 @@
         
     
     <main>
-        {% block body %}
+        {% block content %}
             <section id="main1">
                 <div class="header">
                     <h1 style="display:inline-block"><span class="header-title-left">반려견 산책정보</span></h1>
@@ -105,7 +105,7 @@
                     </ul>
                     <button class="org-btn-sm"><a href="{% url 'blog:post_list' %}">더 알아보기</a></button>
                 </div>
-                <img class="mainDog" src="{% static 'img/mainDog.png' %}">
+                <img class="mainDog" src="{% static 'img/mainDog.png' %}"/>
             </section>
         {% endblock %}
     </main>
