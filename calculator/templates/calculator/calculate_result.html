@@ -2,11 +2,10 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load humanize %}
-{% block extra-head %}
-    {{block.super}}
+{% block extra_head %}
     <link rel="stylesheet" href="{% static 'calculator/result.css' %}">
 {% endblock %}
-{% block content %}
+{% block body %}
     <div class="wrap">
         <div class="top_container">
             <p><span class="dog_breed"><strong>{{dog_breed}}</strong></span></p>

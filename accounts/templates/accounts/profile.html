@@ -1,12 +1,11 @@
 {% extends "accounts/base.html" %}
 {% load static %}
-{% block extra-head %}
-    {{block.super}}
+{% block extra_head %}
     <link rel="stylesheet" href="{% static 'accounts/profile.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <div class="main_container">
         <div class="profile_container">
             {% if profile.nickname and profile.image.url %}
