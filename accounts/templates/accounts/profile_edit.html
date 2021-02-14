@@ -1,36 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="{% url 'accounts:profile_edit' %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-<!--         
-        <label for="name">이름</label>
-        <input id="name" name="name" value="{{profile.name}}">
-        <br />
-        <label for="nickname">닉네임</label>
-        <input id="nickname" name="nickname" value="{{profile.nickname}}">
-        <br />
-        <label for="email">이메일</label>
-        <input id="email" name="email" value="{{profile.email}}">
-        <br />
-        <label for="image">이미지</label>
-        <input id="image" name="image" type="file"><br />
-        {% if profile.image %}
-            <img src="{{profile.image_thumbnail.url}}" alt="profile_thumbnail" />
-        {% endif %}
-        <button type='submit'>제출</button>
-        <br /> -->
+{% extends "accounts/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'accounts/profile_edit.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+{% endblock %}
 
+{% block body %}
+<div class="form_container">
+    <div class="input_container">
+        <form action="{% url 'accounts:profile_edit' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if profile.image_thumbnail %}
+                <div class="thumbnail_image"><img src="{{profile.image_thumbnail.url}}" style="width:80px; height: 80px;"></div>
+            {% else %}
+                <div class="none_img"><i class="far fa-user"></i></div>
+            {% endif %}
+            <p id="image_upload">{{ profileform.image }}</p>
+            <p>{{ profileform.name|add_class:"name" }}</p>
+            <p>{{ profileform.nickname|add_class:"nickname" }}</p>
+            <p>{{ profileform.email|add_class:"email" }}</p>
 
-        <table>
-            {{profileform.as_table}}
-        </table>
-        <input type='submit' />
-    </form>
-</body>
-</html>
+            <input type='submit' name='profile_edit' value='완료' />
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $( document ).ready( function() {
+        $( '.name' ).attr( 'placeholder', '이름' );
+        $( '.nickname' ).attr( 'placeholder', '닉네임' );
+        $( '.email' ).attr( 'placeholder', '이메일' );
+    } );
+</script>
+{% endblock %}

@@ -1,0 +1,78 @@
+.form_container {
+    background-color: rgb(248, 248, 248);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .input_container {
+    width: 13%;
+  }
+  
+  input[name="login_btn"] {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 20rem;
+    box-sizing: border-box;
+    border-color: transparent;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: #FF9D00;
+    color: white;
+  }
+
+  input[name="login_btn"]:hover {
+    background-color: #E87400;
+  }
+  
+  div .btns {
+    overflow: hidden;
+    padding-bottom: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+  }
+  
+  div .social_login {
+    float: left;
+  }
+  
+  .google {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    color: rgb(35, 35, 185);
+  }
+  .naver {
+    text-decoration: none;
+    font-weight: border;
+    font-size: 1.2rem;
+    color: rgb(12, 243, 12);
+  }
+  
+  /* form.username과 form.password */
+  .input-lg,
+  .input-pw {
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 20rem;
+    padding: 0.5rem;
+    background-color: rgb(231, 227, 227);
+  }
+
+  .usernameform {
+    margin-bottom:1rem;
+  }
+
+  /* 회원가입 버튼 */
+  .signup {
+    text-decoration: none;
+    padding: 0.2rem;
+    font-size: 0.8rem;
+    float: right;
+  }
+  
+  .error_message {
+    font-size:0.7rem;
+    color:red;
+  }
