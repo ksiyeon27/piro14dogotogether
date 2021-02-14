@@ -65,4 +65,5 @@ def testmap(request):
     parkJson = json.dumps(parkdict, ensure_ascii=False)
     return render(request, 'map/testmap.html', {'parkJson': parkJson})
 
-
+def register_place(request):
+    
