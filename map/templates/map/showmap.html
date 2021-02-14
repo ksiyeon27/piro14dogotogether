@@ -61,12 +61,10 @@
                     <button type="submit">검색하기</button> 
                 </form>
 
-                <button onclick="Geo()">지도 현재 좌표로 이동시키기</button> 
-                <button onclick="hideMarkers()">마커 감추기</button>
-                <button onclick="showMarkers()">마커 보이기</button>
-                <button onclick="showParkMarker()">주변 공원 보기</button>
-                <button onclick="showAllParkMarker()">모든 공원 보기</button>
-                <button onclick="removeParkMarker()">공원 마크 제거</button>
+                <button onclick="Geo()">현재위치</button> 
+                <button id="searchmarker" onclick="checkMarkers()">검색 마커</button>
+                <button id="nearpark" onclick="checknearParkMarker()">주변 애견장소 </button>
+                <button id="allpark" onclick="checkallParkMarker()"> 공원 </button>
                 <button onclick="removeCircles()">원 그리기 지우기</button> <br>  
 
                 
@@ -277,7 +275,7 @@ function getListItem(index, places) {
                  
       itemStr +=    '  <span class="tel">' + places.phone  + '</span>' +
                     //카테고리 부분 추가 필요
-                    '</div>' +
+                    '</div>' +'<button id="addplace" onclick="registerplace()">장소추가</button>'
                  '</div>'; //추가한 div의 닫는 태그        
 
     el.innerHTML = itemStr;
@@ -318,22 +316,33 @@ function removeMarker() {
 }
 
 // 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
-function setMarkers(map) {
+function setMarkers(map,markers) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
     }            
 }
 
 // "마커 보이기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에 표시하는 함수입니다
-function showMarkers() {
-    setMarkers(map)    
+function showMarkers(markers) {
+    setMarkers(map,markers)    
 }
 
 // "마커 감추기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에서 삭제하는 함수입니다
-function hideMarkers() {
-    setMarkers(null);    
+function hideMarkers(markers) {
+    setMarkers(null,markers);    
 }
+function checkMarkers(){
+    var x = document.getElementById("searchmarker");
+    if (x.style.opacity==="1"){
+        x.style.opacity="0.5";
+        showMarkers(markers);
+    }
+    else{
+        x.style.opacity="1";
+        hideMarkers(markers);
+    }
 
+}
 // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
 function displayPagination(pagination) {
     var paginationEl = document.getElementById('pagination'),
@@ -383,9 +392,10 @@ function removeAllChildNods(el) {
 
 //공원 마커 어레이
 var parkmarkers = []
+
 //공원 마크(현재위치 주변) 띄우기
 
-function showParkMarker() {
+function showParkMarker(map) {
     var parks = JSON.parse("{{ parkJson|escapejs }}");
     var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 		//공원용 마크 이미지
@@ -396,7 +406,7 @@ function showParkMarker() {
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
         var parkmarker = new kakao.maps.Marker({
-            map: map,
+            map: null,
             position: new kakao.maps.LatLng(parks[i].mapx, parks[i].mapy),
             title: parks[i].title,
             image: markerImage
@@ -405,9 +415,7 @@ function showParkMarker() {
         parkmarkers.push(parkmarker);
     }
 
-    for ( var i = 0; i < parkmarkers.length; i++ ) {
-        parkmarkers[i].setMap(null);
-    }  
+
 
     var radius = 2000;
     var c1 = map.getCenter();
@@ -425,12 +433,21 @@ function showParkMarker() {
         }
     }
 }
+function checknearParkMarker() {
+    var x = document.getElementById("nearpark");
+    if (x.style.opacity==="1"){
+        x.style.opacity="0.5";
+        showParkMarker(map);
+    }
+    else{
+        x.style.opacity="1";
+        showParkMarker(null);
+    }
+}
  
 //모든 공원 마크 띄우기(save용)
-
-
-function showAllParkMarker() {
-    var parks = JSON.parse("{{ parkJson|escapejs }}");
+        var parks = JSON.parse("{{ parkJson|escapejs }}");
+ 
 		console.log(parks)
 
 		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -442,9 +459,10 @@ function showAllParkMarker() {
   			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
   			var parkmarker = new kakao.maps.Marker({
-    			map: map,
+    			
     			position: new kakao.maps.LatLng(parks[i].mapx, parks[i].mapy),
-    			title: parks[i].title,
+    			map:null,
+                title: parks[i].title,
     			image: markerImage
 				  });
 
@@ -479,16 +497,20 @@ function showAllParkMarker() {
 
 				})
 			  })(parkmarker, parks[i])
-			}
+			}            
+
+function checkallParkMarker() {
+    var x = document.getElementById("allpark");
+    if (x.style.opacity==="1"){
+        x.style.opacity="0.5";
+        showMarkers(parkmarkers);
+    }
+    else{
+        x.style.opacity="1";
+        hideMarkers(parkmarkers);
+    }
 }
 
-// 지도 위에 공원마크 제거
-function removeParkMarker() {
-    for ( var i = 0; i < parkmarkers.length; i++ ) {
-        parkmarkers[i].setMap(null);
-    }   
-    parkmarkers = [];
-}
 
 //반경확인용 원 그리기 함수
 var drawingFlag = false; // 원이 그려지고 있는 상태를 가지고 있을 변수입니다
@@ -733,6 +755,10 @@ function getTimeHTML(distance) {
 }
 //반경 확인용 끝
 
+//장소 추가
+function registerplace() {
+
+}
 </script>
 </body>
 </html>
