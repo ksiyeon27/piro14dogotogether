@@ -8,6 +8,10 @@ class ProfileForm(forms.ModelForm):
         model=Profile
         fields = ['name','nickname','email','image']
 
+class LoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class':'input-lg'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'input-pw'}))
+
 
 # 계정 탈퇴 비밀번호 확인 폼
 class CheckPasswordForm(forms.Form):

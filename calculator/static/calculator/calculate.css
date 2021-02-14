@@ -1,0 +1,84 @@
+.form_container {
+    background-color: skyblue;
+    display:flex;
+    height: 100%;
+    justify-content: center;
+    align-items:center;
+}
+
+.input_container {
+    min-width: 30%;
+    width:70%;
+    margin: 0 auto;
+}
+
+.submit2 {
+    display:none;
+    width:100%;
+}
+
+input[name='submit'] {
+    display:none;
+    margin:0 auto;
+    width: 10%;
+    border-radius:20rem;
+    box-sizing: border-box;
+    border-color:transparent;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: gray;
+    color:black;
+}
+
+#breeds_label, #current_weight_label {
+    text-align:left;
+}
+
+
+.submit1 {
+    width:20%;
+    margin: 0 auto;
+}
+
+
+select[name='breeds'], input[name='current_weight'] {
+    width:100%;
+    border:1px solid transparent;
+    padding:0.5rem;
+}
+
+button[name='next'] {
+    display: block;
+    margin:0 auto;
+    width: 50%;
+    border-radius:20rem;
+    box-sizing: border-box;
+    border-color:transparent;
+    margin-top: 5rem;
+    padding: 0.5rem;
+    background-color: gray;
+    color:white;
+}
+
+.item_array {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit2 .bcs_level {
+    margin:2rem 0.5rem 0 0.5rem;
+}
+
+button[name='previous'] {
+    display: block;
+    margin:0 auto;
+    width: 10%;
+    border-radius:20rem;
+    box-sizing: border-box;
+    border-color:transparent;
+    margin-top: 5rem;
+    padding: 0.5rem;
+    background-color: gray;
+    color:white;
+}

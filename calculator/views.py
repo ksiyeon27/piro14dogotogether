@@ -25,6 +25,7 @@ def calculator(request):
 
             ctx={
                 'dog_breed':dogkrname, 
+                'current_weight':current_weight,
                 'appropriate_weight':appropriate_weight, 
                 'base_metabolism':base_metabolism,
                 'press_text':press_text,
