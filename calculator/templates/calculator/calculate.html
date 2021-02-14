@@ -1,50 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
-        <input type='submit' />
-    </form>
-        <!-- 강아지 모습 선택
-        <label for="level1"><img src="" alt="사진"></label><br />
-        <input type="checkbox" name='level' id='level1' value="5" onclick="checkOnlyOne(this)"/><br />
-        <label for="level2"><img src="" alt="사진"></label><br />
-        <input type="checkbox" name='level' id='level2' value="10" onclick="checkOnlyOne(this)"/><br />
-        <label for="level3"><img src="" alt="사진"></label><br />
-        <input type="checkbox" name='level' id='level3' value="20" onclick="checkOnlyOne(this)"/><br />
-        <label for="level4"><img src="" alt="사진"></label><br />
-        <input type="checkbox" name='level' id='level4' value="30" onclick="checkOnlyOne(this)"/><br />
-        <label for="level5"><img src="" alt="사진"></label><br />
-        <input type="checkbox" name='level' id='level5' value="40" onclick="checkOnlyOne(this)"/><br />
-        강아지 종 선택
-        <select name="dog_breed">
-            {% for breed in breeds %}
-                <option value={{breed}}>{{breed}}</option>
-            {% endfor %}
-        </select> 
-        체중 입력
-        체중(kg): <input type="text" name="current_weight"><br /> 
-        <input type="submit" value="제출">
-    </form>
-    <script>
-        체크 박스 하나만 선택할 수 있도록
-        function checkOnlyOne(element) {
-        const checkboxes 
-            = document.getElementsByName("level");
-        checkboxes.forEach((cb) => {
-            cb.checked = false;
-        })
-        element.checked = true;
-        }
-    </script> -->
-</body>
-</html>
+{% extends "calculator/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'calculator/calculate.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="form_container">
+        <div class="input_container">
+            <p class="p_text"><strong>강아지의 기본 정보를 입력해주세요!</strong></p>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="submit1">
+                    <p id="breeds_label">{{form.breeds.label}}</p>
+                    <p>{{form.breeds}}</p>
+                    <p id="current_weight_label">{{form.current_weight.label}}</p>
+                    <p>{{form.current_weight}}</p>
+                    <button type='button' name='next' onclick="
+                    document.querySelector('.submit1').style.display='none';
+                    document.querySelector('.submit2').style.display='block';
+                    document.querySelector('.submit_btn').style.display='block';
+                    document.querySelector('.p_text').innerHTML='<strong>강아지의 외형과 가장 가까운 것은 무엇인가요?</strong>';
+                    ">다음</button>
+                </div>
+                <div class="submit2">
+                    <div class="item_array">
+                        {% for bcs in form.bcs %}
+                            <div class="bcs_level">
+                                <label for="id_bcs_{{forloop.counter0}}"><img src="http://placekitten.com/300/300" alt="사진"></label><br /><br />
+                                {{bcs}}<br />
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type='button' name='previous' onclick="
+                    document.querySelector('.submit1').style.display='block';
+                    document.querySelector('.submit2').style.display='none';
+                    document.querySelector('.submit_btn').style.display='none';
+                    document.querySelector('.p_text').innerHTML='<strong>강아지의 기본 정보를 입력해주세요!</strong>';
+                    ">이전</button>
+                </div>
+                <input class='submit_btn' type='submit' name='submit' />            
+            </form>
+        </div>
+    </div>
+{% endblock %}
