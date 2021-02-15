@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'blog/post_all.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/post_all.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -91,9 +91,11 @@
             {% endfor %}
     </div>
 
-    <button type="button" class="create-btn" onclick="location.href='{% url 'blog:add'%}'; ">
+    
+    <button type="button" class="create-btn" onclick="create_confirm();">
         <i class="fas fa-plus"></i>
     </button>
+    
 
     <div class="pagination">
         <span>
@@ -118,4 +120,17 @@
     </div>
     -->
 {% endblock %}
+{% block script %}
+    <!--<script type="text/javascript" src="{% static 'blog/js/create_confirm.js' %}" ></script>-->
+    <script>
+    function create_confirm(){
+        {% if not user.is_authenticated %}
+            alert("로그인 후 작성해주세요!");
+            return false;
+        {% else %}
+            location.href="{% url 'blog:add'%}";
+        {% endif %}
+    }
+    </script>
+{% endblock script %}
 
