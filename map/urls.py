@@ -5,5 +5,6 @@ app_name = 'map'
 urlpatterns = [
     path('', views.showmap, name='showmap'),
     path('test/', views.testmap, name='testmap'),
-    path('create/', views.register_place,name='register'),
+    path('ajax/', views.addplace, name='ajax'),
+    path('ajax/delete',views.deleteplace,name='delete'),
 ]
