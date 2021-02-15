@@ -11,7 +11,9 @@
 /*-----grid content-----*/
 .blog-container{
     display:grid;
-    margin:6% 10%;
+    position: relative;
+    left:15%;
+    margin:6% 0 3% 0;
     width:70vw;
     justify-content:center;
     align-items:center;
@@ -24,30 +26,59 @@
     text-align:left;
     margin:1.5rem 0.8rem;
 }
-.best-post .best-image {
+.best-post .best-box {
     position:relative;
     z-index:1;
-}
-.best-post .best-image img{
-    
-    width:200px;
-    height:200px;
-    object-fit:cover;
+    overflow: hidden;
     margin:0 10px;
+    width:200px;
+    height: 200px;
+}
+.best-box a{
+    text-decoration:none;
+    color:white;
+}
+.best-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 .best-post .best-info{
-    background: #FFFFFF;
+    background: rgba(0,0,0,0.7);
     z-index:2;
-    position:relative;
+    position: absolute;
+    top:75%;
+    width:100%;
+    height:100%;
+
 }
-.best-post .best-info h6{
+.best-post .best-info .best-info-title{
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
-    width:200px;
+    width:170px;
     margin:0;
     padding:0.9rem;
+    font-size:1.1rem;
+    font-weight: bold;
 }
+
+.best-box:hover .best-img img{
+    opacity:50%;
+    transition:0.7s;
+}
+.best-box:hover .best-info{
+    position:absolute;
+    top:0;
+    transition:0.7s;
+}
+.best-box:hover .best-info{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 /*-----all post list content-----*/
 .all-post-title{
     grid-column:span 3;
@@ -85,6 +116,10 @@ form{
     margin:0;
     padding:1rem 0;
 }
+.post-text a{
+    text-decoration: none;
+    color:black;
+}
 .post-text p{
     overflow:hidden;
     text-overflow:ellipsis;
@@ -101,4 +136,52 @@ form{
     height:150px;
     object-fit:cover;
     background-color:lightgray;
+}
+
+/*----------pagination----------*/
+.pagination{
+    margin:2rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.pagination a{
+    text-decoration: none;
+    color:#888888;
+}
+
+
+/*---------create button-------*/
+.create-btn{
+    width:60px;
+    height:60px;
+    color:white;
+    border:0;
+    border-radius: 60px;
+    background-color:#FFA133;
+    font-size: 2rem;
+    position: fixed;
+    right:80px;
+    bottom:50px;
+    z-index:1000;
+    box-shadow: 2px 4px 20px -10px gray;
+    transition: 0.5s;
+}
+.create-btn:hover{
+    width:70px;
+    height:70px;
+    transition: 0.5s;
+    font-size:2.3rem;
+    background-color:#E87400;
+}
+.filter{
+    color:gray;
+    border:1px solid gray;
+    padding:0.4rem 1rem;
+}
+.search{
+    width:300px;
+    padding:0.5rem 1rem;
+    border-style: none;
+    border-radius: 40px;
+    background-color:#DDDDDD;
 }

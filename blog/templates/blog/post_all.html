@@ -15,15 +15,21 @@
         <h6 class="best-post-title">인기 top5 게시글</h6>
         {% for post in sorted %}
         <div class="best-post">
-            <div class="best-image">
-                <img src="{{post.image.url}}"/>
-                <div class="best-info">
-                    <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
-                    <p>{{ post.modified_at|date:"Y-N-d" }}</p>
-                    <p>by. {{ post.owner}}</p>
-                    <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
-                    <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
-                </div>
+            <div class="best-box">
+                <a href="{{ post.get_absolute_url }}">
+                   
+                    <img src="{{post.image.url}}"/>
+                    
+                    <div class="best-info">
+                        <div>
+                            <p class="best-info-title">{{ post.title }}</p>
+                            <p>{{ post.modified_at|date:"Y-N-d" }}</p>
+                            <p>by. {{ post.owner}}</p>
+                            <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+                            <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                        </div>
+                    </div>
+                </a>
             </div>
             
         </div>
@@ -32,12 +38,10 @@
         <h6 class="all-post-title">전체글보기</h6>
         <div class="post-search">
             <form class="form-inline my-2 my-lg-0" action="/community/search/" method="POST">{% csrf_token %}
-                <input class="form-control mr-sm-2" type="search" placeholder="Global Search" name="search_word" >
+                <input class="search" type="search" placeholder="Global Search" name="search_word"/>
             </form>
-            <button class="filter">최신순</button>
+            <button class="filter">최신순 <i class="fas fa-caret-down"></i></button>
         </div>
-
-        
             {% for post in posts %}
                 {% if post.secret %}
                     {% if request.user == post.owner %}
@@ -86,20 +90,32 @@
                 {% endif %}
             {% endfor %}
     </div>
-    <br/>
-    <button type="button" class="org-btn-sm" onclick="location.href='{% url 'blog:add'%}'; ">생성</button>
-    <button type="button" class="org-btn-sm" onclick="location.href='{% url 'accounts:base'%}'; ">메인 홈페이지</button>
-    <div>
+
+    <button type="button" class="create-btn" onclick="location.href='{% url 'blog:add'%}'; ">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <div class="pagination">
         <span>
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">Previous Page</a>
+                <a href="?page={{ page_obj.previous_page_number }}">이전</a>
             {% endif %}
 
             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">NextPage</a>
+                <a href="?page={{ page_obj.next_page_number }}">다음</a>
             {% endif %}
         </span>
     </div>
+    <!--
+    <div class="pagination">
+        <span>
+            {#% for page in page_obj %}
+                <a href="?page={#{ page_obj.number }}">{{ page_obj.number }}</a>
+            {#% endfor %}
+        </span>
+    </div>
+    -->
 {% endblock %}
+

@@ -1,33 +1,47 @@
 @import "reset.css";
+@font-face{
+    font-family: 'GmarketSans';
+    src:url('../font/NEXON Lv1 Gothic OTF Bold.woff');
+}
+@font-face{
+    font-family: 'NexonLv1Gothic';
+    src:url('../font/NEXON Lv1 Gothic OTF.woff');
+}
 body{
     text-align:center;
     margin:0;
     font-size: 15px;
     color:#222222;
     background:#FFFAF4;
-    font-family: 'Noto Sans KR',sans-serif;
+    font-family: 'NexonLv1Gothic';
 }
 p{
     line-height: 1.5rem;
 }
 h1{
     font-size:2.5rem;
+    font-family: 'GmarketSans';
 }
 h2{
     font-size:2.3rem;
+    font-family: 'GmarketSans';
 }
 h3{
     font-size:2.0rem;
+    font-family: 'GmarketSans';
 }
 h4{
     font-size:1.7rem;
+    font-family: 'GmarketSans';
 }
 h5{
     font-size:1.5rem;
+    font-family: 'GmarketSans';
 }
 h6{
     font-size:1.3rem;
     margin:20px 0;
+    font-family: 'GmarketSans';
 }
 main{
     margin:75px 0 0 0;
