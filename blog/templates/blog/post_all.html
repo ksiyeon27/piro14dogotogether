@@ -10,46 +10,75 @@
         <h5>물어보개</h5>
         <p>반려견 산책과 관련된 정보와 후기를 사람들과 자유롭게 공유해보세요!</p>
     </div>
-
-    <div class="blog-container">
-        <h6 class="best-post-title">인기 top5 게시글</h6>
-        {% for post in sorted %}
-        <div class="best-post">
-            <div class="best-box">
-                <a href="{{ post.get_absolute_url }}">
-                   
-                    <img src="{{post.image.url}}"/>
+    <div class="blog-top">
+        <div class="blog-container">
+            <h6 class="best-post-title">인기 top5 게시글</h6>
+            {% for post in sorted %}
+            <div class="best-post">
+                <div class="best-box">
+                    <a href="{{ post.get_absolute_url }}">
                     
-                    <div class="best-info">
-                        <div>
-                            <p class="best-info-title">{{ post.title }}</p>
-                            <p>{{ post.modified_at|date:"Y-N-d" }}</p>
-                            <p>by. {{ post.owner}}</p>
-                            <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
-                            <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                        <img src="{{post.image.url}}"/>
+                        
+                        <div class="best-info">
+                            <div>
+                                <p class="best-info-title">{{ post.title }}</p>
+                                <p>{{ post.modified_at|date:"Y-N-d" }}</p>
+                                <p>by. {{ post.owner}}</p>
+                                <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+                                <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+                
             </div>
-            
-        </div>
-        {% endfor %}
+            {% endfor %}
 
-        <h6 class="all-post-title">전체글보기</h6>
-        <div class="post-search">
-            <form class="form-inline my-2 my-lg-0" action="/community/search/" method="POST">{% csrf_token %}
-                <input class="search" type="search" placeholder="Global Search" name="search_word"/>
-            </form>
-            <button class="filter">최신순 <i class="fas fa-caret-down"></i></button>
-        </div>
-            {% for post in posts %}
-                {% if post.secret %}
-                    {% if request.user == post.owner %}
+            <h6 class="all-post-title">전체글보기</h6>
+            <div class="post-search">
+                <form class="form-inline my-2 my-lg-0" action="/community/search/" method="POST">{% csrf_token %}
+                    <input class="search" type="search" placeholder="검색어를 입력한 후 Enter를 눌러주세요." name="search_word"/>
+                </form>
+                <button class="filter">최신순 <i class="fas fa-caret-down"></i></button>
+            </div>
+                {% for post in posts %}
+                    {% if post.secret %}
+                        {% if request.user == post.owner %}
+                        <div class="post-content">
+                            <div class="post-text">
+                                <span>{{ post.modified_at|date:"Y-N-d" }}</span>
+                                <span>by. {{ post.owner}}</span>
+                                <h6><a href="{{ post.get_absolute_url }}"><i class="fas fa-lock"></i> {{ post.title }}</a></h6>
+                                <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+                                <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                            </div>
+                            <div class="post-image">
+                                <img src="{{post.image.url}}"/>
+                            </div>
+                        </div>
+                        
+                        {% else %}
+                        <div class="post-content">
+                            <div class="post-text">
+                                <span>{{ post.modified_at|date:"Y-N-d" }}</span>
+                                <span>by. 비공개</span>
+                                <h6>비밀글입니다.</a></h6>
+                                <span><i class="far fa-comment-dots"></i> 비공개</span>
+                                <span><i class="far fa-heart"></i> 비공개</span>
+                            </div>
+                            <div class="post-image">
+                                <i class="fas fa-images"></i>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% else %}
                     <div class="post-content">
                         <div class="post-text">
                             <span>{{ post.modified_at|date:"Y-N-d" }}</span>
                             <span>by. {{ post.owner}}</span>
-                            <h6><a href="{{ post.get_absolute_url }}"><i class="fas fa-lock"></i> {{ post.title }}</a></h6>
+                            <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
+                            <p>{{post.content}}</p>
                             <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
                             <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
                         </div>
@@ -58,37 +87,9 @@
                         </div>
                     </div>
                     
-                    {% else %}
-                    <div class="post-content">
-                        <div class="post-text">
-                            <span>{{ post.modified_at|date:"Y-N-d" }}</span>
-                            <span>by. 비공개</span>
-                            <h6>비밀글입니다.</a></h6>
-                            <span><i class="far fa-comment-dots"></i> 비공개</span>
-                            <span><i class="far fa-heart"></i> 비공개</span>
-                        </div>
-                        <div class="post-image">
-                            <i class="fas fa-images"></i>
-                        </div>
-                    </div>
                     {% endif %}
-                {% else %}
-                <div class="post-content">
-                    <div class="post-text">
-                        <span>{{ post.modified_at|date:"Y-N-d" }}</span>
-                        <span>by. {{ post.owner}}</span>
-                        <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
-                        <p>{{post.content}}</p>
-                        <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
-                        <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
-                    </div>
-                    <div class="post-image">
-                        <img src="{{post.image.url}}"/>
-                    </div>
-                </div>
-                
-                {% endif %}
-            {% endfor %}
+                {% endfor %}
+        </div>
     </div>
 
     

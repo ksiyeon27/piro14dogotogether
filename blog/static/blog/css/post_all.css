@@ -1,3 +1,10 @@
+.main{
+    background-color:rgb(247, 247, 246);
+}
+.blog-top{
+    display:flex;
+    justify-content: center;
+}
 /*-----header-----*/
 .blog-header{
     color:white;
@@ -11,8 +18,6 @@
 /*-----grid content-----*/
 .blog-container{
     display:grid;
-    position: relative;
-    left:15%;
     margin:6% 0 3% 0;
     width:70vw;
     justify-content:center;

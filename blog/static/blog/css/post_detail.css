@@ -1,9 +1,75 @@
-.create-container{
-    width:70vw;
-    display: grid;
-    grid-template-rows: repeat(6,auto);
+body{
+    background-color:white;
 }
-.title-input{
-    padding:1rem;
-    border-bottom:1px solid black;
+main{
+    display:flex;
+    justify-content: center;
+    vertical-align: center;
+    flex-direction: column;
+}
+hr{
+    border:0;
+    height:1px;
+    background-color:lightgray;
+    margin:30px 0;
+}
+a{
+    text-decoration: none;
+    color:#8B8B8B;
+}
+.post-container{
+    width:70vw;
+    margin:5%;
+    border:1px solid lightgray;
+    border-radius: 10px;
+    padding:8rem 8rem 0 8rem;
+}
+/*--------post header--------*/
+
+.post-header h3{
+    margin:3rem 0 1.3rem 0;
+}
+.post-header .post-title-info{
+    color:rgb(87, 87, 87);
+    font-size:0.7rem;
+    margin:10px;
+}
+
+/*--------post content--------*/
+.post-content{
+    margin:5% 0;
+}
+.post-content img{
+    width:30vw;
+    height:30vw;
+    object-fit: contain;
+}
+.post-content p{
+    line-height:1.8rem;
+    font-size:1rem;
+    margin-top:6%;
+}
+
+/*--------post like,comment count,delete,modify--------*/
+
+
+/*--------comment--------*/
+/*--------page linker--------*/
+.page-linker{
+    width:100%;
+    margin-bottom:5%;
+}
+.before-page{
+    margin-right: 40px;
+}
+.next-page{
+    margin-left:40px;
+}
+
+.other-title{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width:100px;
+    color:#555555;
 }
