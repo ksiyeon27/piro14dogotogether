@@ -15,16 +15,16 @@
             {% csrf_token %}
             <p class="usernameform">
                 {{ form.username|add_class:"input-lg" }}
-                {% if username.errors %}
-					{% for error in username.errors %}
+                {% if form.username.errors %}
+					{% for error in form.username.errors %}
 					<p class="error_message_lg">{{ error }}</p>
 					{% endfor %}
 				{% endif %}
             </p>
             <p class="passwordform">
                 {{ form.password|add_class:"input-pw" }}
-                {% if password.errors %}
-					{% for error in password.errors %}
+                {% if form.password.errors %}
+					{% for error in form.password.errors %}
 					<p class="error_message_pw">{{ error }}</p>
 					{% endfor %}
 				{% endif %} 
