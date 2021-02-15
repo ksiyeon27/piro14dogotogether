@@ -6,14 +6,11 @@
 {% endblock %}
 {% block body %}
     <div class="wrap">
-        <div class="left_container">
-            <img src="" alt="사진" style="width:100%; height:100%; object-fit:cover;">
-        </div>
+        <div class="left_container"></div>
         <div class="right_container">
             <h3 class="header_text"><strong>산책할 때 <span>참고하게!</span></strong></h3>
             <p class="main_text">우리 강아지는 활동량이 얼마나 될까?<br />산책 시간과 강도를 결정할 때 필요한 반려견의 활동량과<br />건강 정보, 성향을 간단하게 알아보고 참고해보세요!</p>
             <a href="{% url 'calculator:calculate' %}">시작하기</a>
-        </div>
-        
+        </div>  
     </div>
 {% endblock %}
