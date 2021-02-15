@@ -14,33 +14,62 @@
                 <div class="submit1">
                     <p id="breeds_label">{{form.breeds.label}}</p>
                     <p>{{form.breeds}}</p>
+                    <br />
+                    <br />
                     <p id="current_weight_label">{{form.current_weight.label}}</p>
                     <p>{{form.current_weight}}</p>
-                    <button type='button' name='next' onclick="
-                    document.querySelector('.submit1').style.display='none';
-                    document.querySelector('.submit2').style.display='block';
-                    document.querySelector('.submit_btn').style.display='block';
-                    document.querySelector('.p_text').innerHTML='<strong>강아지의 외형과 가장 가까운 것은 무엇인가요?</strong>';
-                    ">다음</button>
+                    {% if form.current_weight.errors %}
+                        {% for error in form.current_weight.errors %}
+                        <p class="error_message_pw">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    <button type='button' name='next' onclick="next_button()">다음</button>
                 </div>
                 <div class="submit2">
                     <div class="item_array">
                         {% for bcs in form.bcs %}
                             <div class="bcs_level">
-                                <label for="id_bcs_{{forloop.counter0}}"><img src="http://placekitten.com/300/300" alt="사진"></label><br /><br />
+                                <label for="id_bcs_{{forloop.counter0}}"><img src="../../static/calculator/dogimage/{{forloop.counter0}}.png" alt="사진" style="width:300px; height:300px;"></label><br /><br />
                                 {{bcs}}<br />
                             </div>
                         {% endfor %}
                     </div>
-                    <button type='button' name='previous' onclick="
-                    document.querySelector('.submit1').style.display='block';
-                    document.querySelector('.submit2').style.display='none';
-                    document.querySelector('.submit_btn').style.display='none';
-                    document.querySelector('.p_text').innerHTML='<strong>강아지의 기본 정보를 입력해주세요!</strong>';
-                    ">이전</button>
+                    <button type='button' name='previous' onclick="previous_button()">이전</button>
                 </div>
-                <input class='submit_btn' type='submit' name='submit' />            
+                <input class='submit_btn' type='submit' name='submit' value='결과보기' />
+                {% if form.non_field_errors %}
+					{% for error in form.non_field_errors %}
+					<p class="error_message">{{ error }}</p>
+					{% endfor %}
+				{% endif %}            
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    var Change ={
+        setdisplay:function(selector, value){
+            document.querySelector(selector).style.display = value;
+        },
+        setinnerHTML:function(selector, value){
+            document.querySelector(selector).innerHTML=value;
+        }
+    }
+
+    function next_button(){
+        Change.setdisplay('.submit1', 'none');
+        Change.setdisplay('.submit2', 'block');
+        Change.setdisplay('.submit_btn', 'block');
+        Change.setinnerHTML('.p_text', '<strong>강아지의 외형과 가장 가까운 것은 무엇인가요?</strong>');
+    }
+
+    function previous_button(){
+        Change.setdisplay('.submit1', 'block');
+        Change.setdisplay('.submit2', 'none');
+        Change.setdisplay('.submit_btn', 'none');
+        Change.setinnerHTML('.p_text', '<strong>강아지의 기본 정보를 입력해주세요!</strong>');
+    }
+</script>
 {% endblock %}

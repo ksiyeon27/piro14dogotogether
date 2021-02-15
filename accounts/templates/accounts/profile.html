@@ -8,19 +8,33 @@
 {% block body %}
     <div class="main_container">
         <div class="profile_container">
+            <div class="header_text"><strong>내 프로필</strong></div>
             {% if profile.nickname and profile.image.url %}
-                <div><img src="{{profile.image_thumbnail.url}}" style="width:80px; height: 80px;"></div>  
-                <br />  
-                <p><strong>{{profile.nickname}}</strong></p>
-                <p><small>{{profile.email}}</small></p>
-                <br /><br />
-                <a class="profile_edit" href="{% url 'accounts:profile_edit' %}">편집하기</a>
+                <div class="container_flex">
+                    <div class="image_container"><img src="{{profile.image_thumbnail.url}}" style="width:7rem; height: 7rem; object-fit:cover;"></div>    
+                    <div class="information_container">
+                        <div class="label_box">
+                            <p>닉네임</p>
+                            <p>이름</p>
+                            <p>ID</p>
+                            <p>Email</p>
+                        </div>
+                        <div class="field_box">
+                            <p>{{profile.nickname}}</p>
+                            <p>{{profile.name}}</p>
+                            <p>{{request.user.username}}</p>
+                            <p>{{profile.email}}</p>
+                        </div>
+                    </div>
+                </div>
             {% else %}
                 <div class="none_img"><i class="far fa-user"></i></div>
                 <p>등록된 프로필이 없습니다.</p>
                 <p>편집하러 가시겠습니까?</p>
-                <div class="profile_edit_new"><a href="{% url 'accounts:profile_edit' %}">편집하기</a></div>               
+                <br />
             {% endif %}
+            <a class="profile_edit" href="{% url 'accounts:profile_edit' %}">편집하기</a>
+            <a class="profile_edit" href="{% url 'accounts:user_delete' %}">계정탈퇴</a>
         </div>
     </div>
 {% endblock %}
