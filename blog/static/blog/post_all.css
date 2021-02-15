@@ -1,0 +1,104 @@
+/*-----header-----*/
+.blog-header{
+    color:white;
+    background-color:#FFA133;
+    text-align: left;
+    padding:3rem 14rem;
+}
+.blog-header p{
+    margin-top:1rem;
+}
+/*-----grid content-----*/
+.blog-container{
+    display:grid;
+    margin:6% 10%;
+    width:70vw;
+    justify-content:center;
+    align-items:center;
+    grid-templates-rows:repeat(7,14.3%);
+    grid-templates-columns:repeat(5,200px);
+}
+/*-----best5 content-----*/
+.best-post-title{
+    grid-column:1/6;
+    text-align:left;
+    margin:1.5rem 0.8rem;
+}
+.best-post .best-image {
+    position:relative;
+    z-index:1;
+}
+.best-post .best-image img{
+    
+    width:200px;
+    height:200px;
+    object-fit:cover;
+    margin:0 10px;
+}
+.best-post .best-info{
+    background: #FFFFFF;
+    z-index:2;
+    position:relative;
+}
+.best-post .best-info h6{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width:200px;
+    margin:0;
+    padding:0.9rem;
+}
+/*-----all post list content-----*/
+.all-post-title{
+    grid-column:span 3;
+    text-align:left;
+    margin:1.5rem 0.8rem;
+}
+.post-search{
+    grid-column:span 2;
+    text-align:right;
+    margin:1.5rem 0.8rem;
+}
+form{
+    display:inline;
+}
+.post-content{
+    grid-column:span 5;
+    border-bottom:1px solid gray;
+    padding:3rem 1rem;
+}
+.post-content div{
+    display:inline-block;
+}
+.post-text {
+    text-align:left;
+    float:left;
+}
+.post-text span{
+    margin:0 1rem 0 0;
+}
+.post-text h6{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width:750px;
+    margin:0;
+    padding:1rem 0;
+}
+.post-text p{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width:750px;
+    margin-bottom:1rem;
+}
+.post-image{
+    float:right;
+    color:gray;
+}
+.post-image img{
+    width:150px;
+    height:150px;
+    object-fit:cover;
+    background-color:lightgray;
+}

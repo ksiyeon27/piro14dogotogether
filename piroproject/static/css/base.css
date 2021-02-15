@@ -3,7 +3,7 @@ body{
     text-align:center;
     margin:0;
     font-size: 15px;
-    color:#111111;
+    color:#222222;
     background:#FFFAF4;
     font-family: 'Noto Sans KR',sans-serif;
 }
@@ -40,6 +40,7 @@ main{
     background-color: rgba(0,0,0,0);
     padding:9px 12px;
     margin:1.5rem 0;
+    color:#E87400;
 }
 .org-btn-sm>a{
     text-decoration: none;
@@ -47,6 +48,7 @@ main{
 }
 .org-btn-sm:hover{
     background-color: #E87400;
+    color:white;
     transition:0.3s;
 }
 .org-btn-sm:hover a{
