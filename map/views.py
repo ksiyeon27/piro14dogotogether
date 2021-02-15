@@ -2,13 +2,11 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.conf import settings
 import json
-# Create your views here.
+from .models import placeAddByUser
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.shortcuts import render, get_object_or_404, HttpResponse
-from django.conf import settings
-import json
 # Create your views here.
+
 
 def showmap(request):
     with open('static/map/parks.json', encoding='utf-8') as json_file:
@@ -26,7 +24,22 @@ def showmap(request):
     API_KEY = getattr(settings, 'API_KEY', 'API_KEY')
     parkJson = json.dumps(parkdict, ensure_ascii=False)
 
-    return render(request, 'map/showmap.html', {'parkJson': parkJson, 'API_KEY' : API_KEY})
+    placedict=[]
+    places = placeAddByUser.objects.all()
+    for place in places:
+        content= {
+            "title":place.name,
+            "mapx":str(place.xmap),
+            "mapy":str(place.ymap),
+            "author":str(place.created_by),
+        }
+        placedict.append(content)
+    
+    placeJson = json.dumps(placedict, ensure_ascii=False)
+    user={'user':str(request.user)}
+    userJson=json.dumps(user)
+
+    return render(request, 'map/showmap.html', {'parkJson': parkJson, 'API_KEY' : API_KEY,'placeJson':placeJson,'userJson':userJson})
 
 def showanimalavail(request):
     with open('static/json/animalavail.json', encoding='utf-8') as json_file:
@@ -65,4 +78,29 @@ def testmap(request):
     parkJson = json.dumps(parkdict, ensure_ascii=False)
     return render(request, 'map/testmap.html', {'parkJson': parkJson})
 
+@csrf_exempt
+def addplace(request):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        new_place=placeAddByUser()
+        new_place.name=req['title']
+        new_place.xmap=req['xmap']
+        new_place.ymap=req['ymap']
+        new_place.created_by=request.user
+        new_place.save()
+        return JsonResponse({'id': str(new_place.id)})
+    elif request.method == 'GET':
+        return render(request, 'base.html')
 
+
+@csrf_exempt
+def deleteplace(request):
+    if request.method=='POST':
+       req = json.loads(request.body)
+       title=req['title']
+       place=placeAddByUser.objects.filter(name=title).first()
+       place.delete()
+       return JsonResponse({'id': str(title)})
+    
+    elif request.method == 'GET':
+        return render(request, 'base.html')
