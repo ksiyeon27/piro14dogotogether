@@ -1,9 +1,153 @@
-.create-container{
-    width:70vw;
-    display: grid;
-    grid-template-rows: repeat(6,auto);
+.create-container {
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(6, auto);
+  background-color: white;
 }
-.title-input{
-    padding:1rem;
-    border-bottom:1px solid black;
+.title-input {
+  width: 80%;
+  padding: 1rem;
+  font-weight: bold;
+  border: none;
+  border-bottom: 1px solid black;
+  text-align: center;
+  color: black;
+  font-size: 1.3rem;
+}
+.title-input:focus {
+  outline: none;
+  color: black;
+}
+
+.secret-input {
+  display: none;
+}
+
+.content-input {
+  width: 80%;
+  height: 20rem;
+  border: 1px solid black;
+  border-radius: 6px;
+  padding-left: 15px;
+  color: black;
+}
+
+.content-input:focus {
+  outline: none;
+  color: black;
+}
+
+.image-section {
+  margin-top: 1rem;
+  overflow: hidden;
+  width: 80%;
+  margin-left: 10%;
+}
+.image-section span {
+  width: 5%;
+  margin-right: 0.5%;
+  text-align: left;
+}
+.image-section .upload-name {
+  display: inline-block;
+  padding: 0.5em 0.75em; /* label의 패딩값과 일치 */
+  width: 85%;
+  margin-right: 0.5%;
+  height: 25px;
+  font-family: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  -webkit-appearance: none; /* 네이티브 외형 감추기 */
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.image-section .image-input {
+  display: inline-block;
+  padding: 0.5em 0.75em;
+  font-family: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: white;
+  border: 1px solid #ebebeb;
+  border-bottom-color: #e2e2e2;
+  border-radius: 0.25em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 25px;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding-left: 5px;
+  color: gray;
+  position: absolute;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.image-section .file-upload-button {
+  display: inline-block;
+  padding: 0.25rem;
+  width: 8%;
+  height: 25px;
+  color: #999;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 0.25em;
+  box-sizing: border-box;
+} /* named upload */
+
+.tags-section {
+  margin-top: 1rem;
+  overflow: hidden;
+  width: 80%;
+  margin-left: 10%;
+}
+.tags-section span {
+  margin-right: 1.5%;
+  margin-top: 3px;
+  width: 4%;
+  text-align: left;
+}
+.tags-input {
+  width: 94.5%;
+  height: 25px;
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  padding-left: 5px;
+  color: gray;
+}
+small {
+  font-size: 12px;
+  text-align: right;
+  margin-right: 10%;
+  margin-top: 3px;
+}
+
+.submit-btn {
+  display: block;
+  margin: 0 auto;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+
+  width: 10%;
+  border-radius: 20rem;
+  box-sizing: border-box;
+  border-color: transparent;
+  padding: 0.5rem;
+  background-color: #ff9d00;
+  color: white;
+}
+
+.submit-btn:hover {
+  background-color: #e87400;
 }
