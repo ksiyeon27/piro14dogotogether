@@ -24,8 +24,8 @@ class placeAddByUser(models.Model):
     CATEGORY_CHOICES = ((TYPE, "식당"), (TYPE, "카페"), (TYPE, "공원"))
     name = models.CharField(max_length=30)
     region = models.CharField(max_length=30, blank=True)
-    xmap = models.DecimalField(max_digits=9, decimal_places=6)
-    ymap = models.DecimalField(max_digits=9, decimal_places=6)
+    xmap = models.DecimalField(max_digits=20, decimal_places=13)
+    ymap = models.DecimalField(max_digits=20, decimal_places=13)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=10, null=True, blank=True) #카테고리 추가
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_DEFAULT, default="탈퇴한 유저")
     available = models.BooleanField(default=True)

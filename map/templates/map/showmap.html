@@ -200,6 +200,54 @@ function placesSearchCB(data, status, pagination) {
     }
 }
 
+//placeaddbyuser 위치 뛰우기
+var placesaddbyuser = JSON.parse("{{ placeJson|escapejs }}");
+console.log(placesaddbyuser);
+var usermarkers=[];
+var imageSize = new kakao.maps.Size(24, 35);
+var imageadd = "https://upload.wikimedia.org/wikipedia/commons/f/f2/678111-map-marker-512.png";
+var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
+function overraycustomuser(marker, place) {
+    kakao.maps.event.addListener(marker, 'mouseover', function() {
+            var iwContent='<div class="wrap">' +
+                '    <div class="info">' +
+                '        <div class="title">' +
+                place.title +
+                '        </div>' +
+                '        <div class="body">' +
+                '            <div class="desc">' +
+                '                <div class="ellipsis">' + place.author + '</div>' +
+                '            </div>' +
+                '        </div>' +
+                '    </div>' +
+                '</div>',
+                iwRemoveable=true;
+            var infowindow=new kakao.maps.InfoWindow({
+                content:iwContent,
+                removable:iwRemoveable
+            });
+          kakao.maps.event.addListener(marker, 'mouseover', function() {
+            infowindow.open(map,marker)
+          })
+          kakao.maps.event.addListener(marker, 'mouseout', function(mouseEvent) {
+            infowindow.close()
+          })
+
+        })
+      }
+    for (var i = 0; i < placesaddbyuser.length; i++) {
+
+        var usermarker = new kakao.maps.Marker({
+            map: map,
+            position: new kakao.maps.LatLng(placesaddbyuser[i].mapx, placesaddbyuser[i].mapy),
+            title: placesaddbyuser[i].title,
+            image: markerImage
+                });
+
+        usermarkers.push(usermarker);
+        overraycustomuser(usermarker, placesaddbyuser[i]);
+    }
+
 // 검색 결과 목록과 마커를 표출하는 함수입니다
 function displayPlaces(places) {
 
@@ -268,15 +316,30 @@ function getListItem(index, places) {
 
     if (places.road_address_name) {
         itemStr += '    <span>' + places.road_address_name + '</span>' +
-                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
+                    '   <span class="jibun gray" id="address_name" >' +  places.address_name  + '</span>';
     } else {
-        itemStr += '    <span>' +  places.address_name  + '</span>'; 
+        itemStr += '    <span id="address_name">' +  places.address_name  + '</span>'; 
     }
                  
-      itemStr +=    '  <span class="tel">' + places.phone  + '</span>' +
+      itemStr +=    '  <span class="tel">' + places.phone  + '</span>';
                     //카테고리 부분 추가 필요
-                    '</div>' +'<button id="addplace" onclick="registerplace()">장소추가</button>'
-                 '</div>'; //추가한 div의 닫는 태그        
+        var isregister = 0;     
+        console.log(usermarkers);       
+        for ( var i=0; i<usermarkers.length; i++ ) {
+            if (usermarkers[i].getTitle() ==  places.place_name) {
+                isregister=isregister+1;
+             }
+         }
+         console.log(isregister);
+         if(isregister == 0){
+             itemStr+='<button id="addplace_' + (index+1) + '" onclick="registerplace(this.id)">장소추가</button>';
+             
+         }
+         else{
+             itemStr+='<button id="addplace_' + (index+1) + '" onclick="placedelete(this.id)">장소 삭제</button>';
+         }
+                    
+          itemStr+='</div>' +'</div>'; //추가한 div의 닫는 태그        
 
     el.innerHTML = itemStr;
     el.className = 'item';
@@ -335,11 +398,11 @@ function checkMarkers(){
     var x = document.getElementById("searchmarker");
     if (x.style.opacity==="1"){
         x.style.opacity="0.5";
-        showMarkers(markers);
+        hideMarkers(markers);
     }
     else{
         x.style.opacity="1";
-        hideMarkers(markers);
+        showMarkers(markers);
     }
 
 }
@@ -389,21 +452,48 @@ function removeAllChildNods(el) {
         el.removeChild (el.lastChild);
     }
 }
+//overray custom for parkmarker
+function overraycustompark(marker, place) {
+    kakao.maps.event.addListener(marker, 'mouseover', function() {
+            var iwContent='<div class="wrap">' +
+                '    <div class="info">' +
+                '        <div class="title">' +
+                place.title +
+                '        </div>' +
+                '        <div class="body">' +
+                '            <div class="desc">' +
+                '                <div class="ellipsis">' + place.addr1 + '</div>' +
+                '            </div>' +
+                '        </div>' +
+                '    </div>' +
+                '</div>',
+                iwRemoveable=true;
+            var infowindow=new kakao.maps.InfoWindow({
+                content:iwContent,
+                removable:iwRemoveable
+            });
+          kakao.maps.event.addListener(marker, 'mouseover', function() {
+            infowindow.open(map,marker)
+          })
+          kakao.maps.event.addListener(marker, 'mouseout', function(mouseEvent) {
+            infowindow.close()
+          })
+
+        })
+      }
 
 //공원 마커 어레이
 var parkmarkers = []
 
 //공원 마크(현재위치 주변) 띄우기
-
-function showParkMarker(map) {
     var parks = JSON.parse("{{ parkJson|escapejs }}");
+    console.log(parks);
     var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 		//공원용 마크 이미지
-    for (var i = 0; i < parks.length; i++) {
+    var imageSize = new kakao.maps.Size(24, 35);
 
-        var imageSize = new kakao.maps.Size(24, 35);
-
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+        for (var i = 0; i < parks.length; i++) {
 
         var parkmarker = new kakao.maps.Marker({
             map: null,
@@ -413,10 +503,10 @@ function showParkMarker(map) {
                 });
 
         parkmarkers.push(parkmarker);
-    }
-
-
-
+        overraycustompark(parkmarker, parks[i]);
+        }
+   
+function showParkMarker() {
     var radius = 2000;
     var c1 = map.getCenter();
     for ( var i = 0; i < parkmarkers.length; i++ ) {
@@ -437,67 +527,16 @@ function checknearParkMarker() {
     var x = document.getElementById("nearpark");
     if (x.style.opacity==="1"){
         x.style.opacity="0.5";
-        showParkMarker(map);
+        showParkMarker();
     }
     else{
         x.style.opacity="1";
-        showParkMarker(null);
+        hideMarkers(parkmarkers);
     }
 }
  
 //모든 공원 마크 띄우기(save용)
-        var parks = JSON.parse("{{ parkJson|escapejs }}");
- 
-		console.log(parks)
-
-		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-		//공원용 마크 이미지
-		for (var i = 0; i < parks.length; i++) {
-
-  			var imageSize = new kakao.maps.Size(24, 35);
-
-  			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-  			var parkmarker = new kakao.maps.Marker({
-    			
-    			position: new kakao.maps.LatLng(parks[i].mapx, parks[i].mapy),
-    			map:null,
-                title: parks[i].title,
-    			image: markerImage
-				  });
-
-            parkmarkers.push(parkmarker);
-		// 공원 데이터 마크에 띄우기
-			(function(marker, place) {
-				kakao.maps.event.addListener(marker, 'mouseover', function() {
-				    var iwContent='<div class="wrap">' +
-						'    <div class="info">' +
-						'        <div class="title">' +
-						place.title +
-						'        </div>' +
-						'        <div class="body">' +
-						'            <div class="desc">' +
-						'                <div class="ellipsis">' + place.addr1 + '</div>' +
-						'            </div>' +
-						'        </div>' +
-						'    </div>' +
-						'</div>',
-						iwRemoveable=true;
-					var infowindow=new kakao.maps.InfoWindow({
-						content:iwContent,
-						removable:iwRemoveable
-					});
-
-				  kakao.maps.event.addListener(marker, 'mouseover', function() {
-					infowindow.open(map,marker)
-				  })
-				  kakao.maps.event.addListener(marker, 'mouseout', function(mouseEvent) {
-					infowindow.close()
-				  })
-
-				})
-			  })(parkmarker, parks[i])
-			}            
+             
 
 function checkallParkMarker() {
     var x = document.getElementById("allpark");
@@ -756,8 +795,90 @@ function getTimeHTML(distance) {
 //반경 확인용 끝
 
 //장소 추가
-function registerplace() {
+var user = JSON.parse("{{ userJson|escapejs }}");
+console.log(user);
+var newusermarker = new kakao.maps.Marker();
+function registerplace(clicked_id) {
+ var request = new XMLHttpRequest();
+ var placeid=document.getElementById(clicked_id);
+ var div = placeid.closest('div');
+ var title = div.querySelector('h5').textContent;
+ var address_name=div.querySelector('#address_name').textContent;
+ var geocoder = new kakao.maps.services.Geocoder();
+ var callback = function(result, status) {
+    if (status === kakao.maps.services.Status.OK) {
+        console.log(title,address_name,result[0].y, result[0].x);
+        var url = "ajax/";
+        request.open("POST", url, true);
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        var xmap=result[0].y;
+        var ymap=result[0].x;
+        var info={'title':title,'address':address_name,'xmap':xmap,'ymap':ymap,'author':user.user};
+        request.send(JSON.stringify(info));
+        var imageadd = "https://upload.wikimedia.org/wikipedia/commons/f/f2/678111-map-marker-512.png";
+        var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
+        var coord=new kakao.maps.LatLng(xmap, ymap);
+        newusermarker.setMap(map);
+        newusermarker.setPosition(coord);
+        newusermarker.setTitle(title);
+        newusermarker.setImage(markerImage);
+        overraycustomuser(newusermarker,info);
+        var handleResponse = () => {
+            if (request.status <= 400) {   
+                placeid.innerHTML='장소 삭제';
+                placeid.onclick = () => {
+                    placedelete(clicked_id)
+                } 
+                
 
+                }
+        };
+        request.onreadystatechange = () => {
+            if (request.readyState === XMLHttpRequest.DONE) {
+             handleResponse();
+             }
+        };
+    }
+ };
+geocoder.addressSearch(address_name, callback);
+
+}
+
+//장소삭제
+function placedelete(clicked_id){
+    var request = new XMLHttpRequest();   
+    var placeid=document.getElementById(clicked_id);
+    var div = placeid.closest('div');
+    var title = div.querySelector('h5').textContent;
+    console.log(title);
+    var url = "ajax/delete";
+    request.open("POST", url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    var info={'title':title};
+    request.send(JSON.stringify(info));
+    for ( var i=0; i<usermarkers.length; i++ ) {
+            if (usermarkers[i].getTitle() === title) {
+                usermarkers[i].setMap(null);
+             }
+         }
+    
+    if(newusermarker.getTitle() === title) {
+        newusermarker.setMap(null);
+        
+    }
+    var handleResponse = () => {
+            if (request.status <= 400) {   
+                placeid.innerHTML='장소 추가';
+                placeid.onclick = () => {
+                    registerplace(clicked_id)
+                } 
+                }
+        };
+        request.onreadystatechange = () => {
+            if (request.readyState === XMLHttpRequest.DONE) {
+             handleResponse();
+             }
+        };
 }
 </script>
 </body>
