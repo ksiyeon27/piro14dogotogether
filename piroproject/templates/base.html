@@ -20,16 +20,16 @@
         <ul class="menu">
         {% if user.is_authenticated %}
             <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
-            <li><a href="{% url 'calculator:calculate' %}">참고하개</a></li>
+            <li><a href="{% url 'calculator:firstpage' %}">참고하개</a></li>
             <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
             <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
             <li><a href="{% url 'accounts:logout' %}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
             <li><a href="{% url 'accounts:profile' %}">내프로필</a></li>
         {% else %}
             <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
-            <li><a href="{% url 'calculator:calculate' %}">참고하개</a></li>
+            <li><a href="{% url 'calculator:firstpage' %}">참고하개</a></li>
             <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
-            <li><a href="#">알아보개</a></li>
+            <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
             <li><a href="{% url 'accounts:login' %}">로그인</a></li>
             <li><a href="{% url 'accounts:signup' %}">회원가입</a></li>
         {% endif %}
@@ -64,7 +64,7 @@
                 <div class="main-item">
                     <i class="fas fa-paw"></i>
                     <h6>참고하개</h6>
-                    <p> 우리 강아지는 산책을 얼마나 시켜야 할까? 활동량과 기초대사량,적정체중,견종별 특징까지 한번에 알아보기!</p>
+                    <p> 우리 강아지는 산책을 얼마나 시켜야 할까? 활동량, 기초대사량, 적정체중, 견종별 특징까지 한번에 알아보기!</p>
                     <button><a href="{% url 'calculator:calculate' %}">바로가기</a></button>
                 </div>
 
@@ -105,7 +105,9 @@
                     </ul>
                     <button class="org-btn-sm"><a href="{% url 'blog:post_list' %}">더 알아보기</a></button>
                 </div>
-                <img class="mainDog" src="{% static 'img/mainDog.png' %}">
+
+                
+                <img class="mainDog" src="{% static 'img/mainDog.png' %}"/>
             </section>
         {% endblock %}
     </main>

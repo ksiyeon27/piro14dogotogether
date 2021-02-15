@@ -1,70 +1,157 @@
-/* top_container */
 .wrap {
     height:100%;
-}
-
-.top_container {
-    width:50%;
     margin: 0 auto;
 }
 
-.top_container .dog_breed {
-    border-left: 1px solid grey;
-    border-right: 1px solid grey;
-    border-width: 0.3rem;
-    padding: 0 0.3rem;
-    font-size: 1.2rem;
+#image_div {
+    text-align:left;
 }
 
-.calculate_container {
+.dog_image {
+    border: 1px solid black;
+    border-radius: 100%;
+    width: 8rem;
+    height: 8rem;
+    object-fit:cover;
+}
+
+.contents_box {
+    height:100%;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    width: 100%;
+}
+
+/* left_container */
+.left_container {
+    width:30%;
+}
+
+.text_container {
+    margin: 0 auto;
+}
+
+.text_container p:first-child {
+    text-align:left;
+    line-height:1.9rem;
+    margin: 2rem 0;
+}
+
+.text_container .dog_breed {
+    border-left: 1px solid #FF9D00;
+    border-right: 1px solid #FF9D00;
+    border-width: 0.5rem;
+    padding: 0 0.8rem;
+    font-size: 1.9rem;
+    font-weight:600;
+}
+
+
+.text_content {
     width:80%;
-    margin: 3rem auto;
-    padding-top: 1rem;
-    border:1px solid grey;
-    border-radius: 2rem;
+    text-align:left;
+    margin-bottom: 3rem;
 }
 
-.upper_content, .lower_content {
-    margin: 0 3rem 0 2rem; 
+.text_content p {
+    line-height: 1.8rem;
+}
+
+.url_btns {
+    display:flex;
+    justify-content: flex-start;
+}
+
+.url_btns a {
+    text-decoration:none;
+    background-color: #FF9D00;
+    box-sizing: border-box;
+    border-radius: 20rem;
+    padding: 1rem 2rem;
+    margin-right:1rem;
+    font-size:1rem;
+    color:white;
+}
+
+.url_btns a:hover {
+    background-color: #E87400;
+}
+
+
+/* right_container */
+
+.right_container {
+    width:30%;
+    margin-top:4rem;
+    border: 2px solid lightgray;
+    border-radius:3rem;
+    box-sizing: border-box;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    padding: 2rem 4rem;
 }
 
 .upper_content p, .lower_content p {
     text-align:left;
-    margin: 0.2rem;
+    margin: 1rem 0;
 }
 
 .upper_content p:nth-child(2), .lower_content p:nth-child(2) {
-    font-size:1.5rem;
-    color:rgb(162, 236, 49)
+    font-size:1.8rem;
+    color:black;
+    font-weight:600;
 }
 
-.upper_content p:last-child{
+
+.upper_content .status_text {
+    overflow:hidden;
     border-bottom: 1px solid grey;
-    padding-bottom: 1.5rem;
 }
 
-.bar-graph-bg{ 
+.status_text p:first-child {
+    float:left;
+}
+
+.status_text p:last-child {
+    float:right;
+}
+
+
+/* 현재체중 <= 적정체중. 현재체중 색: 초록색 */
+.bar-graph-bg1{ 
     width: 100%; background-color: white; border: 1px solid grey; border-radius: 20rem;
     height:0.7rem;
 }
-.bar-graph_section{ 
+.bar-graph_section1{ 
     height:0.7rem;
-    background-color: grey; border: 1px solid grey; box-sizing: border-box; border-radius: 20rem;
+    background-color: #49B497; border: 1px solid #49B497; box-sizing: border-box; border-radius: 20rem;
 }
 
-.lower_content p:first-child {
-    padding-top:1rem;
+/* 현재체중 > 적정체중. 현재체중 색: 초록색 */
+.bar-graph-bg2{ 
+    background-color: #49B497; border: 1px solid #49B497; border-radius: 20rem;
+    width: 100%; height:0.7rem;
+}
+.bar-graph_section2{ 
+    height:0.7rem;
+    background-color: white; border: 1px solid white; box-sizing: border-box; border-radius: 20rem;
 }
 
-.lower_content p:nth-child(3) {
-    border-top: 1px solid grey;
-    padding-top:1rem;
-    margin-top:1rem;
+/* 활동량 그래프 */
+.bar-graph-bg3{ 
+    width: 100%; background-color: white; border: 1px solid grey; border-radius: 20rem;
+    height:0.7rem;
+}
+.bar-graph_section3{ 
+    height:0.7rem;
+    background-color: #FF9D00; border: 1px solid #FF9D00; box-sizing: border-box; border-radius: 20rem;
 }
 
 .less_or_more {
     overflow: hidden;
-    margin-bottom:1rem;
+    margin: 1rem 0;
 }
 
 .less_or_more span:nth-child(1) {
@@ -75,47 +162,5 @@
     float:right;
 }
 
-/* bottom_container */
-.bottom_container {
-    border-radius: 2rem;
-    width:50%;
-    margin: 0 auto;
-}
 
-.text_header {
-    font-size: 1.2rem;
-}
 
-.text_header p {
-    margin: 2.5rem 0 0.5rem 0;
-}
-
-.empty_div {
-    height:1rem; width: 15%;
-    border-bottom: 1px solid grey;
-    margin: 0 auto;
-}
-
-.text_content {
-    width:80%;
-    margin: 0 auto;
-    background-color: lightgray;
-}
-
-.url_btns {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.url_btns a {
-    text-decoration:none;
-    border:1px solid gray;
-    background-color: grey;
-    box-sizing: border-box;
-    border-radius: 20rem;
-    padding: 0.4rem 1rem;
-    margin: 0 0.5rem;
-    font-size:0.7rem;
-    color:white;
-}
