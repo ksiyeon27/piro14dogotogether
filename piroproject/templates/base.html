@@ -20,7 +20,7 @@
         <ul class="menu">
         {% if user.is_authenticated %}
             <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
-            <li><a href="{% url 'calculator:firstpage' %}">참고하개</a></li>
+            <li><a href="{% url 'calculator:calculate'%}">참고하개</a></li>
             <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
             <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
             <li><a href="{% url 'accounts:logout' %}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
