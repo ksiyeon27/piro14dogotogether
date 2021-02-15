@@ -8,103 +8,108 @@
 
 {% block body %}
 <div class="post-container">
-    <div class="tag-list">
-        {% get_tags_for_object object as "tags" %}
-        {% for tag in tags %}
-            <a href="{% url 'blog:tagged_object_list' tag.name %}">{{ tag.name }}</a>
-        {% endfor %}
-    </div>
+    <div class="post-grid">
+        <div class="tag-list">
+            {% get_tags_for_object object as "tags" %}
+            {% for tag in tags %}
+                <a href="{% url 'blog:tagged_object_list' tag.name %}">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
 
-    <div class="post-header">
-        <!--<a href="{% url 'blog:tag_cloud' %}"><span class="btn btn-info btn-sm">Tag Cloud</span></a>-->
-        <h3 class="post-title">{{ object.title }}</h3>
+        <div class="post-header">
+            <!--<a href="{% url 'blog:tag_cloud' %}"><span class="btn btn-info btn-sm">Tag Cloud</span></a>-->
+            <h3 class="post-title">{{ object.title }}</h3>
+            
+            <span class="post-title-info"> {{ object.created_at|date:'Y-m-d'}} </span>
+            <span class="post-title-info"> by.{{ object.owner}} </span>
+            <hr>
+        </div>
+
+        <div class="post-content">
+            <a href="{{ object.image.url }}">
+                <img class="post-img" src="{{ object.image.url }}" alt="이미지">
+            </a>
+            <p>{{ object.content|linebreaks }}</p>
+        </div>
         
-        <span class="post-title-info"> {{ object.created_at|date:'Y-m-d'}} </span>
-        <span class="post-title-info"> by.{{ object.owner}} </span>
-        <hr>
-    </div>
+        <!-- additional container:like, comment count, update, delete-->
+        
+        <div class="like-and-comment">
+            <div class="like-and-comment-content">
+                <button class="like like-btn" name="{{ post.id }}"><i class="far fa-heart"></i></button>
+                <span id="count-{{ post.id }}">{{ post.likes_user.all.count }}</span>
+                <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+            </div>
+        </div>
 
-    <div class="post-content">
-        <a href="{{ object.image.url }}">
-            <img class="post-img" src="{{ object.image.url }}" alt="이미지">
-        </a>
-        <p>{{ object.content|linebreaks }}</p>
-    </div>
-    
-    <!-- additional container:like, comment count, update, delete-->
-    <div class="additional-container">
-        <button class="like like-btn" name="{{ post.id }}"><i class="far fa-heart"></i></button>
-        <span id="count-{{ post.id }}">{{ post.likes_user.all.count }}</span>
-
-        <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
-
-        {% if request.user == object.owner %}
-            <button type="button"  onclick="location.href='{% url 'blog:update' object.pk %}'; ">수정</button>
-            <button type="button"  onclick="location.href='{% url 'blog:delete' object.pk %}'; ">삭제</button>
-        {% endif %}
-    </div>
-
-    <div class="bottom-container">
-        {% csrf_token %}
-        <div class="form-group row">
-            <textarea class="write-comment-box" id="content_id" rows="4" placeholder="댓글을 입력해주세요."></textarea>
-            <button id="comment_write" class="org-btn-sm">댓글달기</button>
+        <div class="modify-and-delete">
+            <div class="modify-and-delete-content">
+                {% if request.user == object.owner %}
+                    <button type="button"  onclick="location.href='{% url 'blog:update' object.pk %}'; ">수정</button>
+                    <button type="button"  onclick="location.href='{% url 'blog:delete' object.pk %}'; ">삭제</button>
+                {% endif %}
+            </div>
         </div>
         
         <div class="comment-container">
-            {% if comments %}
+            <hr>
+            {% if comments %} <!-- 이거 이상함 post 아이디 구별&카운트 필요함-->
                 {% for comment in comments %}
-                <div id='{{ comment.id }}'>
-                    {% if comment.deleted %}
-                    <span>삭제된 댓글입니다.</span><hr>
-                    {% else %}
-                        {% if comment.writer == free.writer %}
-                        <strong>{{ comment.writer }}&nbsp;<span>(글쓴이)</span></strong>
-                        {% else  %}
-                        <strong>{{ comment.writer }}</strong>
-                        {% endif %}
-                        <p style="float:right">{{ comment.created }}</p>
-                        {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
-                        <div>
-                            <div style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</div>
-                            <div style="text-align: right;">
-                                <span><a onclick="commentDelete('{{comment.id}}');">댓글삭제</a></span>
-                                <span><a onclick="commentModification('{{ comment.id }}');">댓글수정</a></span>
-                            </div>
+                    <div id='{{ comment.id }}'>
+                        <div class="comment-text">
+                            {% if comment.writer == object.owner %}
+                                <p class="comment-text-sub writer">by.{{ comment.writer }}&nbsp;<span>(글쓴이)</span></p>
+                            {% else  %}
+                                <p class="comment-text-sub">by.{{ comment.writer }}</p>
+                            {% endif %}
+                            <p>{{ comment.content }}</p>
+                            <p class="comment-text-sub">{{ comment.created }}</p>
+                            {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
+                                <div class="comment-modify">
+                                    <button><a onclick="commentDelete('{{comment.id}}');">삭제</a></button>
+                                    <button><a onclick="commentModification('{{ comment.id }}');">수정</a></button>
+                                </div>
+                            
+                            {% endif %}
+                            <hr>
                         </div>
-                        <hr>
-                        {% else %}
-                        <div>
-                            <p style="white-space:pre-wrap; text-align:left;">{{ comment.content }}</p>
-                        </div>
-                        <hr>
-                        {% endif %}
-                    {% endif %}
-                </div>
-                <div class='{{ comment.id }}'></div>
+                    </div>
+                    <div class='{{ comment.id }}'></div>
                 {% endfor %}
             {% endif %}
             <input type="hidden" id="comment_writer" value={{request.user}}>
             <div id="comment_list"></div>
         </div>
+
+        {% csrf_token %}
+        <div class="comment-input">
+            <textarea class="write-comment-box" id="content_id" rows="3" placeholder="댓글을 입력하세요."></textarea>
+            <button id="comment_write">작성하기</button>
+        </div>
     </div>
 </div>
 <div class="page-linker">
-    {% if object.get_previous %}
-        <span class="before-page">
+    <div class="page-linker-grid">
+        <div class="before-page">
+        {% if object.get_previous %}
             <a href="{{ object.get_previous.get_absolute_url }}" title="View Previous Post">
-                <i class="fas fa-arrow-left"></i> 이전글  <span class="other-title">{{ object.get_previous }}</span>
+                <i class="fas fa-arrow-left"></i>&nbsp;이전글&nbsp;&nbsp;&nbsp;<span class="other-title">{{ object.get_previous }}</span>
             </a>
-        </span>
-    {% endif %}
-
-    {% if object.get_next %}
-        <span class="next-page">
+        {% endif %}
+        </div>
+        <div>
+            <a href="{% url 'blog:post_list' %}" title="View Next Post">
+                전체글보기
+            </a>
+        </div>
+        <div class="next-page">
+        {% if object.get_next %}
             <a href="{{ object.get_next.get_absolute_url }}" title="View Next Post">
-                <span class="other-title">{{ object.get_next }}</span> 다음글 <i class="fas fa-arrow-right"></i>
+                <span class="other-title">{{ object.get_next }}</span>&nbsp;&nbsp;&nbsp;다음글&nbsp;<i class="fas fa-arrow-right"></i>
             </a>
-        </span>
-    {% endif %}
+        {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -117,15 +122,24 @@
                 $.ajax({ // ajax로 서버와 통신
                     type: "POST", // 데이터를 전송하는 방법 
                     url: "{% url 'blog:post_like' %}", // 통신할 url을 지정
-                    data: { 'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}' }, // 서버로 데이터 전송시 옵션, pk를 넘겨야 어떤 post인지 알 수 있음
+                    data: { 
+                        'pk': pk, 
+                        'csrfmiddlewaretoken': '{{ csrf_token }}' 
+                    }, // 서버로 데이터 전송시 옵션, pk를 넘겨야 어떤 post인지 알 수 있음
                     dataType: "json",
                     success: function (response) { // 성공
-                       
-                        $("#count-" + pk).html(response.likes_count); // 좋아요 개수 변경
+                        $("#count-" + pk).html(response.likes_count+response.message); // 좋아요 개수 변경
+                        if(response.message == '좋아요 취소'){
+                            $(".like-btn").html("<i class='far fa-heart'></i>");
+                        }
+                        else{
+                            $(".like-btn").html("<i class='fas fa-heart' style='color:#F58A8A'></i>");
+                        }
+
                     },
                     error: function (request, status, error) { // 실패
-                        alert("로그인이 필요합니다.")
-                        window.location.replace("/login/") // 로그인 페이지로 넘어가기
+                        alert("로그인이 필요합니다.");
+                        window.location.replace("{% url 'accounts:login' %}") // 로그인 페이지로 넘어가기
                     },
                 });
             })
@@ -148,25 +162,42 @@
                 success: function (response) {
                     if (response.self_comment) {
                         $('#comment_list').append(
-                           '<div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
-                           '<span style="float:right;">'+response.created+'</span>'+
-                           '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+
-                           '</div><div style="text-align:right;"><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                           '<div id='+response.comment_id+'>'+
+                           '<div class="comment-text">'+ 
+                           '<p class="comment-text-sub writer">by.'+response.writer+' (글쓴이)</p>'+
+                           '<p>'+response.content+'</p>'+
+                           '<p class="comment-text-sub">'+response.created+'</p>'+
+                           '<div class="comment-modify">'+
+                           '<button><a onclick="commentDelete('+response.comment_id+');">삭제</a></button>'+
+                           '<button><a onclick="commentModification('+response.comment_id+');">수정</a></button>'+
+                           '</div><hr></div></div>'+
+                           '<div class='+response.comment_id+'></div>'
                         );
+                        
                     }
+                    
                     else{
                         $('#comment_list').append(
-                            '<div><div id='+response.comment_id+'><strong>'+response.writer+'</strong>'+
-                            '<span style="float:right;">'+response.created+'</span>'+
-                            '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+
-                            '</div><div style="text-align:right;"><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>'
+                           '<div id='+response.comment_id+'>'+
+                           '<div class="comment-text">'+ 
+                           '<p class="comment-text-sub writer">by.'+response.writer+'</p>'+
+                           '<p>'+response.content+'</p>'+
+                           '<p class="comment-text-sub">'+response.created+'</p>'+
+                           '<div class="comment-modify">'+
+                           '<button><a onclick="commentDelete('+response.comment_id+');">삭제</a></button>'+
+                           '</div><hr></div></div>'+
+                           '<div class='+response.comment_id+'></div>'
                         );
                     }
                     $('#content_id').val("");
                 },
-                error: function () {
+                error:function (request, status, error) {
                     if ($('#content_id').val()=="") {
                         alert('댓글을 입력해주세요.');
+                    }
+                    else{ // 실패-로그인 안된 조건 추가 필요
+                        alert('로그인 후 이용해주세요.');
+                        window.location.replace("{% url 'accounts:login' %}") // 로그인 페이지로 넘어가기
                     }
                 },
             })
@@ -188,7 +219,11 @@
                     'csrfmiddlewaretoken': '{{csrf_token}}',
                 },
                 success: function (response) {
-                    $('#'+response.comment_id).replaceWith('<span style="color:gray;">삭제된 댓글입니다.</span><hr>');
+                    if(response.deleted == true){
+                        var target_comment = document.getElementById(response.comment_id);
+                        target_comment.parentNode.removeChild(target_comment);
+                    }
+                    
                 },
                 error: function () {
                     alert('본인 댓글이 아닙니다.');
