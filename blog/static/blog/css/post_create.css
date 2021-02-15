@@ -1,0 +1,9 @@
+.create-container{
+    width:70vw;
+    display: grid;
+    grid-template-rows: repeat(6,auto);
+}
+.title-input{
+    padding:1rem;
+    border-bottom:1px solid black;
+}
