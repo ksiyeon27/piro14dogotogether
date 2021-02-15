@@ -12,28 +12,60 @@
     <div class="input_container">
         <form action="{% url 'accounts:profile_edit' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="header_text"><strong> 프로필 수정</strong></div>
             {% if profile.image_thumbnail %}
                 <div class="thumbnail_image"><img src="{{profile.image_thumbnail.url}}" style="width:80px; height: 80px;"></div>
             {% else %}
                 <div class="none_img"><i class="far fa-user"></i></div>
             {% endif %}
-            <p id="image_upload">{{ profileform.image }}</p>
-            <p>{{ profileform.name|add_class:"name" }}</p>
-            <p>{{ profileform.nickname|add_class:"nickname" }}</p>
-            <p>{{ profileform.email|add_class:"email" }}</p>
 
-            <input type='submit' name='profile_edit' value='완료' />
+            <p id="image_upload">{{ profileform.image }}</p>
+            {% if profileform.image.errors %}
+					{% for error in profileform.image.errors %}
+					<p class="error_message_image">{{ error }}</p>
+					{% endfor %}
+            {% endif %}
+
+            <p>{{ profileform.name }}</p>
+            {% if profileform.name.errors %}
+					{% for error in profileform.name.errors %}
+					<p class="error_message_name">{{ error }}</p>
+					{% endfor %}
+            {% endif %}
+
+            <p>{{ profileform.nickname }}</p>
+            {% if profileform.nickname.errors %}
+					{% for error in profileform.nickname.errors %}
+					<p class="error_message_nickname">{{ error }}</p>
+					{% endfor %}
+            {% endif %}
+
+            <p>{{ profileform.email }}</p>
+            {% if profileform.email.errors %}
+					{% for error in profileform.email.errors %}
+					<p class="error_message_email">{{ error }}</p>
+					{% endfor %}
+            {% endif %}
+
+            <input type='submit' name='profile_edit' value='프로필 수정' />
+            {% if profileform.non_field_errors %}
+                {% for error in profileform.non_field_errors %}
+                    <p class="error_message_form">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
         </form>
     </div>
 </div>
 {% endblock %}
 
+
+
 {% block script %}
 <script>
     $( document ).ready( function() {
-        $( '.name' ).attr( 'placeholder', '이름' );
-        $( '.nickname' ).attr( 'placeholder', '닉네임' );
-        $( '.email' ).attr( 'placeholder', '이메일' );
+        $( '#id_name' ).attr( 'placeholder', '이름' );
+        $( '#id_nickname' ).attr( 'placeholder', '닉네임' );
+        $( '#id_email' ).attr( 'placeholder', '이메일' );
     } );
 </script>
 {% endblock %}

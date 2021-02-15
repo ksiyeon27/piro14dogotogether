@@ -49,10 +49,16 @@ def to_calculate_result(dog_breed):
     with open(f'./calculator/crawl_text/{dog_breed}.txt', 'r', -1, 'utf-8') as f:
         press_text = f.readline()
         press_graph = f.readline()
-    return press_text, press_graph
+        press_image = f.readline()
+    return press_text, press_graph, press_image
 
 def return_dogkrname():
     return dog_krname_list
+
+def calculate_weight_status(current_weight, appropriate_weight):
+    rate = str((current_weight/appropriate_weight)*100) + '%'
+    to_template_str = f'width:{rate}'
+    return to_template_str
 
 
 # if __name__=='__main__':

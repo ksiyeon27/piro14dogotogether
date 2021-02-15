@@ -5,7 +5,7 @@ class CalculatorForm(forms.Form):
                     ('poodle-standard', '푸들'),
                     ('german-shepherd-dog', '저먼 셰퍼드'),
                     ('alaskan-malamute', '알래스칸맬러뮤트'),
-                    ('doberman-pinscher', '도베르만_핀셔'),
+                    ('doberman-pinscher', '도베르만 핀셔'),
                     ('golden-retriever', '골든 리트리버'),
                     ('labrador-retriever', '레브라도 레트리버'),
                     ('bedlington-terrier', '베들링턴 테리어'),
@@ -46,15 +46,15 @@ class CalculatorForm(forms.Form):
                     ('Vizsla', '비즐라'),
                     ('Rottweiler', '로트 와일러'),
                     ('Bernese-Mountain-Dog', '버니즈 마운틴독')] # db, form_display
-    levels = [('5', 'level 1'),
-         ('10', 'level 2'),
-         ('20', 'level 3'),
-         ('30', 'level 4'),
-         ('40', 'level 5')]
+    levels = [('5', ''),
+         ('10', ''),
+         ('20', ''),
+         ('30', ''),
+         ('40', '')]
 
     bcs = forms.ChoiceField(choices=levels, widget=forms.RadioSelect)
     breeds = forms.ChoiceField(required = True, choices = dog_krname_list, label = '견종')
-    current_weight = forms.IntegerField(required = True, label='현재 체중', widget=forms.TextInput(attrs={'placeholder':'현재 체중을 입력하세요'}))
+    current_weight = forms.FloatField(required = True, label='현재 체중(kg)', widget=forms.TextInput(attrs={'placeholder':'현재 체중을 입력하세요(kg)'}), initial=10)
 
 
 

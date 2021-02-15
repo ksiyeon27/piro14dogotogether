@@ -1,0 +1,43 @@
+.wrap {
+    height:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.explain_text {
+    margin-bottom:2rem;
+}
+
+.explain_text span {
+    color:#FF9D00;
+    font-weight: 600;
+    font-size:1.1rem;
+}
+
+.error_message {
+    color:red;
+}
+
+/* password input 태그 */
+.form-control {
+    width: 50%;
+    border: 1px solid transparent;
+    border-radius: 20rem;
+    padding: 0.5rem;
+    background-color: rgb(231, 227, 227);
+    margin-bottom: 2rem;
+}
+
+.btn_div button {
+    display: block;
+    margin: 1rem auto;
+    width: 30%;
+    border-radius: 20rem;
+    box-sizing: border-box;
+    border-color: transparent;
+    padding: 0.7rem;
+    background-color: #FF9D00;
+    color: white;
+    font-weight:600;
+}
