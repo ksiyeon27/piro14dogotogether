@@ -99,8 +99,13 @@ def deleteplace(request):
        req = json.loads(request.body)
        title=req['title']
        place=placeAddByUser.objects.filter(name=title).first()
-       place.delete()
-       return JsonResponse({'id': str(title)})
+       if request.user==place.created_by:
+           place.delete()
+           type = "correct"
+           return JsonResponse({'type': str(type)})
+       else:
+           type = "incorrect"
+           return JsonResponse({'type': str(type)})
     
     elif request.method == 'GET':
         return render(request, 'base.html')
