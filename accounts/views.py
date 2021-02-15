@@ -49,7 +49,8 @@ def login(request):
 
             if user:
                 auth_login(request, user)
-                return redirect('accounts:profile')
+                next_url = reverse("accounts:base")
+                return redirect(next_url)
             else:
                 form.add_error(None, '아이디 또는 비밀번호가 유효하지 않습니다.')
     else:
@@ -93,6 +94,8 @@ def profile_edit(request):
             profile = profileform.save()
             url = reverse("accounts:profile")
             return redirect(url)
+        else:
+            return render(request, "accounts/profile_edit.html", {'profileform':profileform})
     else:
         profileform = ProfileForm(instance=profile)
         return render(request, 'accounts/profile_edit.html', {'profileform':profileform, 'profile':profile})

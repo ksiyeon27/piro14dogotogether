@@ -8,4 +8,4 @@ class PlaceAddedByUser(admin.ModelAdmin):
     search_fields = ('name', 'region', 'category')
 
     def get_queryset(self, request):
-        return super().get_queryset(request).prefetch_related('category')
+        return super().get_queryset('category')
