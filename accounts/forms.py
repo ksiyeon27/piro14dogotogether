@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import check_password
 class ProfileForm(forms.ModelForm):
     class Meta:
         model=Profile
-        fields = ['name','nickname','email','image']
+        fields = ['image', 'nickname', 'name', 'email']
 
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'input-lg'}))
@@ -15,8 +15,8 @@ class LoginForm(forms.Form):
 
 # 계정 탈퇴 비밀번호 확인 폼
 class CheckPasswordForm(forms.Form):
-    password = forms.CharField(label='비밀번호', widget=forms.PasswordInput(
-    attrs={'class': 'form-control',}))
+    password = forms.CharField(label='', widget=forms.PasswordInput(
+    attrs={'class': 'form-control', 'placeholder': '비밀번호'}))
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
