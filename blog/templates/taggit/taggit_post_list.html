@@ -1,15 +1,68 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-{% block title %}taggit_post_list.html{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'blog/css/post_search.css' %}">
+{% endblock %}
 
-{% block content %}
-
-<h1>Post for tag - {{ tagname }}</h1>
-<br>
-
-{% for post in object_list %}
-    <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
-    {{ post.modified_at|date:"N d, Y" }}
-    <p>{{ post.description }}</p>
-{% endfor %}
-
+{% block body %}
+<div class="search-container">
+    <div class="search-grid">
+        <h4 class="all-search-title"><span>{{ tagname }}</span></h4>
+        {% if object_list %}
+            {% for post in object_list %}
+                {% if post.secret %}
+                    {% if request.user == post.owner %}
+                    <div class="post-content">
+                        <div class="post-text">
+                            <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                            <span>by. {{ post.owner}}</span>
+                            <h6><a href="{{ post.get_absolute_url }}"><i class="fas fa-lock"></i> {{ post.title }}</a></h6>
+                            <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+                            <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                        </div>
+                        <div class="post-image">
+                            <img src="{{post.image.url}}"/>
+                        </div>
+                    </div>
+                    
+                    {% else %}
+                    <div class="post-content">
+                        <div class="post-text">
+                            <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                            <span>by. 비공개</span>
+                            <h6>비밀글입니다.</a></h6>
+                            <span><i class="far fa-comment-dots"></i> 비공개</span>
+                            <span><i class="far fa-heart"></i> 비공개</span>
+                        </div>
+                        <div class="post-image">
+                            <i class="fas fa-images"></i>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% else %}
+                <div class="post-content">
+                    <div class="post-text">
+                        <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                        <span>by. {{ post.owner}}</span>
+                        <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
+                        <p>{{post.content}}</p>
+                        <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+                        <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                    </div>
+                    <div class="post-image">
+                        <img src="{{post.image.url}}"/>
+                    </div>
+                </div>
+                
+                {% endif %}
+            {% endfor %}
+        {% elif search_term %}
+        <div class="post-content">
+            <p>'{{ tagname }}' 태그와 일치하는 게시글이 존재하지 않습니다!</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<button class="go-post-all"><a href="{% url 'blog:index' %}">목록으로 돌아가기</a></button>
 {% endblock %}

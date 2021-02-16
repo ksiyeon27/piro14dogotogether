@@ -1,96 +1,36 @@
 .main{
     background-color:rgb(247, 247, 246);
 }
-.blog-container{
+.search-container{
     display:flex;
     justify-content: center;
 }
-/*-----header-----*/
-.blog-header{
-    color:white;
-    background-color:#FFA133;
-    text-align: left;
-    padding:3rem 14rem;
-}
-.blog-header p{
-    margin-top:1rem;
-}
+
 /*-----grid content-----*/
-.blog-grid{
+.search-grid{
     display:grid;
     margin:6% 0 3% 0;
     width:70vw;
     justify-content:center;
     align-items:center;
-    grid-templates-rows:repeat(7,100%);
+    grid-templates-rows:repeat(5,100%);
     grid-templates-columns:repeat(5,100%);
 }
-/*-----best5 content-----*/
-.best-post-title{
-    grid-column:1/6;
-    text-align:left;
-    margin:1.5rem 0.8rem;
-}
-.best-post .best-box {
-    position:relative;
-    z-index:1;
-    overflow: hidden;
-    margin:0 10px;
-    width:200px;
-    height: 200px;
-}
-.best-box a{
-    text-decoration:none;
-    color:white;
-}
-.best-box img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-.best-post .best-info{
-    background: rgba(0,0,0,0.7);
-    z-index:2;
-    position: absolute;
-    top:75%;
-    width:100%;
-    height:100%;
-    font-size:0.8rem;
-
-}
-.best-post .best-info .best-info-title{
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    width:170px;
-    margin:0;
-    padding:0.9rem;
-    font-size:1.1rem;
-    font-weight: bold;
-}
-
-.best-box:hover .best-info{
-    position:absolute;
-    top:0;
-    transition:0.5s;
-}
-.best-box:hover .best-info{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-/*-----all post list content-----*/
-.all-post-title{
+/*-----search post list content-----*/
+.all-search-title{
     grid-column:span 3;
     text-align:left;
+    float: left;
     margin:1.5rem 0.8rem;
+}
+.all-search-title span{
+    color:#2758c1;
 }
 .post-search{
     grid-column:span 2;
     text-align:right;
     margin:1.5rem 0.8rem;
+    float: right;
 }
 form{
     display:inline;
@@ -106,6 +46,7 @@ form{
 .post-text {
     text-align:left;
     float:left;
+    width:70%;
 }
 .post-text span{
     margin:0 1rem 0 0;
@@ -114,7 +55,7 @@ form{
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
-    width:750px;
+    width:80%;
     margin:0;
     padding:1rem 0;
 }
@@ -186,4 +127,18 @@ form{
     border-style: none;
     border-radius: 40px;
     background-color:#DDDDDD;
+}
+.go-post-all{
+    border:0;
+    border-radius: 25px;
+    background-color:#FFA133;
+    padding:1rem;
+    margin-bottom: 3%;
+}
+.go-post-all a{
+    color:white;
+}
+.go-post-all:hover{
+    transition: 0.5s;
+    background-color:#E87400;
 }
