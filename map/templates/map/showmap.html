@@ -805,7 +805,6 @@
 
      //장소 추가
      var user = JSON.parse("{{ userJson|escapejs }}");
-     console.log(user);
      var newusermarker = new kakao.maps.Marker();
      function registerplace(clicked_id) {
        var request = new XMLHttpRequest();
@@ -862,6 +861,8 @@
 
      //장소삭제
      function placedelete(clicked_id) {
+       var r =confirm("정말 등록된 장소를 삭제하시겠습니까?.");
+       if(r == true){
        var request = new XMLHttpRequest();
        var placeid = document.getElementById(clicked_id);
        var div = placeid.closest("div");
@@ -875,21 +876,28 @@
        );
        var info = { title: title };
        request.send(JSON.stringify(info));
-       for (var i = 0; i < usermarkers.length; i++) {
-         if (usermarkers[i].getTitle() === title) {
-           usermarkers[i].setMap(null);
-         }
-       }
-
-       if (newusermarker.getTitle() === title) {
-         newusermarker.setMap(null);
-       }
-       var handleResponse = () => {
+      var handleResponse = () => {
          if (request.status <= 400) {
+          var type = JSON.parse(request.response);
+          console.log(type.type);
+          if(type.type === "correct"){
+          for (var i = 0; i < usermarkers.length; i++) {
+            if (usermarkers[i].getTitle() === title) {
+              usermarkers[i].setMap(null);
+            }
+          }
+   
+          if (newusermarker.getTitle() === title) {
+            newusermarker.setMap(null);
+          }
            placeid.innerHTML = "장소 추가";
            placeid.onclick = () => {
              registerplace(clicked_id);
            };
+          }
+          else{
+            alert("권한이 없습니다.");
+          }
          }
        };
        request.onreadystatechange = () => {
@@ -897,6 +905,7 @@
            handleResponse();
          }
        };
+      }
      }
    </script>
 {% endblock %}
