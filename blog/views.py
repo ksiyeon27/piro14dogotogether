@@ -19,6 +19,7 @@ from django.conf import settings
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.views.generic import ListView, DetailView, TemplateView, UpdateView, DeleteView, CreateView
+from django.views.generic.edit import BaseDeleteView
 from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.http import HttpResponse
 import json
@@ -144,7 +145,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(OwnerOnlyMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'image','secret', 'tags']
+    fields = ['title', 'content', 'image', 'secret', 'tags']
     success_url = reverse_lazy('blog:index')
     
 class PostDeleteView(OwnerOnlyMixin, DeleteView):
