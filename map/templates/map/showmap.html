@@ -502,9 +502,14 @@
 
      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
      for (var i = 0; i < parks.length; i++) {
+       geodecoder.addressSearch(parks[i].address, function(result, status) {
+           if(status == kakao.maps.services.Status.OK) {
+               var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+           }
+       });
        var parkmarker = new kakao.maps.Marker({
-         map: null,
-         position: new kakao.maps.LatLng(parks[i].mapx, parks[i].mapy),
+         map: map,
+         position: coords,
          title: parks[i].title,
          image: markerImage,
        });
