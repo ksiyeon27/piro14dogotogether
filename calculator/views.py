@@ -15,7 +15,7 @@ def calculator(request):
             bcs = int(form.cleaned_data['bcs'])
             dog_breed = form.cleaned_data['breeds']
             current_weight =int(form.cleaned_data['current_weight'])
-            appropriate_weight = round(current_weight*(100-bcs)/100/0.8, 3)
+            appropriate_weight = round(current_weight*(100-bcs)/100*1.25, 3)
             base_metabolism = round(70*current_weight**0.75, 3)
             weight_status1 = calculate_weight_status(current_weight, appropriate_weight)
             weight_status2 = calculate_weight_status(appropriate_weight, current_weight)
