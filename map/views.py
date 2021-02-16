@@ -22,13 +22,13 @@ def showmap(request):
                 "address": str(data['주소']),
             }
             parkdict.append(content)
-        elif data['종류'] == "카페":
+        if data['종류'] == "카페":
             content = {
                 "title": (data['이름']),
                 "address": str(data['주소']),
             }
             cafedict.append(content)
-        elif data['종류'] == "공원":
+        else:
             content = {
                 "title": (data['이름']),
                 "address": str(data['주소']),
