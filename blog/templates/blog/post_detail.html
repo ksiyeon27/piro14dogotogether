@@ -155,7 +155,7 @@
             var writer= $("#comment_writer").val();
             $.ajax({
                 type: "POST",
-                url: "{% url 'blog:comment_new' post.id %}",
+                url: "{% url 'blog:comment_new' object.id %}",
                 dataType: "json",
                 data: {
                     'writer': writer,
@@ -215,7 +215,7 @@
         if (delete_warning == true) {
             $.ajax({
                 type: "POST",
-                url: "{% url 'blog:comment_delete' post.id %}",
+                url: "{% url 'blog:comment_delete' object.id %}",
                 dataType: "json",
                 data: {
                     'comment_id': comment_id,
