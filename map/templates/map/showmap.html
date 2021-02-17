@@ -226,18 +226,29 @@
      }
      function imageselector(category){
        if(category == "식당" ){
-         return 
+        var img ='/static/img/식당마커.png';
+        
+        return img;
+       } else if(category =="공원"){
+        var img = '/static/img/공원마커.png';
+       
+        return img;
+       }else if(category =="카페"){
+        var img='/static/img/카페마커.png';
+        
+        return img;
+       }else{
+        var img ='/static/img/퍼플마커.png';
+        
+        return img;
        }
      }
 
      //placeaddbyuser 위치 뛰우기
      var placesaddbyuser = JSON.parse("{{ placeJson|escapejs }}");
-     console.log(placesaddbyuser);
      var usermarkers = [];
      var imageSize = new kakao.maps.Size(24, 35);
-     var imageadd =
-       "https://upload.wikimedia.org/wikipedia/commons/f/f2/678111-map-marker-512.png";
-     var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
+     
      function overraycustomuser(marker, place) {
        kakao.maps.event.addListener(marker, "mouseover", function () {
          var iwContent =
@@ -273,6 +284,8 @@
        });
      }
      for (var i = 0; i < placesaddbyuser.length; i++) {
+       var imageadd = imageselector(placesaddbyuser[i].category);
+       var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
        var usermarker = new kakao.maps.Marker({
          map: map,
          position: new kakao.maps.LatLng(
@@ -372,13 +385,11 @@
        itemStr += '  <span class="tel">' + places.phone + "</span>";
        //카테고리 부분 추가 필요
        var isregister = 0;
-       console.log(usermarkers);
        for (var i = 0; i < usermarkers.length; i++) {
          if (usermarkers[i].getTitle() == places.place_name) {
            isregister = isregister + 1;
          }
        }
-       console.log(isregister);
        if (isregister == 0) {
          itemStr +=
            '<button id="addplace_' +
@@ -517,7 +528,7 @@
              '        <div class="body">' +
              '            <div class="desc">' +
              '                <div class="ellipsis">' +
-             place.addr1 +
+             place.address +
              "</div>" +
              "            </div>" +
              "        </div>" +
@@ -547,24 +558,33 @@
      //공원 마크(현재위치 주변) 띄우기
      var parks = JSON.parse("{{ parkJson|escapejs }}");
      console.log(parks);
-     var imageSrc =
-       "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+     
      //공원용 마크 이미지
      var imageSize = new kakao.maps.Size(24, 35);
-
-     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+     var coords;
+     var geocoder = new kakao.maps.services.Geocoder();
      for (var i = 0; i < parks.length; i++) {
-       var parkmarker = new kakao.maps.Marker({
-         map: null,
-         position: new kakao.maps.LatLng(parks[i].mapx, parks[i].mapy),
-         title: parks[i].title,
-         image: markerImage,
-       });
-
-       parkmarkers.push(parkmarker);
-       overraycustompark(parkmarker, parks[i]);
-     }
-
+      var imageSrc =imageselector(parks[i].category);
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      var parkmarker = new kakao.maps.Marker({
+        map: map,
+        title: parks[i].title,
+        image: markerImage,
+      });    
+      geocoder.addressSearch(parks[i].address, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          console.log(coords);
+        } 
+        parkmarker.setPosition(coords);
+      }); 
+        
+        parkmarkers.push(parkmarker);
+        overraycustompark(parkmarker, parks[i]);
+    }
+    console.log(parkmarkers[0].getPosition());
+    
+    
      function showParkMarker() {
        var radius = 2000;
        var c1 = map.getCenter();
@@ -907,8 +927,7 @@
           request.send(JSON.stringify(info));
           var handleResponse = () => {
            if (request.status <= 400) {
-             var imageadd =
-             "https://upload.wikimedia.org/wikipedia/commons/f/f2/678111-map-marker-512.png";
+             var imageadd =imageselector(category);
              var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
              var coord = new kakao.maps.LatLng(xmap, ymap);
              newusermarker.setMap(map);
