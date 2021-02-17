@@ -16,11 +16,11 @@
     <style></style>
     {% endblock %}
   </head>
-                
-                
-                
-                
-                
+
+
+
+
+
 
   {% block body %}
   <div class="map_wrap">
@@ -35,7 +35,7 @@
         <li><button id="searchmarker" onclick="checkMarkers()">검색 마커</button></li>
         <li><button id="nearpark" onclick="checknearParkMarker()">주변 애견장소 </button></li>
         <li><button id="allpark" onclick="checkallParkMarker()"> 공원 </button></li>
-        <li><button onclick="removeCircles()">원 그리기 지우기</button></li> 
+        <li><button onclick="removeCircles()">원 그리기 지우기</button></li>
       </ul>
     </div>
 
@@ -62,8 +62,8 @@
   </div>
 
   {% endblock %}
-   {% block footer %} 
-   {% endblock %} 
+   {% block footer %}
+   {% endblock %}
    {% block script %}
   <script
     type="text/javascript"
@@ -886,7 +886,7 @@
               usermarkers[i].setMap(null);
             }
           }
-   
+
           if (newusermarker.getTitle() === title) {
             newusermarker.setMap(null);
           }
