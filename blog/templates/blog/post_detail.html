@@ -47,8 +47,8 @@
             <div class="modify-and-delete-content">
                 {% if request.user == object.owner %}
                     <button type="button"  onclick="location.href='{% url 'blog:update' object.pk %}'; ">수정</button>
-                    <form method="POST" action="{% url 'blog:delete' object.pk %}">
-                        {% csrf_token %}<input class="org-btn-sm" type="submit" onclick="return confirm('게시글을 삭제 하시겠습니까?');" value="삭제" >
+                    <form class="delete-btn" method="POST" action="{% url 'blog:delete' object.pk %}">
+                        {% csrf_token %}<input class="delete-btn" type="submit" onclick="return confirm('게시글을 삭제 하시겠습니까?');" value="삭제">
                     </form>
                 {% endif %}
             </div>
@@ -89,6 +89,7 @@
             <textarea class="write-comment-box" id="content_id" rows="3" placeholder="댓글을 입력하세요."></textarea>
             <button id="comment_write">작성하기</button>
         </div>
+        
     </div>
 </div>
 <div class="page-linker">
