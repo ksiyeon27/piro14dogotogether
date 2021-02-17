@@ -1,8 +1,18 @@
 from django.shortcuts import render
-from .models import Qna
+import json
 
 # Create your views here.
 def faq(request):
-    qnas = Qna.objects.all() #모델 사용.
-    ctx = {'qnas':qnas}
-    return render(request, 'faq/qna.html', ctx)
+
+
+
+    with open('./faq/static/faq/js/qnas.json', encoding='utf-8') as json_file:
+        qnas = json.load(json_file)
+        qnalist = []
+        for qna in qnas:
+            if qna.get('q'):
+                item=[str(qna['q']),str(qna['a'])]
+
+                qnalist.append(item)
+
+    return render(request, 'faq/qna.html', {'qnalist':qnalist})
