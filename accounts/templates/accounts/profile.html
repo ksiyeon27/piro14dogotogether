@@ -11,7 +11,7 @@
             <div class="header_text"><strong>내 프로필</strong></div>
             {% if profile.nickname and profile.image.url %}
                 <div class="container_flex">
-                    <div class="image_container"><img src="{{profile.image_thumbnail.url}}" style="width:7rem; height: 7rem; object-fit:cover;"></div>    
+                    <div class="image_container"><img src="{{profile.image_thumbnail.url}}" style="width:100%; height: auto; max-width: 9rem; min-width:7rem;"></div>    
                     <div class="information_container">
                         <div class="label_box">
                             <p>닉네임</p>
