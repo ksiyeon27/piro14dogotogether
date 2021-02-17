@@ -21,12 +21,12 @@ from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthA
 from django.views.generic import ListView, DetailView, TemplateView, UpdateView, DeleteView, CreateView
 from django.views.generic.edit import BaseDeleteView
 from django.shortcuts import render, get_object_or_404, HttpResponse
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
-
+from .models import Post
 
 @login_required
 @require_POST
@@ -75,7 +75,6 @@ class PostLV(ListView):
 
 class PostDV(DetailView):
     model = Post
-    #여기????
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs.get(self.pk_url_kwarg, None)
@@ -84,8 +83,8 @@ class PostDV(DetailView):
             likes=True
         else:
             likes=False
-        context['comments'] = Comment.objects.all()
         context['likes']=likes
+        context['comments'] = Comment.objects.filter(post=self.object.id)
         return context
     
 
@@ -205,8 +204,8 @@ def comment_modify_view(request, pk):
     writer = request.POST.get('writer')
     content = request.POST.get('content')
     if content:
-        comment = Comment.objects.create(post=post, content=content, writer=request.user)
-        post.save()
+        comment = Comment.objects.filter(post=post, content=content, writer=request.user)
+        comment.save()
         data = {
             'writer': writer,
             'content': content,
