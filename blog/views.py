@@ -21,12 +21,12 @@ from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthA
 from django.views.generic import ListView, DetailView, TemplateView, UpdateView, DeleteView, CreateView
 from django.views.generic.edit import BaseDeleteView
 from django.shortcuts import render, get_object_or_404, HttpResponse
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
-
+from .models import Post
 
 @login_required
 @require_POST
@@ -75,10 +75,9 @@ class PostLV(ListView):
 
 class PostDV(DetailView):
     model = Post
-    #여기????
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = Comment.objects.all()
+        context['comments'] = Comment.objects.filter(post=self.object.id)
         return context
     
 
