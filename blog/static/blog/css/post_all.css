@@ -7,10 +7,7 @@ body{
 h6{
     color:#342f28;
 }
-.blog-container{
-    display:flex;
-    justify-content: center;
-}
+
 /*-----header-----*/
 .blog-header{
     color:white;
@@ -23,21 +20,25 @@ h6{
     animation-delay: 0.1s;
 }
 /*-----grid content-----*/
-.blog-grid{
-    display:grid;
-    margin:6% 0 3% 0;
-    width:70vw;
-    justify-content:center;
-    align-items:center;
-    grid-templates-rows:repeat(7,100%);
-    grid-templates-columns:repeat(5,100%);
+.blog-container{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 /*-----best5 content-----*/
+.best-container{
+    margin:6% 0 3% 0;
+}
 .best-post-title{
     grid-column:1/6;
     text-align:left;
     margin:1.5rem 0.8rem;
 }
+.best-ul{
+    display: flex;
+}
+
 .best-post .best-box {
     position:relative;
     z-index:1;
@@ -70,12 +71,10 @@ h6{
     text-overflow:ellipsis;
     white-space:nowrap;
     width:170px;
-    margin:0;
+    margin:0 0 10px 0;
     padding:0.9rem;
     font-size:1.1rem;
     font-weight: bold;
-    position: relative;
-    left:1rem;
 }
 
 .best-box:hover .best-info{
@@ -91,6 +90,22 @@ h6{
 
 
 /*-----all post list content-----*/
+.post-container{
+    display:flex;
+    justify-content: center;
+    width:95vw;
+}
+
+.post-grid{
+    display:grid;
+    margin:6% 0 3% 0;
+    width:95vw;
+    justify-content:center;
+    align-items:center;
+    grid-templates-rows:repeat(5,100%);
+    grid-templates-columns:repeat(5,100%);
+}
+
 .all-post-title{
     grid-column:span 3;
     text-align:left;
@@ -211,4 +226,39 @@ form{
     border-style: none;
     border-radius: 40px;
     background-color:#DDDDDD;
+}
+
+@media screen and (max-width:768px){
+
+    .blog-container{
+        display:flex;
+        justify-content: center;
+    }
+    /*-----header-----*/
+    .blog-header{
+        color:white;
+        background-color:#FFA133;
+        text-align: center;
+        padding:3rem 15%;
+    }
+    .blog-header p{
+        margin-top:1rem;
+        animation-delay: 0.1s;
+        font-size:0.7rem;
+    }
+
+    .blog-grid{
+        display:flex;
+        flex-direction:column;
+        margin:6% 0 3% 0;
+        width:70vw;
+        justify-content:center;
+        align-items:center;
+    }
+    .post-content{
+        width:100vw;
+        display: flex;
+        flex-direction: column;
+        margin:0 5%;
+    }
 }
