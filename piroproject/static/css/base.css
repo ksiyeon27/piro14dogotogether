@@ -78,7 +78,7 @@ main{
     margin: 0;
     position: absolute;
     top: 0;
-    width: 100vw;
+    width: 100%;
     background-color:white;
 }
 
@@ -125,7 +125,6 @@ main{
     .navbar{
         flex-direction:column;
         align-items: flex-start;
-        padding:0 1rem;
     }
     .menu{
         display: none;
@@ -153,6 +152,7 @@ main{
 #main1{
     background-image:url('../img/mainHeader.png');
     background-repeat: no-repeat;
+    width:100vw;
     height: 25rem;
     margin:0;
 }
@@ -280,9 +280,9 @@ button>a{
 footer{
     position: relative;
     bottom:0;
-    padding:10px;
+    padding:10px 0;
     color: white;
     font-size: 0.5rem;
     background-color: #FCBE76;
-    width:100vw;
+    width:100%;
 }

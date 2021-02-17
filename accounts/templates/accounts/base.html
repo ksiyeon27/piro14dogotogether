@@ -1,14 +1,2 @@
 {% extends "base.html" %}
-
-{% comment %}
-<div>
-    <p>좋아요 top 5 게시물</p>
-    {% for post in posts %}
-        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-        작성날짜: {{ post.modified_at|date:"N d, Y" }}
-        <p>글쓴이:{{ post.owner}}</p>
-        <p> 좋아요 {{post.count_likes_user}} / 댓글 수 : {{ post.comment_set.all.count }}</p>
-    {% endfor %}
-</div>
-{% endcomment %}
     

@@ -1,7 +1,9 @@
+/* common for all screen */
 .form_container {
     background-color: rgb(248, 248, 248);
     display:flex;
     height: 100%;
+    width: 100%;
     justify-content: center;
     align-items:center;
 }
@@ -17,10 +19,9 @@
     font-weight: 600;
 }
 
-
 /* submit1-견종과 현재체중 입력 화면 */
 .submit1 {
-    width:23%;
+    width:30%;
     margin: 0 auto;
 }
 
@@ -38,11 +39,11 @@ select[name='breeds'], input[name='current_weight'] {
 button[name='next'] {
     display: block;
     margin:0 auto;
-    width: 40%;
+    width: 50%;
     border-radius:20rem;
     box-sizing: border-box;
     border-color:transparent;
-    margin-top: 5rem;
+    margin-top: 3.5rem;
     padding: 1rem;
     background-color: #FF9D00;
     color:white;
@@ -65,7 +66,7 @@ button[name="next"]:hover, button[name='previous']:hover, input[name='submit']:h
 input[name='submit'] {
     display:none;
     margin:0 auto;
-    width: 10%;
+    width: 20%;
     border-radius:20rem;
     box-sizing: border-box;
     border-color:transparent;
@@ -94,7 +95,7 @@ input[name='submit'] {
 button[name='previous'] {
     display: block;
     margin:0 auto;
-    width: 10%;
+    width: 20%;
     border-radius:20rem;
     box-sizing: border-box;
     border-color:transparent;
@@ -109,4 +110,75 @@ button[name='previous'] {
 .error_message {
     font-size:0.7rem;
     color:red;
-  }
+}
+
+@media screen and (min-width:480px) and (max-width: 768px){
+    .input_container .p_text {
+        margin: 3rem 0;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .submit1 {
+        width:55%;
+        margin: 0 auto;
+    }
+
+    button[name='next'] {
+        width: 50%;
+        margin-top: 2.5rem;
+        padding: 0.7rem;
+        background-color: #FF9D00;
+        color:white;
+        font-weight:600;
+        font-size:0.8rem;
+    }
+
+    button[name='previous'] {
+        width: 35%;
+        margin-top: 4rem;
+        padding: 0.5rem;
+        font-size:0.9rem;
+    }
+
+    input[name='submit'] {
+        width: 35%;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        font-size:0.9rem;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .input_container .p_text {
+        margin: 2.5rem 0;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .submit1 {
+        width:70%;
+        margin: 0 auto;
+    }
+
+    button[name='next'] {
+        width: 50%;
+        margin-top: 4rem;
+        padding: 0.7rem;
+        font-size:0.8rem;
+    }
+
+    button[name='previous'] {
+        width: 35%;
+        margin-top: 4rem;
+        padding: 0.5rem;
+        font-size:0.8rem;
+    }
+
+    input[name='submit'] {
+        width: 35%;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        font-size:0.8rem;
+    }
+}

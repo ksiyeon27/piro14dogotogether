@@ -1,14 +1,18 @@
+/* common for all screen */
 .wrap {
     height: 100%;
     display:flex;
     justify-content: center;
     align-items: center;
+    margin-top: 100px;
+    background-image: url("../../static/calculator/dogimage/intro.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: contain;
 }
 
-/* 수정 필요 */
 .left_container {
     width:40%;
-    border:1px solid red;
 }
 
 /* right_container */
@@ -48,4 +52,33 @@
 
 .right_container > a:hover {
     background-color: #E87400;
+}
+
+@media screen and (min-width:480px) and (max-width:768px) {
+    .header_text {
+        font-size: 2rem;
+        font-weight: 600;
+        height: 4rem;
+    }
+    .right_container > a {
+        font-size:1rem;
+    }
+}
+
+@media screen and (max-width:480px) {
+
+    .header_text {
+        font-size: 1.3rem;
+        font-weight: 600;
+        height: 4rem;
+    }
+
+    .main_text {
+        margin-bottom: 2rem;
+        font-size:0.9rem;
+    }
+
+    .right_container > a {
+        font-size:0.7rem;
+    }
 }
