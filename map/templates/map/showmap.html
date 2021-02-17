@@ -7,20 +7,18 @@
     <title>같이가개</title>
 
     {% block extra_head %} {{ block.super }}
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <link rel="stylesheet" href="{% static 'map/css/showmap.css' %}" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <style></style>
     {% endblock %}
   </head>
-
-
-
-
-
 
   {% block body %}
   <div class="map_wrap">
@@ -31,21 +29,30 @@
 
     <div id="map_buttons">
       <ul>
-        <li><button onclick="Geo()">현재위치</button> </li>
-        <li><button id="searchmarker" onclick="checkMarkers()">검색 마커</button></li>
+        <li><button onclick="Geo()"><i class="fas fa-street-view"></i></button> </li>
+        <li><button id="searchmarker" onclick="checkMarkers()"><i class="fas fa-search-plus"></i></button></li>
         <li><button id="nearpark" onclick="checknearParkMarker()">주변 애견장소 </button></li>
         <li><button id="allpark" onclick="checkallParkMarker()"> 공원 </button></li>
-        <li><button onclick="removeCircles()">원 그리기 지우기</button></li>
+        <li><button onclick=""><i class="fas fa-plus"></i></button></li>
+
       </ul>
     </div>
+    <!-- <div class="place_add_button">
+      <button onclick=""><i class="fas fa-plus"></i></button>
+    </div> -->
 
+
+    <a class="search_toggleBtn">
+      <i class="fas fa-search-location fa-lg"></i>
+    </a> 
     <div id="menu_wrap" class="bg_white">
       <div class="option">
+
         <div>
           <form onsubmit="searchPlaces(); return false;">
             <input
               type="text"
-              value="짐박스"
+              value="샤로수길"
               id="keyword"
               placeholder="강아지와 함께 갈 수 있는 플레이스를 찾아보세요!"
               onfocus="this.placeholder=''"
@@ -53,8 +60,17 @@
             />
             <button type="submit"><i class="fas fa-search fa-lg"></i></button>
           </form>
+          <div id="category_buttons">
+            <ul>
+              <li><button onclick="">#식당</button> </li>
+              <li><button onclick="">#공원</button></li>
+              <li><button onclick="">#카페</button></li>
+              <li><button onclick="">#놀이터</button></li>
+            </ul>
+          </div>
         </div>
       </div>
+
 
       <ul id="placesList"></ul>
       <div id="pagination"></div>
@@ -65,6 +81,10 @@
    {% block footer %}
    {% endblock %}
    {% block script %}
+   
+    <script type="text/javascript" 
+    src="{% static 'map/js/showmap.js' %}" ></script>
+
   <script
     type="text/javascript"
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{ API_KEY }},clusterer"
@@ -331,7 +351,7 @@
          itemStr +=
            '<button id="addplace_' +
            (index + 1) +
-           '" onclick="registerplace(this.id)">장소추가</button>';
+           '" onclick="registerplace(this.id)">장소 추가</button>';
        } else {
          itemStr +=
            '<button id="addplace_' +
@@ -553,255 +573,6 @@
          hideMarkers(parkmarkers);
        }
      }
-
-     //반경확인용 원 그리기 함수
-     var drawingFlag = false; // 원이 그려지고 있는 상태를 가지고 있을 변수입니다
-     var centerPosition; // 원의 중심좌표 입니다
-     var drawingCircle; // 그려지고 있는 원을 표시할 원 객체입니다
-     var drawingLine; // 그려지고 있는 원의 반지름을 표시할 선 객체입니다
-     var drawingOverlay; // 그려지고 있는 원의 반경을 표시할 커스텀오버레이 입니다
-     var drawingDot; // 그려지고 있는 원의 중심점을 표시할 커스텀오버레이 입니다
-
-     var circles = []; // 클릭으로 그려진 원과 반경 정보를 표시하는 선과 커스텀오버레이를 가지고 있을 배열입니다
-
-     // 지도에 클릭 이벤트를 등록합니다
-     kakao.maps.event.addListener(map, "click", function (mouseEvent) {
-       // 클릭 이벤트가 발생했을 때 원을 그리고 있는 상태가 아니면 중심좌표를 클릭한 지점으로 설정합니다
-       if (!drawingFlag) {
-         // 상태를 그리고있는 상태로 변경합니다
-         drawingFlag = true;
-
-         // 원이 그려질 중심좌표를 클릭한 위치로 설정합니다
-         centerPosition = mouseEvent.latLng;
-
-         // 그려지고 있는 원의 반경을 표시할 선 객체를 생성합니다
-         if (!drawingLine) {
-           drawingLine = new kakao.maps.Polyline({
-             strokeWeight: 3, // 선의 두께입니다
-             strokeColor: "#00a0e9", // 선의 색깔입니다
-             strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-             strokeStyle: "solid", // 선의 스타일입니다
-           });
-         }
-
-         // 그려지고 있는 원을 표시할 원 객체를 생성합니다
-         if (!drawingCircle) {
-           drawingCircle = new kakao.maps.Circle({
-             strokeWeight: 1, // 선의 두께입니다
-             strokeColor: "#00a0e9", // 선의 색깔입니다
-             strokeOpacity: 0.1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-             strokeStyle: "solid", // 선의 스타일입니다
-             fillColor: "#00a0e9", // 채우기 색깔입니다
-             fillOpacity: 0.2, // 채우기 불투명도입니다
-           });
-         }
-
-         // 그려지고 있는 원의 반경 정보를 표시할 커스텀오버레이를 생성합니다
-         if (!drawingOverlay) {
-           drawingOverlay = new kakao.maps.CustomOverlay({
-             xAnchor: 0,
-             yAnchor: 0,
-             zIndex: 1,
-           });
-         }
-       }
-     });
-
-     // 지도에 마우스무브 이벤트를 등록합니다
-     // 원을 그리고있는 상태에서 마우스무브 이벤트가 발생하면 그려질 원의 위치와 반경정보를 동적으로 보여주도록 합니다
-     kakao.maps.event.addListener(map, "mousemove", function (mouseEvent) {
-       // 마우스무브 이벤트가 발생했을 때 원을 그리고있는 상태이면
-       if (drawingFlag) {
-         // 마우스 커서의 현재 위치를 얻어옵니다
-         var mousePosition = mouseEvent.latLng;
-
-         // 그려지고 있는 선을 표시할 좌표 배열입니다. 클릭한 중심좌표와 마우스커서의 위치로 설정합니다
-         var linePath = [centerPosition, mousePosition];
-
-         // 그려지고 있는 선을 표시할 선 객체에 좌표 배열을 설정합니다
-         drawingLine.setPath(linePath);
-
-         // 원의 반지름을 선 객체를 이용해서 얻어옵니다
-         var length = drawingLine.getLength();
-
-         if (length > 0) {
-           // 그려지고 있는 원의 중심좌표와 반지름입니다
-           var circleOptions = {
-             center: centerPosition,
-             radius: length,
-           };
-
-           // 그려지고 있는 원의 옵션을 설정합니다
-           drawingCircle.setOptions(circleOptions);
-
-           // 반경 정보를 표시할 커스텀오버레이의 내용입니다
-           var radius = Math.round(drawingCircle.getRadius()),
-             content =
-               '<div class="info">반경 <span class="number">' +
-               radius +
-               "</span>m</div>";
-
-           // 반경 정보를 표시할 커스텀 오버레이의 좌표를 마우스커서 위치로 설정합니다
-           drawingOverlay.setPosition(mousePosition);
-
-           // 반경 정보를 표시할 커스텀 오버레이의 표시할 내용을 설정합니다
-           drawingOverlay.setContent(content);
-
-           // 그려지고 있는 원을 지도에 표시합니다
-           drawingCircle.setMap(map);
-
-           // 그려지고 있는 선을 지도에 표시합니다
-           drawingLine.setMap(map);
-
-           // 그려지고 있는 원의 반경정보 커스텀 오버레이를 지도에 표시합니다
-           drawingOverlay.setMap(map);
-         } else {
-           drawingCircle.setMap(null);
-           drawingLine.setMap(null);
-           drawingOverlay.setMap(null);
-         }
-       }
-     });
-
-     // 지도에 마우스 오른쪽 클릭이벤트를 등록합니다
-     // 원을 그리고있는 상태에서 마우스 오른쪽 클릭 이벤트가 발생하면
-     // 마우스 오른쪽 클릭한 위치를 기준으로 원과 원의 반경정보를 표시하는 선과 커스텀 오버레이를 표시하고 그리기를 종료합니다
-     kakao.maps.event.addListener(map, "rightclick", function (mouseEvent) {
-       if (drawingFlag) {
-         // 마우스로 오른쪽 클릭한 위치입니다
-         var rClickPosition = mouseEvent.latLng;
-
-         // 원의 반경을 표시할 선 객체를 생성합니다
-         var polyline = new kakao.maps.Polyline({
-           path: [centerPosition, rClickPosition], // 선을 구성하는 좌표 배열입니다. 원의 중심좌표와 클릭한 위치로 설정합니다
-           strokeWeight: 3, // 선의 두께 입니다
-           strokeColor: "#00a0e9", // 선의 색깔입니다
-           strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-           strokeStyle: "solid", // 선의 스타일입니다
-         });
-
-         // 원 객체를 생성합니다
-         var circle = new kakao.maps.Circle({
-           center: centerPosition, // 원의 중심좌표입니다
-           radius: polyline.getLength(), // 원의 반지름입니다 m 단위 이며 선 객체를 이용해서 얻어옵니다
-           strokeWeight: 1, // 선의 두께입니다
-           strokeColor: "#00a0e9", // 선의 색깔입니다
-           strokeOpacity: 0.1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-           strokeStyle: "solid", // 선의 스타일입니다
-           fillColor: "#00a0e9", // 채우기 색깔입니다
-           fillOpacity: 0.2, // 채우기 불투명도입니다
-         });
-
-         var radius = Math.round(circle.getRadius()), // 원의 반경 정보를 얻어옵니다
-           content = getTimeHTML(radius); // 커스텀 오버레이에 표시할 반경 정보입니다
-
-         // 반경정보를 표시할 커스텀 오버레이를 생성합니다
-         var radiusOverlay = new kakao.maps.CustomOverlay({
-           content: content, // 표시할 내용입니다
-           position: rClickPosition, // 표시할 위치입니다. 클릭한 위치로 설정합니다
-           xAnchor: 0,
-           yAnchor: 0,
-           zIndex: 1,
-         });
-
-         // 원을 지도에 표시합니다
-         circle.setMap(map);
-
-         // 선을 지도에 표시합니다
-         polyline.setMap(map);
-
-         // 반경 정보 커스텀 오버레이를 지도에 표시합니다
-         radiusOverlay.setMap(map);
-
-         // 배열에 담을 객체입니다. 원, 선, 커스텀오버레이 객체를 가지고 있습니다
-         var radiusObj = {
-           polyline: polyline,
-           circle: circle,
-           overlay: radiusOverlay,
-         };
-
-         // 배열에 추가합니다
-         // 이 배열을 이용해서 "모두 지우기" 버튼을 클릭했을 때 지도에 그려진 원, 선, 커스텀오버레이들을 지웁니다
-         circles.push(radiusObj);
-
-         // 그리기 상태를 그리고 있지 않는 상태로 바꿉니다
-         drawingFlag = false;
-
-         // 중심 좌표를 초기화 합니다
-         centerPosition = null;
-
-         // 그려지고 있는 원, 선, 커스텀오버레이를 지도에서 제거합니다
-         drawingCircle.setMap(null);
-         drawingLine.setMap(null);
-         drawingOverlay.setMap(null);
-       }
-     });
-
-     // 지도에 표시되어 있는 모든 원과 반경정보를 표시하는 선, 커스텀 오버레이를 지도에서 제거합니다
-     function removeCircles() {
-       for (var i = 0; i < circles.length; i++) {
-         circles[i].circle.setMap(null);
-         circles[i].polyline.setMap(null);
-         circles[i].overlay.setMap(null);
-       }
-       circles = [];
-     }
-
-     // 마우스 우클릭 하여 원 그리기가 종료됐을 때 호출하여
-     // 그려진 원의 반경 정보와 반경에 대한 도보, 자전거 시간을 계산하여
-     // HTML Content를 만들어 리턴하는 함수입니다
-     function getTimeHTML(distance) {
-       // 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
-       var walkkTime = (distance / 67) | 0;
-       var walkHour = "",
-         walkMin = "";
-
-       // 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
-       if (walkkTime > 60) {
-         walkHour =
-           '<span class="number">' +
-           Math.floor(walkkTime / 60) +
-           "</span>시간 ";
-       }
-       walkMin = '<span class="number">' + (walkkTime % 60) + "</span>분";
-
-       // 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
-       var bycicleTime = (distance / 227) | 0;
-       var bycicleHour = "",
-         bycicleMin = "";
-
-       // 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
-       if (bycicleTime > 60) {
-         bycicleHour =
-           '<span class="number">' +
-           Math.floor(bycicleTime / 60) +
-           "</span>시간 ";
-       }
-       bycicleMin = '<span class="number">' + (bycicleTime % 60) + "</span>분";
-
-       // 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
-       var content = '<ul class="info">';
-       content += "    <li>";
-       content +=
-         '        <span class="label">총거리</span><span class="number">' +
-         distance +
-         "</span>m";
-       content += "    </li>";
-       content += "    <li>";
-       content +=
-         '        <span class="label">도보</span>' + walkHour + walkMin;
-       content += "    </li>";
-       content += "    <li>";
-       content +=
-         '        <span class="label">자전거</span>' +
-         bycicleHour +
-         bycicleMin;
-       content += "    </li>";
-       content += "</ul>";
-
-       return content;
-     }
-     //반경 확인용 끝
 
      //장소 추가
      var user = JSON.parse("{{ userJson|escapejs }}");
