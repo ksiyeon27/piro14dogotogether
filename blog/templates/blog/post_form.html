@@ -15,18 +15,18 @@
         {{ form.errors }}
     </div>
     {% endif %}
-    <form action="." method="post" enctype="multipart/form-data" class="card pt-3">{% csrf_token %}
+
+
+    <form action="" method="post" enctype="multipart/form-data" class="card pt-3">
         {% csrf_token %}
 
-        
-         
         <div class="create-container">
             <div class="from group-row">
-                <input type="text" autofocus class="form-control title-input" placeholder="제목을 입력하세요" required id="id_title"> 
+                {{ form.title|add_class:"form-control"|add_class:"title-input"|attr:"autofocus"|attr:'placeholder=제목을입력하세요'}}
             </div>
             <br/>
             <div class="from group-row">
-                <input type="textarea" class="form-control content-input" placeholder="내용을 작성하세요" required id="id_content">
+                {{ form.content|add_class:"form-control"|add_class:"content-input"|attr:"autofocus"|attr:'placeholder=내용을작성하세요'}}
             </div>
             
             <div class="from group-row image-section">
@@ -34,13 +34,13 @@
 
                 <input class="upload-name" value="" disabled="disabled">
                 <label class="file-upload-button" for="id_image">이미지 선택</label>
-                <input type="file" autofocus class="form-control image-input" required id="id_image">
+                {{ form.image|add_class:"form-control"|add_class:"image-input"|attr:"autofocus"}}
             </div>
 
             
             <div class="from group-row tags-section">
                 <span class="tags-name">태그 </span>
-                <input type="text" autofocus class="form-control tags-input" placeholder="해시태그와 함께 입력해주세요" required id="id_tags">
+                {{ form.tags|add_class:"form-control"|add_class:"tags-input"|attr:"autofocus"|attr:'placeholder=해시태그와함께입력해주세요'}}
             </div>    
             <small class="form-text text-muted">{{ form.tags.help_text }}</small>
 
