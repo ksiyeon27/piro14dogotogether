@@ -2,13 +2,14 @@
 {% load staticfiles %}
 
 {% block extra_head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="{% static 'blog/css/post_all.css' %}">
 {% endblock %}
 
 {% block body %}
     <div class="blog-header">
-        <h5>물어보개</h5>
-        <p>반려견 산책과 관련된 정보와 후기를 사람들과 자유롭게 공유해보세요!</p>
+        <h5 class="animate__animated animate__fadeInUp animate__fast">물어보개</h5>
+        <p class="animate__animated animate__fadeInUp animate__fast">반려견 산책과 관련된 정보와 후기를 사람들과 자유롭게 공유해보세요!</p>
     </div>
     <div class="blog-container">
         <div class="blog-grid">
@@ -66,7 +67,7 @@
                                 <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
                             </div>
                             <div class="post-image">
-                                <img src="{{post.image.url}}"/>
+                                <a href="{{ post.get_absolute_url }}"><img src="{{post.image.url}}"/></a>
                             </div>
                         </div>
                         
@@ -95,7 +96,7 @@
                             <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
                         </div>
                         <div class="post-image">
-                            <img src="{{post.image.url}}"/>
+                            <a href="{{ post.get_absolute_url }}"><img src="{{post.image.url}}"/></a>
                         </div>
                     </div>
                     
@@ -123,15 +124,6 @@
             {% endif %}
         </span>
     </div>
-    <!--
-    <div class="pagination">
-        <span>
-            {#% for page in page_obj %}
-                <a href="?page={#{ page_obj.number }}">{{ page_obj.number }}</a>
-            {#% endfor %}
-        </span>
-    </div>
-    -->
 {% endblock %}
 {% block script %}
     <!--<script type="text/javascript" src="{% static 'blog/js/create_confirm.js' %}" ></script>-->
