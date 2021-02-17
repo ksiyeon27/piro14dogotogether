@@ -7,6 +7,7 @@
     font-family: 'NexonLv1Gothic';
     src:url('../font/NEXON Lv1 Gothic OTF.woff');
 }
+
 *{
     box-sizing: border-box;
 }
@@ -143,7 +144,7 @@ h6{
     display: none;
 }
 
-@media screen and (max-width:800px){
+@media all and (max-width:800px){
     .navbar{
         flex-direction:column;
         align-items: flex-start;
@@ -186,6 +187,11 @@ h6{
     position: relative;
     top:30%;
 }
+.header-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .sub-title{
     margin:1rem;
     line-height: 1.6rem;
@@ -194,7 +200,6 @@ h6{
 .header-title-left{
     background-color:rgba(0,0,0,0.4);
     padding: 1.5rem;
-    
 }
 .header-title-right{
     font-size: 2.0rem;
@@ -231,7 +236,7 @@ h6{
     width:20%;
     height: 40vh;
     border-radius:30px;
-    box-shadow: 0 2px 20px -10px #B5B5B5;
+    box-shadow: 0 2px 20px -10px rgb(150, 145, 135);
     transition: 0.3s
 }
 .main-item p{
