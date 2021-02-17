@@ -197,8 +197,8 @@ def comment_modify_view(request, pk):
     writer = request.POST.get('writer')
     content = request.POST.get('content')
     if content:
-        comment = Comment.objects.create(post=post, content=content, writer=request.user)
-        post.save()
+        comment = Comment.objects.filter(post=post, content=content, writer=request.user)
+        comment.save()
         data = {
             'writer': writer,
             'content': content,

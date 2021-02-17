@@ -70,7 +70,7 @@
                             {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
                                 <div class="comment-modify">
                                     <button><a onclick="commentDelete('{{comment.id}}');">삭제</a></button>
-                                    <button><a onclick="commentModification('{{ comment.id }}');">수정</a></button>
+                                    <button name="commentmod" value="{{ comment.id }}">수정</button>
                                 </div>
                             
                             {% endif %}
@@ -236,31 +236,49 @@
         }
     }
 </script>
-    <script type="text/javascript">
-    function commentModification(value){
+<script type="text/javascript">
+    $(document).on("click", "button[name='commentmod']", function(value){
         var comment_id = value;
-        var modification_warning = confirm('댓글을 수정하시겠습니까?');
-        if (modification_warning == true) {
+        var editor =
+            '<div class="comment-input">' +
+            '<textarea class="write-comment-box" id="content_id" rows="3" placeholder="댓글을 입력하세요.">' +
+            '</textarea>' +
+            '<button id="comment_write">' +
+            '<a id="comment_modification">작성하기</a>' +
+            '</button>' +
+            '</div>';
+        var prevTr = $(this);
+        prevTr.after(editor);
+        $(this).remove();
+    });
+</script>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+        $('#comment_modification').click(function (value) {
+            var content= $("#content_id").val();
+            var writer= $("#comment_writer").val();
             $.ajax({
                 type: "POST",
-                url: "{% url 'blog:comment_modify' post.id %}",
+                url: "{% url 'blog:comment_modify' object.id %}",
                 dataType: "json",
                 data: {
                     'comment_id': comment_id,
+                    'writer': writer,
                     'content': content,
                     'csrfmiddlewaretoken': '{{csrf_token}}',
                 },
                 success: function (response) {
-                    $('#'+response.comment_id).replaceWith('<div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
-                           '<span style="float:right;">'+response.created+'</span>'+
-                           '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+
-                           '</div><div style="text-align:right;"><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>');
-                },
-                error: function () {
-                    alert('본인 댓글이 아닙니다.');
-                },
-            });
-        }
-    }
+                $('#'+response.comment_id).replaceWith('<div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
+                       '<span style="float:right;">'+response.created+'</span>'+
+                       '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+
+                       '</div><div style="text-align:right;"><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>');
+            },
+            error: function () {
+                alert('본인 댓글이 아닙니다.');
+            },
+        });
+        })});
+
 </script>
     {% endblock %}
