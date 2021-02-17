@@ -162,6 +162,7 @@ h6 {
     .navbar_toggleBtn{
         display:block;
         margin-top:25px;
+        right:5%;
     }
     .menu.active{
         display: flex;

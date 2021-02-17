@@ -12,34 +12,37 @@
         <p class="animate__animated animate__fadeInUp animate__fast">반려견 산책과 관련된 정보와 후기를 사람들과 자유롭게 공유해보세요!</p>
     </div>
 <div class="blog-container">
+    
     <div class="best-container">
         <h6 class="best-post-title">인기 top5 게시글</h6>
-        <ul class="best-ul">
-            {% for post in sorted %}
-            <li class="best-post">
-                <div class="best-box">
-                    <a href="{{ post.get_absolute_url }}">
-                    
-                        <img src="{{post.image.url}}"/>
+        
+            <ul class="best-ul">
+                {% for post in sorted %}
+                <li class="best-post">
+                    <div class="best-box">
+                        <a href="{{ post.get_absolute_url }}">
                         
-                        <div class="best-info">
-                            <div>
-                                <p class="best-info-title">{{ post.title }}</p>
-                                <p>{{ post.modified_at|date:"Y-m-d" }}</p>
-                                <p>by. {{ post.owner}}</p>
-                                <p>
-                                    <i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }} &nbsp;
-                                    <i class="far fa-heart"></i> {{post.count_likes_user}}
-                                </p>
+                            <img src="{{post.image.url}}"/>
+                            
+                            <div class="best-info">
+                                <div>
+                                    <p class="best-info-title">{{ post.title }}</p>
+                                    <p>{{ post.modified_at|date:"Y-m-d" }}</p>
+                                    <p>by. {{ post.owner}}</p>
+                                    <p>
+                                        <i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }} &nbsp;
+                                        <i class="far fa-heart"></i> {{post.count_likes_user}}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        
     </div>
-    
+
     <div class="post-container">
         <div class="post-grid"> 
             <h6 class="all-post-title">전체글보기</h6>
@@ -71,7 +74,9 @@
                             <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
                         </div>
                         <div class="post-image">
-                            <img src="{{post.image.url}}"/>
+                            <a href="{{ post.get_absolute_url }}">
+                                <img src="{{post.image.url}}"/>
+                            </a>
                         </div>
                     </div>
                     
@@ -100,7 +105,9 @@
                         <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
                     </div>
                     <div class="post-image">
-                        <img src="{{post.image.url}}"/>
+                        <a href="{{ post.get_absolute_url }}">
+                            <img src="{{post.image.url}}"/>
+                        </a>
                     </div>
                 </div>
                 
@@ -128,18 +135,9 @@
             {% endif %}
         </span>
     </div>
-    <!--
-    <div class="pagination">
-        <span>
-            {#% for page in page_obj %}
-                <a href="?page={#{ page_obj.number }}">{{ page_obj.number }}</a>
-            {#% endfor %}
-        </span>
-    </div>
-    -->
+
 {% endblock %}
 {% block script %}
-    <!--<script type="text/javascript" src="{% static 'blog/js/create_confirm.js' %}" ></script>-->
     <script>
     function create_confirm(){
         {% if not user.is_authenticated %}
@@ -150,5 +148,6 @@
         {% endif %}
     }
     </script>
+  
 {% endblock script %}
 
