@@ -36,8 +36,13 @@
         
         <div class="like-and-comment">
             <div class="like-and-comment-content">
+                {%if likes %}
+                <button class="like like-btn" name="{{ post.id }}"><i class='fas fa-heart' style='color:#F58A8A'></i></button>
+                <span id="count-{{ post.id }}">{{ post.likes_user.all.count }}</span>
+                {% else %}
                 <button class="like like-btn" name="{{ post.id }}"><i class="far fa-heart"></i></button>
                 <span id="count-{{ post.id }}">{{ post.likes_user.all.count }}</span>
+                {% endif %}
                 <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
             </div>
         </div>
