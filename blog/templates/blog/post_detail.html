@@ -4,6 +4,7 @@
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'blog/css/post_detail.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -46,7 +47,9 @@
             <div class="modify-and-delete-content">
                 {% if request.user == object.owner %}
                     <button type="button"  onclick="location.href='{% url 'blog:update' object.pk %}'; ">수정</button>
-                    <button type="button"  onclick="location.href='{% url 'blog:delete' object.pk %}'; ">삭제</button>
+                    <form class="delete-btn" method="POST" action="{% url 'blog:delete' object.pk %}">
+                        {% csrf_token %}<input class="delete-btn" type="submit" onclick="return confirm('게시글을 삭제 하시겠습니까?');" value="삭제">
+                    </form>
                 {% endif %}
             </div>
         </div>
@@ -86,6 +89,7 @@
             <textarea class="write-comment-box" id="content_id" rows="3" placeholder="댓글을 입력하세요."></textarea>
             <button id="comment_write">작성하기</button>
         </div>
+        
     </div>
 </div>
 <div class="page-linker">
@@ -115,7 +119,6 @@
 
 
 {% block script %}
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
             $(".like").click(function () { // .like 버튼을 클릭 감지
                 var pk = $(this).attr('name')
@@ -133,6 +136,7 @@
                             $(".like-btn").html("<i class='far fa-heart'></i>");
                         }
                         else{
+                            //색깔 있는 좋아요
                             $(".like-btn").html("<i class='fas fa-heart' style='color:#F58A8A'></i>");
                         }
 
@@ -152,7 +156,7 @@
             var writer= $("#comment_writer").val();
             $.ajax({
                 type: "POST",
-                url: "{% url 'blog:comment_new' post.id %}",
+                url: "{% url 'blog:comment_new' object.id %}",
                 dataType: "json",
                 data: {
                     'writer': writer,
@@ -212,7 +216,7 @@
         if (delete_warning == true) {
             $.ajax({
                 type: "POST",
-                url: "{% url 'blog:comment_delete' post.id %}",
+                url: "{% url 'blog:comment_delete' object.id %}",
                 dataType: "json",
                 data: {
                     'comment_id': comment_id,
