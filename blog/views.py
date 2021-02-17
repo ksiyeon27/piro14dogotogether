@@ -76,7 +76,14 @@ class PostDV(DetailView):
     #여기????
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get(self.pk_url_kwarg, None)
+        post=get_object_or_404(Post,pk=pk)
+        if post.likes_user.filter(id=self.request.user.id):
+            likes=True
+        else:
+            likes=False
         context['comments'] = Comment.objects.all()
+        context['likes']=likes
         return context
     
 
