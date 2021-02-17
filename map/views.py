@@ -9,20 +9,36 @@ from django.http import JsonResponse
 
 
 def showmap(request):
-    with open('static/map/parks.json', encoding='utf-8') as json_file:
-        parks = json.load(json_file)
+    with open('static/map/data.json', encoding='utf-8') as json_file:
+        datas = json.load(json_file)
     parkdict = []
-    for park in parks:
-        if park.get('이름'):
+    cafedict = []
+    bistrodict = []
+
+    for data in datas:
+        if data['종류'] == "식당":
             content = {
-                "title": (park['이름']),
-                "mapx": str(park['위도']),
-                "mapy": str(park['경도']),
-                "addr1": str(park["기타"])
+                "title": (data['이름']),
+                "address": str(data['주소']),
             }
             parkdict.append(content)
+        if data['종류'] == "카페":
+            content = {
+                "title": (data['이름']),
+                "address": str(data['주소']),
+            }
+            cafedict.append(content)
+        else:
+            content = {
+                "title": (data['이름']),
+                "address": str(data['주소']),
+            }
+            bistrodict.append(content)
+
     API_KEY = getattr(settings, 'API_KEY', 'API_KEY')
     parkJson = json.dumps(parkdict, ensure_ascii=False)
+    cafeJson = json.dumps(cafedict, ensure_ascii=False)
+    bistroJson = json.dumps(bistrodict, ensure_ascii=False)
 
     placedict=[]
     places = placeAddByUser.objects.all()
@@ -39,7 +55,7 @@ def showmap(request):
     user={'user':str(request.user)}
     userJson=json.dumps(user)
 
-    return render(request, 'map/showmap.html', {'parkJson': parkJson, 'API_KEY' : API_KEY,'placeJson':placeJson,'userJson':userJson})
+    return render(request, 'map/showmap.html', {'bistroJson':bistroJson, 'cafeJson':cafeJson, 'parkJson': parkJson, 'API_KEY' : API_KEY,'placeJson':placeJson,'userJson':userJson})
 
 def showanimalavail(request):
     with open('static/json/animalavail.json', encoding='utf-8') as json_file:
@@ -99,8 +115,13 @@ def deleteplace(request):
        req = json.loads(request.body)
        title=req['title']
        place=placeAddByUser.objects.filter(name=title).first()
-       place.delete()
-       return JsonResponse({'id': str(title)})
+       if request.user==place.created_by:
+           place.delete()
+           type = "correct"
+           return JsonResponse({'type': str(type)})
+       else:
+           type = "incorrect"
+           return JsonResponse({'type': str(type)})
     
     elif request.method == 'GET':
         return render(request, 'base.html')

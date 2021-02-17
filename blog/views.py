@@ -19,12 +19,14 @@ from django.conf import settings
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.views.generic import ListView, DetailView, TemplateView, UpdateView, DeleteView, CreateView
+from django.views.generic.edit import BaseDeleteView
 from django.shortcuts import render, get_object_or_404, HttpResponse
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 import json
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
-
+from django.contrib import messages
+from .models import Post
 
 @login_required
 @require_POST
@@ -34,10 +36,10 @@ def post_like(request):
     user = request.user
 
     if post.likes_user.filter(id=user.id):
-        post.likes_user.remove(user)
+        post.likes_user.remove(request.user)
         message = '좋아요 취소'
     else:
-        post.likes_user.add(user)
+        post.likes_user.add(request.user)
         message = '좋아요'
 
     context = {'likes_count': post.count_likes_user(), 'message': message}
@@ -73,12 +75,11 @@ class PostLV(ListView):
 
 class PostDV(DetailView):
     model = Post
-
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = Comment.objects.all()
+        context['comments'] = Comment.objects.filter(post=self.object.id)
         return context
+    
 
 class PostAV(ArchiveIndexView):
     model = Post
@@ -122,12 +123,17 @@ class SearchFormView(FormView):
 
     def form_valid(self, form):
         searchWord = form.cleaned_data['search_word']
-        post_list = Post.objects.filter(Q(title__icontains=searchWord) | Q(content__icontains=searchWord)).distinct()
+        search_type = self.request.POST.get('type', '')
+        if search_type == 'all':
+            post_list = Post.objects.filter(Q(title__icontains=searchWord) | Q(content__icontains=searchWord)).distinct()
+        elif search_type == 'title':
+            post_list = Post.objects.filter(Q(title__icontains=searchWord))
+        elif search_type == 'content':
+            post_list = Post.objects.filter(Q(content__icontains=searchWord))
+        elif search_type == 'writer':
+            post_list = Post.objects.filter(owner__username__icontains=searchWord)
 
-        context = {}
-        context['form'] = form
-        context['search_term'] = searchWord
-        context['object_list'] = post_list
+        context = {'form': form, 'search_term': searchWord, 'object_list': post_list}
 
         return render(self.request, self.template_name, context)
 
@@ -144,7 +150,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(OwnerOnlyMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'image','secret', 'tags']
+    fields = ['title', 'content', 'image', 'secret', 'tags']
     success_url = reverse_lazy('blog:index')
     
 class PostDeleteView(OwnerOnlyMixin, DeleteView):
@@ -178,10 +184,11 @@ def comment_delete_view(request, pk):
 
     if request.user == target_comment.writer or request.user.level == '1' or request.user.level == '0':
         target_comment.deleted = True
-        target_comment.save()
+        target_comment.delete()
         post.save()
         data = {
             'comment_id': comment_id,
+            'deleted':target_comment.deleted,
         }
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
 
