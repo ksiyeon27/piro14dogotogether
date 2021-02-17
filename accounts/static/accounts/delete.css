@@ -41,3 +41,11 @@
     color: white;
     font-weight:600;
 }
+
+.btn_div button:disabled {
+    background-color: grey;
+}
+
+.btn_div button:hover {
+    background-color: #E87400;
+  }
