@@ -4,6 +4,7 @@ from django.conf import settings
 import json
 from .models import placeAddByUser
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 # Create your views here.
 
@@ -95,6 +96,7 @@ def testmap(request):
     return render(request, 'map/testmap.html', {'parkJson': parkJson})
 
 @csrf_exempt
+@login_required
 def addplace(request):
     if request.method == 'POST':
         req = json.loads(request.body)
@@ -103,6 +105,7 @@ def addplace(request):
         new_place.xmap=req['xmap']
         new_place.ymap=req['ymap']
         new_place.created_by=request.user
+        new_place.category=req['category']
         new_place.save()
         return JsonResponse({'id': str(new_place.id)})
     elif request.method == 'GET':
@@ -110,6 +113,7 @@ def addplace(request):
 
 
 @csrf_exempt
+@login_required
 def deleteplace(request):
     if request.method=='POST':
        req = json.loads(request.body)
