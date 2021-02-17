@@ -56,41 +56,51 @@
             <section id="main2">
                 <div class="main2-container">
                     <div class="main-item">
-                        <i class="fas fa-dog"></i>
-                        <h6>같이가개</h6>
-                        <p> 반려견과의 나들이 어디로 갈까? 애견 동반 가능한 장소들을 지도에서 한눈에 찾기!</p>
-                        <button><a href="{% url 'map:showmap'%}">바로가기</a></button>
+                        <a href="{% url 'map:showmap'%}">
+                            <i class="fas fa-dog"></i>
+                            <h6>같이가개</h6>
+                            <p> 반려견과의 나들이 어디로 갈까? 애견 동반 가능한 장소들을 지도에서 한눈에 찾기!</p>
+                            <button class="org-btn-sm">바로가기</button>
+                        </a>
                     </div>
 
                     <div class="main-item">
-                        <i class="fas fa-paw"></i>
-                        <h6>참고하개</h6>
-                        <p> 우리 강아지는 산책을 얼마나 시켜야 할까? 활동량, 기초대사량, 적정체중, 견종별 특징까지 한번에 알아보기!</p>
-                        <button><a href="{% url 'calculator:firstpage' %}">바로가기</a></button>
+                        <a href="{% url 'calculator:firstpage' %}">
+                            <i class="fas fa-paw"></i>
+                            <h6>참고하개</h6>
+                            <p> 우리 강아지는 산책을 얼마나 시켜야 할까? 활동량, 기초대사량, 적정체중, 견종별 특징까지 한번에 알아보기!</p>
+                            <button class="org-btn-sm">바로가기</button>
+                        </a>
                     </div>
 
                     <div class="main-item">
-                        <i class="fas fa-comments"></i>
-                        <h6>물어보개</h6>
-                        <p>반려견과 다녀온 애견동반 핫플들을 모아 다른 사람들과 함께 공유하고 자유롭게 소통하기!</p>
-                        <button><a href="{% url 'blog:post_list' %}">바로가기</a></button>
+                        <a href="{% url 'blog:post_list' %}">
+                            <i class="fas fa-comments"></i>
+                            <h6>물어보개</h6>
+                            <p>반려견과 다녀온 애견동반 핫플들을 모아 다른 사람들과 함께 공유하고 자유롭게 소통하기!</p>
+                            <button class="org-btn-sm">바로가기</button>
+                        </a>
                     </div>
-
+                    
                     <div class="main-item">
-                        <i class="fas fa-book"></i>
-                        <h6>알아보개</h6>
-                        <p>반려견과 산책할 때 알아두어야 할 기본 지식들을 알아보개 리스트에서 한번에 체크하기!</p>
-                        <button><a href="{% url 'faq:qna' %}">바로가기</a></button>
+                        <a href="{% url 'faq:qna' %}">
+                            <i class="fas fa-book"></i>
+                            <h6>알아보개</h6>
+                            <p>반려견과 산책할 때 알아두어야 할 기본 지식들을 알아보개 리스트에서 한번에 체크하기!</p>
+                            <button class="org-btn-sm">바로가기</button>
+                        </a>
                     </div>
+                    
                 </div>
             </section>
 
             <section id="main3">
                 <h2>BEST top5 모아보개!</h2>
                 <p class="sub-title">다른 사람들이 관심있게 본 새로운 산책 관련 정보들을 확인해보세요!</p>
+                
                 <div class="recommend-container">
                     <div class="recommend-contents">
-                        <div class="recommend-contents-grid">
+                        <div class="recommend-contents-grid ">
                             <h5 class="rcmd-title">오늘의 산책장소 top5</h5>
                             {% for post in posts %}
                             <div class="recommend-grid-item">
@@ -145,7 +155,7 @@
                                     <p class="content-title">Q.산책 질문 내용{{ qna.question }}</p>
                                 </div>
                                 <div class="recommend-content-info">
-                                   <a href="">답변보기</a>
+                                <a href="">답변보기</a>
                                 </div>
                             </div>
                             {% endfor %}
@@ -157,8 +167,6 @@
                         </div>
                     </div>
                 </div>
-
-                
                 <img class="mainDog" src="{% static 'img/mainDog.png' %}"/>
             </section>
         {% endblock %}
@@ -171,7 +179,7 @@
     {% endblock %}
     
     <script type="text/javascript" src="{% static 'js/navbar_toggle.js' %}"></script>
-    {% block script %}        
+    {% block script %}     
     {% endblock %}
 </body>
 </html>
