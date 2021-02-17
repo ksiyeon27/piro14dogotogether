@@ -46,6 +46,7 @@ h6{
     margin:0 10px;
     width:200px;
     height: 200px;
+    box-shadow: 0 2px 20px -10px rgb(150, 145, 135);
 }
 .best-box p:nth-child(1){
     display:inline-block;
@@ -234,27 +235,33 @@ form{
 @media screen and (max-width:768px){
     /*-----best post-----*/
     .best-container{
-        width:85vw;
-        overflow: hidden;
         margin-top:7%;
     }
+    .slide-box{
+        width:200px;
+        
+        margin-left:-100px;
+        z-index:100;
+    }
     .best-ul{
+        width:1200px;
         display: flex;
-        flex-direction: column;
     }
     .best-post-title{
         margin:0;
     }
     .best-post{
-        margin:5% 2%;
-        width:100%;
+        margin:3% 1%;
+        width:200px;
+        height: 200px;
+        float:left;
     }
     .best-post .best-box {
         position:relative;
         z-index:1;
         overflow: hidden;
-        width:100%;
-        margin:0;
+        width:200px;
+        height: 200px;
     }
     .best-box p:nth-child(1){
         display:inline-block;

@@ -3,6 +3,7 @@
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'blog/css/post_all.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 {% endblock %}
 
@@ -15,7 +16,7 @@
     
     <div class="best-container">
         <h6 class="best-post-title">인기 top5 게시글</h6>
-        
+        <div class="slide-box">
             <ul class="best-ul">
                 {% for post in sorted %}
                 <li class="best-post">
@@ -40,7 +41,7 @@
                 </li>
                 {% endfor %}
             </ul>
-        
+        </div>
     </div>
 
     <div class="post-container">
@@ -147,6 +148,36 @@
             location.href="{% url 'blog:add'%}";
         {% endif %}
     }
+    </script>
+    <script>
+        var ul = document.querySelector('.best-ul');
+        var screen = window.innerWidth;
+
+        function move(){
+            var curIndex = 0;
+
+            setInterval(function(){
+                ul.style.transition = '0.7s';
+                ul.style.transform = "translate3d(-"+200*(curIndex+1)+"px, 0px, 0px)";
+                curIndex++;
+                if(curIndex === 4){
+                    curIndex = -1;
+                }
+            },3000);
+        }
+        
+        if(screen <= 768){
+            console.log('mobile');
+            move();
+        }
+        ul.style.removeProperty('transition');
+        ul.style.removeProperty('transform');
+
+        
+        /*
+        document.addEventListener("DOMContentLoaded",function(){
+            move();
+        });*/
     </script>
   
 {% endblock script %}
