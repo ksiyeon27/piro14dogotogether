@@ -13,7 +13,30 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
 
-    <style></style>
+    <style>
+      /* The Modal (background) */
+.searchModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  /* Modal Content/Box */
+  .search-modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%; /* Could be more or less, depending on screen size */
+  }
+  
+    </style>
     {% endblock %}
   </head>
 
@@ -35,6 +58,10 @@
         <li><button id="searchmarker" onclick="checkMarkers()">검색 마커</button></li>
         <li><button id="nearpark" onclick="checknearParkMarker()">주변 애견장소 </button></li>
         <li><button id="allpark" onclick="checkallParkMarker()"> 공원 </button></li>
+        <li><button id="allpark" onclick="checkallParkMarker()"> 식당 </button></li>
+        <li><button id="allpark" onclick="checkallParkMarker()"> 카페 </button></li>
+        <li><button id="allpark" onclick="checkallParkMarker()"> 기타 </button></li>
+        <li><button id="allpark" onclick="checkallParkMarker()"> 모든 애견 장소</button></li>
         <li><button onclick="removeCircles()">원 그리기 지우기</button></li>
       </ul>
     </div>
@@ -45,7 +72,7 @@
           <form onsubmit="searchPlaces(); return false;">
             <input
               type="text"
-              value="짐박스"
+              value="샤로수길"
               id="keyword"
               placeholder="강아지와 함께 갈 수 있는 플레이스를 찾아보세요!"
               onfocus="this.placeholder=''"
@@ -60,7 +87,26 @@
       <div id="pagination"></div>
     </div>
   </div>
-
+  <div id="modal" class="searchModal">
+    <div class="search-modal-content">
+      <form method="post">
+        {% csrf_token %}
+        <label for="category"> 어떤 장소인지 알려주세요</label>
+        <select id="category" name="cars"> 
+            <option value="공원">공원</option>
+            <option value="식당">식당</option>
+            <option value="카페">카페</option>
+            <option value="기타">기타</option>
+            </select>
+        <div class="modal-footer">
+            <button type="button" onclick="addplace()" class="btn-ajax">장소 등록</button>
+            <button type="button" onclick="shutdown()" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+    </form>
+    </div>
+    </div>
+    
+    
   {% endblock %}
    {% block footer %}
    {% endblock %}
@@ -69,6 +115,7 @@
     type="text/javascript"
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{ API_KEY }},clusterer"
   ></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
   <script
     src="https://code.jquery.com/jquery-3.5.1.slim.js"
     integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
@@ -177,15 +224,31 @@
          return;
        }
      }
+     function imageselector(category){
+       if(category == "식당" ){
+        var img ='/static/img/식당마커.png';
+        
+        return img;
+       } else if(category =="공원"){
+        var img = '/static/img/공원마커.png';
+       
+        return img;
+       }else if(category =="카페"){
+        var img='/static/img/카페마커.png';
+        
+        return img;
+       }else{
+        var img ='/static/img/퍼플마커.png';
+        
+        return img;
+       }
+     }
 
      //placeaddbyuser 위치 뛰우기
      var placesaddbyuser = JSON.parse("{{ placeJson|escapejs }}");
-     console.log(placesaddbyuser);
      var usermarkers = [];
      var imageSize = new kakao.maps.Size(24, 35);
-     var imageadd =
-       "https://upload.wikimedia.org/wikipedia/commons/f/f2/678111-map-marker-512.png";
-     var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
+     
      function overraycustomuser(marker, place) {
        kakao.maps.event.addListener(marker, "mouseover", function () {
          var iwContent =
@@ -221,6 +284,8 @@
        });
      }
      for (var i = 0; i < placesaddbyuser.length; i++) {
+       var imageadd = imageselector(placesaddbyuser[i].category);
+       var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
        var usermarker = new kakao.maps.Marker({
          map: map,
          position: new kakao.maps.LatLng(
@@ -320,13 +385,11 @@
        itemStr += '  <span class="tel">' + places.phone + "</span>";
        //카테고리 부분 추가 필요
        var isregister = 0;
-       console.log(usermarkers);
        for (var i = 0; i < usermarkers.length; i++) {
          if (usermarkers[i].getTitle() == places.place_name) {
            isregister = isregister + 1;
          }
        }
-       console.log(isregister);
        if (isregister == 0) {
          itemStr +=
            '<button id="addplace_' +
@@ -465,7 +528,7 @@
              '        <div class="body">' +
              '            <div class="desc">' +
              '                <div class="ellipsis">' +
-             place.addr1 +
+             place.address +
              "</div>" +
              "            </div>" +
              "        </div>" +
@@ -495,24 +558,33 @@
      //공원 마크(현재위치 주변) 띄우기
      var parks = JSON.parse("{{ parkJson|escapejs }}");
      console.log(parks);
-     var imageSrc =
-       "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+     
      //공원용 마크 이미지
      var imageSize = new kakao.maps.Size(24, 35);
-
-     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+     var coords;
+     var geocoder = new kakao.maps.services.Geocoder();
      for (var i = 0; i < parks.length; i++) {
-       var parkmarker = new kakao.maps.Marker({
-         map: null,
-         position: new kakao.maps.LatLng(parks[i].mapx, parks[i].mapy),
-         title: parks[i].title,
-         image: markerImage,
-       });
-
-       parkmarkers.push(parkmarker);
-       overraycustompark(parkmarker, parks[i]);
-     }
-
+      var imageSrc =imageselector(parks[i].category);
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      var parkmarker = new kakao.maps.Marker({
+        map: map,
+        title: parks[i].title,
+        image: markerImage,
+      });    
+      geocoder.addressSearch(parks[i].address, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          console.log(coords);
+        } 
+        parkmarker.setPosition(coords);
+      }); 
+        
+        parkmarkers.push(parkmarker);
+        overraycustompark(parkmarker, parks[i]);
+    }
+    console.log(parkmarkers[0].getPosition());
+    
+    
      function showParkMarker() {
        var radius = 2000;
        var c1 = map.getCenter();
@@ -804,69 +876,91 @@
      //반경 확인용 끝
 
      //장소 추가
+     var placeid;
+     var div;
+     var title;
+     var address_name;
      var user = JSON.parse("{{ userJson|escapejs }}");
      var newusermarker = new kakao.maps.Marker();
-     function registerplace(clicked_id) {
-       var request = new XMLHttpRequest();
-       var placeid = document.getElementById(clicked_id);
-       var div = placeid.closest("div");
-       var title = div.querySelector("h5").textContent;
-       var address_name = div.querySelector("#address_name").textContent;
-       var geocoder = new kakao.maps.services.Geocoder();
-       var callback = function (result, status) {
-         if (status === kakao.maps.services.Status.OK) {
-           console.log(title, address_name, result[0].y, result[0].x);
-           var url = "ajax/";
-           request.open("POST", url, true);
-           request.setRequestHeader(
-             "Content-Type",
-             "application/x-www-form-urlencoded"
-           );
-           var xmap = result[0].y;
-           var ymap = result[0].x;
-           var info = {
-             title: title,
-             address: address_name,
-             xmap: xmap,
-             ymap: ymap,
-             author: user.user,
-           };
-           request.send(JSON.stringify(info));
-           var imageadd =
-             "https://upload.wikimedia.org/wikipedia/commons/f/f2/678111-map-marker-512.png";
-           var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
-           var coord = new kakao.maps.LatLng(xmap, ymap);
-           newusermarker.setMap(map);
-           newusermarker.setPosition(coord);
-           newusermarker.setTitle(title);
-           newusermarker.setImage(markerImage);
-           overraycustomuser(newusermarker, info);
-           var handleResponse = () => {
-             if (request.status <= 400) {
-               placeid.innerHTML = "장소 삭제";
-               placeid.onclick = () => {
-                 placedelete(clicked_id);
-               };
-             }
-           };
-           request.onreadystatechange = () => {
-             if (request.readyState === XMLHttpRequest.DONE) {
-               handleResponse();
-             }
-           };
-         }
-       };
-       geocoder.addressSearch(address_name, callback);
+     var geocoder = new kakao.maps.services.Geocoder();
+     var clicked_id;
+     var id;
+     function shutdown(){
+      $("#modal").hide();
      }
+     
+     function registerplace(clicked_id) {
+                
+       placeid = document.getElementById(clicked_id);
+       div = placeid.closest("div");
+       title = div.querySelector("h5").textContent;
+       address_name = div.querySelector("#address_name").textContent;
+       function abc() {
+        $("#modal").show();
+        }
+        abc();
+     }
+     function addplace() {
+      
+      var callback = function (result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+           var request = new XMLHttpRequest(); 
+           var category = document.getElementById("category");
+           category=category.options[category.selectedIndex].value;
+           console.log(category);
+          var url = "ajax/";
+          request.open("POST", url, true);
+          request.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          );
+          var xmap = result[0].y;
+          var ymap = result[0].x;
+          var info = {
+            title: title,
+            address: address_name,
+            xmap: xmap,
+            ymap: ymap,
+            category:category,
+            author: user.user,
+          };
+          request.send(JSON.stringify(info));
+          var handleResponse = () => {
+           if (request.status <= 400) {
+             var imageadd =imageselector(category);
+             var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
+             var coord = new kakao.maps.LatLng(xmap, ymap);
+             newusermarker.setMap(map);
+             newusermarker.setPosition(coord);
+             newusermarker.setTitle(title);
+             newusermarker.setImage(markerImage);
+             overraycustomuser(newusermarker, info);
+              placeid.innerHTML = "장소 삭제";
+              placeid.setAttribute('onclick','placedelete(this.id)');
+              shutdown();
+              alert("장소가 등록되었습니다!");
+            }
+          };
+          request.onreadystatechange = () => {
+            if (request.readyState === XMLHttpRequest.DONE) {
+              handleResponse();
+            }
+          };
+         
+        }
+      };
+      geocoder.addressSearch(address_name, callback);
+    }
 
      //장소삭제
      function placedelete(clicked_id) {
        var r =confirm("정말 등록된 장소를 삭제하시겠습니까?.");
        if(r == true){
        var request = new XMLHttpRequest();
-       var placeid = document.getElementById(clicked_id);
-       var div = placeid.closest("div");
-       var title = div.querySelector("h5").textContent;
+     
+       placeid = document.getElementById(clicked_id);
+       div = placeid.closest("div");
+       title = div.querySelector("h5").textContent;
        console.log(title);
        var url = "ajax/delete";
        request.open("POST", url, true);
@@ -890,10 +984,10 @@
           if (newusermarker.getTitle() === title) {
             newusermarker.setMap(null);
           }
+          alert("등록된 장소가 삭제되었습니다!");
            placeid.innerHTML = "장소 추가";
-           placeid.onclick = () => {
-             registerplace(clicked_id);
-           };
+           placeid.setAttribute('onclick','registerplace(this.id)')
+           console.log(placeid);
           }
           else{
             alert("권한이 없습니다.");
