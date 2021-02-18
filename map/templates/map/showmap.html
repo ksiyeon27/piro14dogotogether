@@ -38,7 +38,7 @@
   border: 1px solid #888;
   width: 70%; /* Could be more or less, depending on screen size */
   }
-  
+
     </style>
     {% endblock %}
   </head>
@@ -56,10 +56,10 @@
         <li><button id="searchmarker" onclick="checkMarkers()"><i class="fas fa-search-plus"></i></button></li>
         <li><button id="nearpark" onclick="checknearParkMarker()">주변 애견장소 </button></li>
         <li><button id="allpark" onclick="checkallParkMarker()"> 공원 </button></li>
-        <li><button id="allpark" onclick="checkallParkMarker()"> 식당 </button></li>
-        <li><button id="allpark" onclick="checkallParkMarker()"> 카페 </button></li>
-        <li><button id="allpark" onclick="checkallParkMarker()"> 기타 </button></li>
-        <li><button id="allpark" onclick="checkallParkMarker()"> 모든 애견 장소</button></li>
+        <li><button id="allbistro" onclick="checkallBistroMarker()"> 식당 </button></li>
+        <li><button id="allcafe" onclick="checkallCafeMarker()"> 카페 </button></li>
+        <li><button id="alletc" onclick="checkallEtcMarker()"> 기타 </button></li>
+        <li><button id="all" onclick="checkallMarker()"> 모든 애견 장소</button></li>
         <li><button onclick=""><i class="fas fa-plus"></i></button></li>
 
       </ul>
@@ -71,7 +71,7 @@
 
     <a class="search_toggleBtn">
       <i class="fas fa-search-location fa-lg"></i>
-    </a> 
+    </a>
     <div id="menu_wrap" class="bg_white">
       <div class="option">
 
@@ -89,10 +89,10 @@
           </form>
           <div id="category_buttons">
             <ul>
-              <li><button onclick="">#식당</button> </li>
-              <li><button onclick="">#공원</button></li>
-              <li><button onclick="">#카페</button></li>
-              <li><button onclick="">#놀이터</button></li>
+              <li><button id="" onclick="">#식당</button> </li>
+              <li><button id="" onclick="">#공원</button></li>
+              <li><button id="" onclick="">#카페</button></li>
+              <li><button id="" onclick="">#놀이터</button></li>
             </ul>
           </div>
         </div>
@@ -108,7 +108,7 @@
       <form method="post">
         {% csrf_token %}
         <label for="category"> 어떤 장소인지 알려주세요</label>
-        <select id="category" name="cars"> 
+        <select id="category" name="cars">
             <option value="공원">공원</option>
             <option value="식당">식당</option>
             <option value="카페">카페</option>
@@ -121,14 +121,14 @@
     </form>
     </div>
     </div>
-    
-    
+
+
   {% endblock %}
    {% block footer %}
    {% endblock %}
    {% block script %}
-   
-    <script type="text/javascript" 
+
+    <script type="text/javascript"
     src="{% static 'map/js/showmap.js' %}" ></script>
 
   <script
@@ -142,7 +142,7 @@
     crossorigin="anonymous"
   ></script>
   <script>
-     // 마커를 담을 배열입니다
+ // 마커를 담을 배열입니다
      var markers = [];
 
      var mapContainer = document.getElementById("map"), // 지도를 표시할 div
@@ -247,19 +247,19 @@
      function imageselector(category){
        if(category == "식당" ){
         var img ='/static/img/식당마커.png';
-        
+
         return img;
        } else if(category =="공원"){
         var img = '/static/img/공원마커.png';
-       
+
         return img;
        }else if(category =="카페"){
         var img='/static/img/카페마커.png';
-        
+
         return img;
        }else{
         var img ='/static/img/퍼플마커.png';
-        
+
         return img;
        }
      }
@@ -268,7 +268,7 @@
      var placesaddbyuser = JSON.parse("{{ placeJson|escapejs }}");
      var usermarkers = [];
      var imageSize = new kakao.maps.Size(24, 35);
-     
+
      function overraycustomuser(marker, place) {
        kakao.maps.event.addListener(marker, "mouseover", function () {
          var iwContent =
@@ -572,39 +572,40 @@
        });
      }
 
-     //공원 마커 어레이
+
+//공원 마커 어레이
      var parkmarkers = [];
 
      //공원 마크(현재위치 주변) 띄우기
      var parks = JSON.parse("{{ parkJson|escapejs }}");
      console.log(parks);
-     
+
      //공원용 마크 이미지
-     var imageSize = new kakao.maps.Size(24, 35);
-     var coords;
      var geocoder = new kakao.maps.services.Geocoder();
-     for (var i = 0; i < parks.length; i++) {
-      var imageSrc =imageselector(parks[i].category);
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-      var parkmarker = new kakao.maps.Marker({
-        map: map,
-        title: parks[i].title,
-        image: markerImage,
-      });    
-      geocoder.addressSearch(parks[i].address, function(result, status) {
-        if (status === kakao.maps.services.Status.OK) {
-          coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-          console.log(coords);
-        } 
-        parkmarker.setPosition(coords);
-      }); 
-        
-        parkmarkers.push(parkmarker);
-        overraycustompark(parkmarker, parks[i]);
-    }
-    console.log(parkmarkers[0].getPosition());
-    
-    
+     for (let i = 0; i < parks.length; i++) {
+       geocoder.addressSearch(parks[i].address, function(result, status){
+           if(status === kakao.maps.services.Status.OK){
+               var imageSrc =imageselector(parks[i].category);
+               var imageSize = new kakao.maps.Size(24, 35);
+               var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+               var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+               var parkmarker = new kakao.maps.Marker({
+               map: null,
+               position: coords,
+               title: parks[i].title,
+               image: markerImage,
+       });
+           }
+
+
+
+       parkmarkers.push(parkmarker);
+       overraycustompark(parkmarker, parks[i]);
+       });
+
+     }
+
+
      function showParkMarker() {
        var radius = 2000;
        var c1 = map.getCenter();
@@ -646,6 +647,256 @@
        }
      }
 
+     //cafe 마커 어레이
+     var cafemarkers = [];
+
+     //cafe 마크(현재위치 주변) 띄우기
+     var cafes = JSON.parse("{{ cafeJson|escapejs }}");
+     console.log(cafes);
+
+     //cafe 마크 이미지
+
+     var geocoder = new kakao.maps.services.Geocoder();
+     for (let i = 0; i < cafes.length; i++) {
+       geocoder.addressSearch(cafes[i].address, function(result, status){
+           if(status === kakao.maps.services.Status.OK){
+               var imageSrc =imageselector(cafes[i].category);
+               var imageSize = new kakao.maps.Size(24, 35);
+               var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+               var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+               var cafemarker = new kakao.maps.Marker({
+               map: null,
+               position: coords,
+               title: cafes[i].title,
+               image: markerImage,
+       });
+           }
+
+
+
+       cafemarkers.push(cafemarker);
+       overraycustompark(cafemarker, cafes[i]);
+       });
+
+     }
+
+
+     function showCafeMarker() {
+       var radius = 2000;
+       var c1 = map.getCenter();
+       for (var i = 0; i < cafemarkers.length; i++) {
+         var c2 = cafemarkers[i].getPosition();
+         var poly = new kakao.maps.Polyline({
+           path: [c1, c2],
+         });
+         var dist = poly.getLength();
+         console.log(dist);
+         if (dist < radius) {
+           cafemarkers[i].setMap(map);
+         } else {
+           cafemarkers[i].setMap(null);
+         }
+       }
+     }
+     function checknearCafeMarker() {
+       var x = document.getElementById("nearcafe");
+       if (x.style.opacity === "1") {
+         x.style.opacity = "0.5";
+         showCafeMarker();
+       } else {
+         x.style.opacity = "1";
+         hideMarkers(cafemarkers);
+       }
+     }
+
+     //모든 cafe 마크 띄우기(save용)
+
+     function checkallCafeMarker() {
+       var x = document.getElementById("allcafe");
+       if (x.style.opacity === "1") {
+         x.style.opacity = "0.5";
+         showMarkers(cafemarkers);
+       } else {
+         x.style.opacity = "1";
+         hideMarkers(cafemarkers);
+       }
+     }
+
+     //bistro 마커 어레이
+     var bistromarkers = [];
+
+     //bistro 마크(현재위치 주변) 띄우기
+     var bistros = JSON.parse("{{ bistroJson|escapejs }}");
+     console.log(bistros);
+
+     //bistro 마크 이미지
+
+     var geocoder = new kakao.maps.services.Geocoder();
+     for (let i = 0; i < bistros.length; i++) {
+       geocoder.addressSearch(bistros[i].address, function(result, status){
+           if(status === kakao.maps.services.Status.OK){
+               var imageSrc = imageselector(bistros[i].category);
+               var imageSize = new kakao.maps.Size(24, 35);
+               var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+               var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+               var bistromarker = new kakao.maps.Marker({
+               map: null,
+               position: coords,
+               title: bistros[i].title,
+               image: markerImage,
+       });
+           }
+
+
+
+       bistromarkers.push(bistromarker);
+       overraycustompark(bistromarker, cafes[i]);
+       });
+
+     }
+
+
+     function showBistroMarker() {
+       var radius = 2000;
+       var c1 = map.getCenter();
+       for (var i = 0; i < bistromarkers.length; i++) {
+         var c2 = bistromarkers[i].getPosition();
+         var poly = new kakao.maps.Polyline({
+           path: [c1, c2],
+         });
+         var dist = poly.getLength();
+         console.log(dist);
+         if (dist < radius) {
+           bistromarkers[i].setMap(map);
+         } else {
+           bistromarkers[i].setMap(null);
+         }
+       }
+     }
+     function checknearBistroMarker() {
+       var x = document.getElementById("nearbistro");
+       if (x.style.opacity === "1") {
+         x.style.opacity = "0.5";
+         showCafeMarker();
+       } else {
+         x.style.opacity = "1";
+         hideMarkers(bistromarkers);
+       }
+     }
+
+     //모든 bistro 마크 띄우기(save용)
+
+     function checkallBistroMarker() {
+       var x = document.getElementById("allbistro");
+       if (x.style.opacity === "1") {
+         x.style.opacity = "0.5";
+         showMarkers(bistromarkers);
+       } else {
+         x.style.opacity = "1";
+         hideMarkers(bistromarkers);
+       }
+     }
+
+     //etc 마커 어레이
+     var etcmarkers = [];
+
+     //etc 마크(현재위치 주변) 띄우기
+     var etcs = JSON.parse("{{ etcJson|escapejs }}");
+     console.log(etcs);
+
+     //etc 마크 이미지
+     for (let i = 0; i < etcs.length; i++) {
+               var imageSrc = imageselector(etcs[i].category);
+               var imageSize = new kakao.maps.Size(24, 35);
+               var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+               var coords = new kakao.maps.LatLng(etcs[i].mapy, etcs[i].mapx);
+               var etcmarker = new kakao.maps.Marker({
+               map: null,
+               position: coords,
+               title: etcs[i].title,
+               image: markerImage});
+               etcmarkers.push(etcmarker);
+               overraycustompark(etcmarker, etcs[i]);
+           }
+
+
+
+
+
+
+
+     function showEtcMarker() {
+       var radius = 2000;
+       var c1 = map.getCenter();
+       for (var i = 0; i < etcmarkers.length; i++) {
+         var c2 = etcmarkers[i].getPosition();
+         var poly = new kakao.maps.Polyline({
+           path: [c1, c2],
+         });
+         var dist = poly.getLength();
+         console.log(dist);
+         if (dist < radius) {
+           etcmarkers[i].setMap(map);
+         } else {
+           etcmarkers[i].setMap(null);
+         }
+       }
+     }
+     function checknearEtcMarker() {
+       var x = document.getElementById("nearetc");
+       if (x.style.opacity === "1") {
+         x.style.opacity = "0.5";
+         showCafeMarker();
+       } else {
+         x.style.opacity = "1";
+         hideMarkers(bistromarkers);
+       }
+     }
+
+     //모든 bistro 마크 띄우기(save용)
+
+     function checkallEtcMarker() {
+       var x = document.getElementById("alletc");
+       if (x.style.opacity === "1") {
+         x.style.opacity = "0.5";
+         showMarkers(etcmarkers);
+       } else {
+         x.style.opacity = "1";
+         hideMarkers(etcmarkers);
+       }
+     }
+
+    // 모든 애견 장소 표시
+     function checkallMarker() {
+       var x = document.getElementById("all");
+       var y = document.getElementById("allbistro");
+       var z = document.getElementById("allcafe");
+       var w = document.getElementById("allpark");
+       var p = document.getElementById("alletc");
+       if (x.style.opacity === "1") {
+         x.style.opacity = "0.5";
+         y.style.opacity = "0.5";
+         z.style.opacity = "0.5";
+         w.style.opacity = "0.5";
+         p.style.opacity = "0.5";
+         showMarkers(cafemarkers);
+         showMarkers(bistromarkers);
+         showMarkers(parkmarkers);
+         showMarkers(etcmarkers);
+       } else {
+         x.style.opacity = "1";
+         y.style.opacity = "1";
+         z.style.opacity = "1";
+         w.style.opacity = "1";
+         p.style.opacity = "1";
+         hideMarkers(cafemarkers);
+         hideMarkers(bistromarkers);
+         hideMarkers(parkmarkers);
+         hideMarkers(etcmarkers);
+       }
+     }
+
+
      //장소 추가
      var placeid;
      var div;
@@ -659,9 +910,9 @@
      function shutdown(){
       $("#modal").hide();
      }
-     
+
      function registerplace(clicked_id) {
-                
+
        placeid = document.getElementById(clicked_id);
        div = placeid.closest("div");
        title = div.querySelector("h5").textContent;
@@ -672,10 +923,10 @@
         abc();
      }
      function addplace() {
-      
+
       var callback = function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
-           var request = new XMLHttpRequest(); 
+           var request = new XMLHttpRequest();
            var category = document.getElementById("category");
            category=category.options[category.selectedIndex].value;
            console.log(category);
@@ -717,7 +968,7 @@
               handleResponse();
             }
           };
-         
+
         }
       };
       geocoder.addressSearch(address_name, callback);
@@ -728,7 +979,7 @@
        var r =confirm("정말 등록된 장소를 삭제하시겠습니까?.");
        if(r == true){
        var request = new XMLHttpRequest();
-     
+
        placeid = document.getElementById(clicked_id);
        div = placeid.closest("div");
        title = div.querySelector("h5").textContent;

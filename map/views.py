@@ -30,7 +30,7 @@ def showmap(request):
                 "address": str(data['주소']),
                 "category":str(data['종류']),
             }
-            parkdict.append(content)
+            bistrodict.append(content)
         if data['종류'] == "카페":
             content = {
                 "title": (data['이름']),
@@ -38,13 +38,13 @@ def showmap(request):
                 "category":str(data['종류']),
             }
             cafedict.append(content)
-        else:
+        if data['종류'] == "공원":
             content = {
                 "title": (data['이름']),
                 "address": str(data['주소']),
-                "category":str(data['종류']),
+                "category": str(data['종류']),
             }
-            bistrodict.append(content)
+            parkdict.append(content)
 
     for etc in etcs:
         content = {
