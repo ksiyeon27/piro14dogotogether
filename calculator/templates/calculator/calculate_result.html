@@ -16,8 +16,8 @@
                         <p>{{press_text|linebreaks}}</p>
                     </div>
                     <div class="url_btns">
-                        <a href="#">활동 장소 찾아보기</a>
-                        <a href="#">산책 장소 공유하기</a>
+                        <a href="{% url 'map:showmap'%}">활동 장소 찾아보기</a>
+                        <a href="{% url 'blog:post_list' %}">산책 장소 공유하기</a>
                     </div>
                 </div>
             </div>
