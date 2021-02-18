@@ -3,14 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>가치가개!-강아지 산책 정보 공유 사이트</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}"> 
     <script src="https://kit.fontawesome.com/9ada8679dc.js" crossorigin="anonymous"></script>
     
+    
     {% block extra_head %}
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
     {% endblock %}
 </head>
 <body>
@@ -152,16 +154,16 @@
                     <div class="recommend-contents" data-aos="fade-up" data-aos-delay="300" data-aos-once="true">
                         <div class="recommend-contents-grid">
                             <h5 class="rcmd-title">오늘의 산책상식</h5>
-                            {% for post in posts %}
+
                             <div class="recommend-grid-item">
                                 <div class="recommend-content-text">
-                                    <p class="content-title">Q.산책 질문 내용{{ qna.question }}</p>
+                                    <p class="content-title">Q{{ random_qna.0 }}</p>
                                 </div>
                                 <div class="recommend-content-info">
-                                <a href="">답변보기</a>
+                                    <p class="content-body">A. {{ random_qna.1 }}</p>
                                 </div>
                             </div>
-                            {% endfor %}
+
                             <div class="show-more">
                                 <button class="org-fill-btn">
                                     <a href="{% url 'faq:qna' %}">더 알아보기</a>
@@ -171,7 +173,7 @@
                     </div>
                 </div>
                 
-                <img class="mainDog" src="{% static 'img/mainDog.png' %}"/>
+                <img class="mainDog" src="{% static '../../static/img/mainDog.png' %}"/>
             </section>
         {% endblock %}
     </main>
@@ -183,6 +185,7 @@
     {% endblock %}
     
     <script type="text/javascript" src="{% static 'js/navbar_toggle.js' %}"></script>
+    
     {% block script %}
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>AOS.init();</script>

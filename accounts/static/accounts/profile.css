@@ -8,7 +8,7 @@
 
 .header_text {
     margin: 2rem auto;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid lightgray;
     text-align:left;
     padding-bottom:1.3rem;
     font-size: 1.2rem;
@@ -74,9 +74,10 @@
 
 .far {
     font-size:80px;
-    border:1px solid black;
+    background-color:lightgray;
     padding: 2rem;
     border-radius: 2rem;
+    color:gray;
 }
 
 .none_img {
@@ -86,41 +87,45 @@
 
 @media screen and (min-width:1024px) {
     .profile_container {
-        border:2px solid lightgray;
+        border:1px solid lightgray;
         box-sizing: border-box;
         border-radius: 3rem;
         width:40%;
         padding: 2rem 3rem;
+        background-color:white;
     }
 }
 
 @media screen and (min-width:768px) and (max-width:1024px){    
     .profile_container {
-        border:2px solid lightgray;
+        border:1px solid lightgray;
         box-sizing: border-box;
         border-radius: 3rem;
         width:55%;
         padding: 2rem 3rem;
+        background-color:white;
     }
 }
 
 @media screen and (min-width:480px) and (max-width:768px){
     .profile_container {
-        border:2px solid lightgray;
+        border:1px solid lightgray;
         box-sizing: border-box;
         border-radius: 3rem;
         width:90%;
         padding: 2rem 3rem;
+        background-color:white;
     }
 }
 
 @media screen and (max-width:480px){
     .profile_container {
-        border:2px solid lightgray;
+        border:1px solid lightgray;
         box-sizing: border-box;
         border-radius: 3rem;
         width:98%;
         padding: 1rem 1.5rem;
+        background-color:white;
     }
 
     .header_text {
