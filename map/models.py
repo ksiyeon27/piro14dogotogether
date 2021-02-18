@@ -21,12 +21,11 @@ class placeAddByUser(models.Model):
     created_by => 등록자 표기를 위한 모델 -> 등록자 탈퇴시 탈퇴한 유저로 설정되도록 디폴트 설정
     """
     TYPE = "kr"
-    CATEGORY_CHOICES = ((TYPE, "식당"), (TYPE, "카페"), (TYPE, "공원"))
     name = models.CharField(max_length=30)
     region = models.CharField(max_length=30, blank=True)
     xmap = models.DecimalField(max_digits=20, decimal_places=13)
     ymap = models.DecimalField(max_digits=20, decimal_places=13)
-    category = models.CharField(choices=CATEGORY_CHOICES, max_length=10, null=True, blank=True) #카테고리 추가
+    category = models.CharField(max_length=10, null=True, blank=True) #카테고리 추가
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_DEFAULT, default="탈퇴한 유저")
     available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now=True)
