@@ -1,13 +1,11 @@
-body{
-    background-color:white;
-}
-.main{
-    /*background-color:rgb(247, 247, 246);*/
+main{
+    background-color:rgb(252, 252, 250);
 }
 h6{
     color:#342f28;
 }
 
+ 
 /*-----header-----*/
 .blog-header{
     color:white;
@@ -233,19 +231,43 @@ form{
 }
 
 @media screen and (max-width:768px){
+
+    @keyframes slide{
+        0%{
+            transform:translateX(0);
+            transition:2s;
+        }
+        30%{
+            transform:translateX(-200px);
+            transition:2s;
+        }
+        65%{
+            transform:translateX(-500px);
+            transition:2s;
+        }
+        100%{
+            transform:translateX(-750px);
+            transition:2s;
+        }
+    }
     /*-----best post-----*/
     .best-container{
         margin-top:7%;
     }
     .slide-box{
         width:200px;
-        
         margin-left:-100px;
         z-index:100;
     }
     .best-ul{
-        width:1200px;
+        width:1000px;
         display: flex;
+        animation-name:slide;
+        animation-direction:alternate;
+        animation-duration:13s;
+        animation-iteration-count:infinite;
+        animation-timing-function: ease-in-out;
+
     }
     .best-post-title{
         margin:0;
@@ -395,6 +417,11 @@ form{
         object-fit:cover;
         background-color:lightgray;
     }
+    
+    .create-btn{
+        right:40px;
+        bottom:40px;
+    }
 }
 
 @media screen and (max-width:480px){
@@ -419,10 +446,5 @@ form{
     }
     form{
         display: block;
-    }
-
-    .create-btn{
-        right:40px;
-        bottom:40px;
     }
 }
