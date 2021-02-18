@@ -22,11 +22,11 @@
 
         <div class="create-container">
             <div class="from group-row">
-                {{ form.title|add_class:"form-control"|add_class:"title-input"|attr:"autofocus"|attr:'placeholder=제목을입력하세요'}}
+                {{ form.title|add_class:"form-control"|add_class:"title-input"|attr:"autofocus"|attr:'placeholder=제목을_입력하세요'}}
             </div>
             <br/>
             <div class="from group-row">
-                {{ form.content|add_class:"form-control"|add_class:"content-input"|attr:"autofocus"|attr:'placeholder=내용을작성하세요'}}
+                {{ form.content|add_class:"form-control"|add_class:"content-input"|attr:"autofocus"|attr:'placeholder=내용을_작성하세요'}}
             </div>
             
             <div class="from group-row image-section">
@@ -40,9 +40,9 @@
             
             <div class="from group-row tags-section">
                 <span class="tags-name">태그 </span>
-                {{ form.tags|add_class:"form-control"|add_class:"tags-input"|attr:"autofocus"|attr:'placeholder=해시태그와함께입력해주세요'}}
+                {{ form.tags|add_class:"form-control"|add_class:"tags-input"|attr:"autofocus"|attr:'placeholder="#태그"형식으로_입력하세요.(여러_태그_입력시_콤마(,)를_이용해_구분해주세요)' }}
             </div>    
-            <small class="form-text text-muted">{{ form.tags.help_text }}</small>
+            <!--<small class="form-text text-muted">{{ form.tags.help_text }}</small>-->
 
             <br/></br/>
             <div class="form-group">

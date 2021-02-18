@@ -136,7 +136,7 @@
                     }, // 서버로 데이터 전송시 옵션, pk를 넘겨야 어떤 post인지 알 수 있음
                     dataType: "json",
                     success: function (response) { // 성공
-                        $("#count-" + pk).html(response.likes_count+response.message); // 좋아요 개수 변경
+                        $("#count-" + pk).html(response.likes_count); // 좋아요 개수 변경
                         if(response.message == '좋아요 취소'){
                             $(".like-btn").html("<i class='far fa-heart'></i>");
                         }
@@ -349,4 +349,4 @@
         })});*/
 
 </script>
-    {% endblock %}
+{% endblock %}
