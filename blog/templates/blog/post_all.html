@@ -3,107 +3,120 @@
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'blog/css/post_all.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 {% endblock %}
 
 {% block body %}
     <div class="blog-header">
-        <h5>물어보개</h5>
-        <p>반려견 산책과 관련된 정보와 후기를 사람들과 자유롭게 공유해보세요!</p>
+        <h5 class="animate__animated animate__fadeInUp animate__fast">물어보개</h5>
+        <p class="animate__animated animate__fadeInUp animate__fast">반려견 산책과 관련된 정보와 후기를 사람들과 자유롭게 공유해보세요!</p>
     </div>
-    <div class="blog-container">
-        <div class="blog-grid">
-            <h6 class="best-post-title">인기 top5 게시글</h6>
-            {% for post in sorted %}
-            <div class="best-post">
-                <div class="best-box">
-                    <a href="{{ post.get_absolute_url }}">
-                    
-                        <img src="{{post.image.url}}"/>
+<div class="blog-container">
+    
+    <div class="best-container">
+        <h6 class="best-post-title">인기 top5 게시글</h6>
+        <div class="slide-box">
+            <ul class="best-ul">
+                {% for post in sorted %}
+                <li class="best-post">
+                    <div class="best-box">
+                        <a href="{{ post.get_absolute_url }}">
                         
-                        <div class="best-info">
-                            <div>
-                                <p class="best-info-title">{{ post.title }}</p>
-                                <p>{{ post.modified_at|date:"Y-m-d" }}</p>
-                                <p>by. {{ post.owner}}</p>
-                                <p>
-                                    <i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }} &nbsp;
-                                    <i class="far fa-heart"></i> {{post.count_likes_user}}
-                                </p>
+                            <img src="{{post.image.url}}"/>
+                            
+                            <div class="best-info">
+                                <div>
+                                    <p class="best-info-title">{{ post.title }}</p>
+                                    <p>{{ post.modified_at|date:"Y-m-d" }}</p>
+                                    <p>by. {{ post.owner}}</p>
+                                    <p>
+                                        <i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }} &nbsp;
+                                        <i class="far fa-heart"></i> {{post.count_likes_user}}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-                
-            </div>
-            {% endfor %}
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
+    <div class="post-container">
+        <div class="post-grid"> 
             <h6 class="all-post-title">전체글보기</h6>
-
+            
             <div class="post-search">
-
                 <form class="form-inline my-2 my-lg-0" action="/community/search/" method="POST">{% csrf_token %}
-                    <div class="col" style="margin-top: 10px;">
-                            <select style="width: 6em;" class="custom-select custom-select-md" name="type">
-                                <option value="all">전체</option>
-                                <option value="title">제목</option>
-                                <option value="content">내용</option>
-                                <option value="writer">작성자</option>
-                            </select>
-                        </div>
+                <div class="col filter-box">
+                    <select class="custom-select custom-select-md filter" name="type">
+                        <option value="all">전체</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="writer">작성자</option>
+                    </select>
+                </div>
                     <input class="search" type="search" placeholder="검색어를 입력한 후 Enter를 눌러주세요." name="search_word"/>
                 </form>
-                <button class="filter">최신순 <i class="fas fa-caret-down"></i></button>
+                
+                <!--<button class="filter">최신순 <i class="fas fa-caret-down"></i></button>-->
             </div>
-                {% for post in posts %}
-                    {% if post.secret %}
-                        {% if request.user == post.owner %}
-                        <div class="post-content">
-                            <div class="post-text">
-                                <span>{{ post.modified_at|date:"Y-m-d" }}</span>
-                                <span>by. {{ post.owner}}</span>
-                                <h6><a href="{{ post.get_absolute_url }}"><i class="fas fa-lock"></i> {{ post.title }}</a></h6>
-                                <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
-                                <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
-                            </div>
-                            <div class="post-image">
-                                <img src="{{post.image.url}}"/>
-                            </div>
-                        </div>
-                        
-                        {% else %}
-                        <div class="post-content">
-                            <div class="post-text">
-                                <span>{{ post.modified_at|date:"Y-m-d" }}</span>
-                                <span>by. 비공개</span>
-                                <h6>비밀글입니다.</a></h6>
-                                <span><i class="far fa-comment-dots"></i> 비공개</span>
-                                <span><i class="far fa-heart"></i> 비공개</span>
-                            </div>
-                            <div class="post-image">
-                                <i class="fas fa-images"></i>
-                            </div>
-                        </div>
-                        {% endif %}
-                    {% else %}
+            {% for post in posts %}
+                {% if post.secret %}
+                    {% if request.user == post.owner %}
                     <div class="post-content">
                         <div class="post-text">
                             <span>{{ post.modified_at|date:"Y-m-d" }}</span>
                             <span>by. {{ post.owner}}</span>
-                            <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
-                            <p>{{post.content}}</p>
+                            <h6><a href="{{ post.get_absolute_url }}"><i class="fas fa-lock"></i> {{ post.title }}</a></h6>
                             <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
                             <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
                         </div>
                         <div class="post-image">
-                            <img src="{{post.image.url}}"/>
+                            <a href="{{ post.get_absolute_url }}">
+                                <img src="{{post.image.url}}"/>
+                            </a>
                         </div>
                     </div>
                     
+                    {% else %}
+                    <div class="post-content">
+                        <div class="post-text">
+                            <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                            <span>by. 비공개</span>
+                            <h6>비밀글입니다.</a></h6>
+                            <span><i class="far fa-comment-dots"></i> 비공개</span>
+                            <span><i class="far fa-heart"></i> 비공개</span>
+                        </div>
+                        <div class="post-image">
+                            <i class="fas fa-images"></i>
+                        </div>
+                    </div>
                     {% endif %}
-                {% endfor %}
+                {% else %}
+                <div class="post-content">
+                    <div class="post-text">
+                        <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                        <span>by. {{ post.owner}}</span>
+                        <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
+                        <p>{{post.content}}</p>
+                        <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+                        <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                    </div>
+                    <div class="post-image">
+                        <a href="{{ post.get_absolute_url }}">
+                            <img src="{{post.image.url}}"/>
+                        </a>
+                    </div>
+                </div>
+                
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
-
+</div>
     
     <button type="button" class="create-btn" onclick="create_confirm();">
         <i class="fas fa-plus"></i>
@@ -123,18 +136,9 @@
             {% endif %}
         </span>
     </div>
-    <!--
-    <div class="pagination">
-        <span>
-            {#% for page in page_obj %}
-                <a href="?page={#{ page_obj.number }}">{{ page_obj.number }}</a>
-            {#% endfor %}
-        </span>
-    </div>
-    -->
+
 {% endblock %}
 {% block script %}
-    <!--<script type="text/javascript" src="{% static 'blog/js/create_confirm.js' %}" ></script>-->
     <script>
     function create_confirm(){
         {% if not user.is_authenticated %}
@@ -145,5 +149,36 @@
         {% endif %}
     }
     </script>
+    <script>
+        var ul = document.querySelector('.best-ul');
+        var screen = window.innerWidth;
+
+        function move(){
+            var curIndex = 0;
+
+            setInterval(function(){
+                ul.style.transition = '0.7s';
+                ul.style.transform = "translate3d(-"+200*(curIndex+1)+"px, 0px, 0px)";
+                curIndex++;
+                if(curIndex === 4){
+                    curIndex = -1;
+                }
+            },3000);
+        }
+        
+        if(screen <= 768){
+            console.log('mobile');
+            move();
+        }
+        ul.style.removeProperty('transition');
+        ul.style.removeProperty('transform');
+
+        
+        /*
+        document.addEventListener("DOMContentLoaded",function(){
+            move();
+        });*/
+    </script>
+  
 {% endblock script %}
 

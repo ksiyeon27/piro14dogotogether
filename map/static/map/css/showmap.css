@@ -13,45 +13,108 @@
 }
 .map_wrap {
   position: relative;
-  width: 100%;
-  height: 90%;
+  width: 100vw;
+  height: 90vh;
 }
 #map_buttons {
   position: absolute;
-  top: 65%;
-  left: 85%;
+  top: 55vh;
+  left: 85vw;
   bottom: 0;
-  width: 200px;
-  margin: 10px 0 30px 10px;
-  padding: 5px;
+  width: 12vw;
+  margin: 0;
+  padding: 0, 5rem;
   overflow-y: auto;
   background: rgba(255, 255, 255, 0.7);
   z-index: 1;
 }
-
 #map_buttons li {
   font-size: 1rem;
-  margin-bottom: 1rem;
-  background: white;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.7);
 }
 
 #map_buttons li button {
   border: 1px solid rgba(228, 226, 226, 0.8);
   box-shadow: -1px -1px 2px rgba(228, 226, 226, 0.8),
     2px 2px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 20px;
+  border-radius: 2rem;
   background-color: white;
   color: #e87400;
-  padding: 9px 12px;
+  padding: 0.6rem 0.8rem;
 }
 #map_buttons li button:hover {
   background-color: #e87400;
   color: white;
 }
+#map_buttons li button:focus {
+  outline: none;
+  border: 0;
+}
 #map_buttons li button > a {
   text-decoration: none;
   color: #e87400;
 }
+.place_add_button {
+  z-index: 1;
+  position: absolute;
+  top: 80vh;
+  left: 88vw;
+  width: 10vw;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* .place_add_button button {
+  font-size: 0.7rem;
+  border: 1px solid rgba(228, 226, 226, 0.8);
+  box-shadow: -1px -1px 2px rgba(228, 226, 226, 0.8),
+    2px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 2rem;
+  background-color: white;
+  color: #e87400;
+  padding: 0.6rem 0.8rem;
+}
+.place_add_button button:hover {
+  background-color: #e87400;
+  color: white;
+}
+.place_add_button button:focus {
+  outline: none;
+  border: 0;
+} */
+
+.search_toggleBtn {
+  position: absolute;
+  left: 0.5rem;
+  /* left: 18.5rem; */
+  top: 1rem;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  color: black;
+  z-index: 2;
+  display: none;
+  background-color: skyblue;
+  border-radius: 50%;
+}
+
+.fa-search-location {
+  margin-top: 0.8rem;
+}
+
+/*search toggle*/
+@media all and (max-width: 768px) {
+  #menu_wrap {
+    display: none;
+  }
+  #menu_wrap.active {
+    display: block;
+  }
+  .search_toggleBtn {
+    display: block;
+  }
+}
+/*search toggle end*/
 
 #menu_wrap {
   position: absolute;
@@ -88,7 +151,7 @@
   outline: none;
   color: black;
 }
-#menu_wrap .option button {
+#menu_wrap .option form button {
   width: 40px;
   height: 40px;
   background-color: #e87400;
@@ -98,11 +161,42 @@
     2px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
 }
-#menu_wrap .option button:focus {
+#menu_wrap .option form button:focus {
   outline: none;
 }
 #menu_wrap .option p {
   margin: 10px 0;
+}
+
+#menu_wrap #category_buttons {
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(max-content, 4);
+  grid-template-rows: 3rem;
+}
+#menu_wrap #category_buttons li {
+  float: left;
+  margin-right: 0.5rem;
+}
+#menu_wrap #category_buttons li button {
+  border: 1px solid rgba(228, 226, 226, 0.8);
+  box-shadow: -1px -1px 2px rgba(228, 226, 226, 0.8),
+    2px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 2rem;
+  background-color: white;
+  color: #e87400;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.7rem;
+}
+#menu_wrap #category_buttons li button:hover {
+  background-color: #e87400;
+  color: white;
+}
+#menu_wrap #category_buttons li button:focus {
+  outline: none;
+  border: 0;
 }
 
 #placesList li {
@@ -153,7 +247,25 @@
 }
 #placesList .info .tel {
   color: #009900;
+  margin-bottom: 1rem;
 }
+
+#placesList .info button {
+  border: 1px solid #e87400;
+  border-radius: 2rem;
+  background-color: white;
+  color: #e87400;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.7rem;
+}
+#placesList .info button:hover {
+  background-color: #e87400;
+  color: white;
+}
+#placesList .info button:focus {
+  outline: none;
+}
+
 #placesList .item .markerbg {
   float: left;
   position: absolute;
