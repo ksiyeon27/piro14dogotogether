@@ -7,20 +7,41 @@
     <title>같이가개</title>
 
     {% block extra_head %} {{ block.super }}
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <link rel="stylesheet" href="{% static 'map/css/showmap.css' %}" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-    <style></style>
+    <style>
+      /* The Modal (background) */
+.searchModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  /* Modal Content/Box */
+  .search-modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%; /* Could be more or less, depending on screen size */
+  }
+  
+    </style>
     {% endblock %}
   </head>
-
-
-
-
-
 
   {% block body %}
   <div class="map_wrap">
@@ -31,21 +52,34 @@
 
     <div id="map_buttons">
       <ul>
-        <li><button onclick="Geo()">현재위치</button> </li>
-        <li><button id="searchmarker" onclick="checkMarkers()">검색 마커</button></li>
+        <li><button onclick="Geo()"><i class="fas fa-street-view"></i></button> </li>
+        <li><button id="searchmarker" onclick="checkMarkers()"><i class="fas fa-search-plus"></i></button></li>
         <li><button id="nearpark" onclick="checknearParkMarker()">주변 애견장소 </button></li>
         <li><button id="allpark" onclick="checkallParkMarker()"> 공원 </button></li>
-        <li><button onclick="removeCircles()">원 그리기 지우기</button></li>
+        <li><button id="allpark" onclick="checkallParkMarker()"> 식당 </button></li>
+        <li><button id="allpark" onclick="checkallParkMarker()"> 카페 </button></li>
+        <li><button id="allpark" onclick="checkallParkMarker()"> 기타 </button></li>
+        <li><button id="allpark" onclick="checkallParkMarker()"> 모든 애견 장소</button></li>
+        <li><button onclick=""><i class="fas fa-plus"></i></button></li>
+
       </ul>
     </div>
+    <!-- <div class="place_add_button">
+      <button onclick=""><i class="fas fa-plus"></i></button>
+    </div> -->
 
+
+    <a class="search_toggleBtn">
+      <i class="fas fa-search-location fa-lg"></i>
+    </a> 
     <div id="menu_wrap" class="bg_white">
       <div class="option">
+
         <div>
           <form onsubmit="searchPlaces(); return false;">
             <input
               type="text"
-              value="짐박스"
+              value="샤로수길"
               id="keyword"
               placeholder="강아지와 함께 갈 수 있는 플레이스를 찾아보세요!"
               onfocus="this.placeholder=''"
@@ -53,22 +87,55 @@
             />
             <button type="submit"><i class="fas fa-search fa-lg"></i></button>
           </form>
+          <div id="category_buttons">
+            <ul>
+              <li><button onclick="">#식당</button> </li>
+              <li><button onclick="">#공원</button></li>
+              <li><button onclick="">#카페</button></li>
+              <li><button onclick="">#놀이터</button></li>
+            </ul>
+          </div>
         </div>
       </div>
+
 
       <ul id="placesList"></ul>
       <div id="pagination"></div>
     </div>
   </div>
-
+  <div id="modal" class="searchModal">
+    <div class="search-modal-content">
+      <form method="post">
+        {% csrf_token %}
+        <label for="category"> 어떤 장소인지 알려주세요</label>
+        <select id="category" name="cars"> 
+            <option value="공원">공원</option>
+            <option value="식당">식당</option>
+            <option value="카페">카페</option>
+            <option value="기타">기타</option>
+            </select>
+        <div class="modal-footer">
+            <button type="button" onclick="addplace()" class="btn-ajax">장소 등록</button>
+            <button type="button" onclick="shutdown()" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+    </form>
+    </div>
+    </div>
+    
+    
   {% endblock %}
    {% block footer %}
    {% endblock %}
    {% block script %}
+   
+    <script type="text/javascript" 
+    src="{% static 'map/js/showmap.js' %}" ></script>
+
   <script
     type="text/javascript"
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{ API_KEY }},clusterer"
   ></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
   <script
     src="https://code.jquery.com/jquery-3.5.1.slim.js"
     integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
@@ -177,15 +244,31 @@
          return;
        }
      }
+     function imageselector(category){
+       if(category == "식당" ){
+        var img ='/static/img/식당마커.png';
+        
+        return img;
+       } else if(category =="공원"){
+        var img = '/static/img/공원마커.png';
+       
+        return img;
+       }else if(category =="카페"){
+        var img='/static/img/카페마커.png';
+        
+        return img;
+       }else{
+        var img ='/static/img/퍼플마커.png';
+        
+        return img;
+       }
+     }
 
      //placeaddbyuser 위치 뛰우기
      var placesaddbyuser = JSON.parse("{{ placeJson|escapejs }}");
-     console.log(placesaddbyuser);
      var usermarkers = [];
      var imageSize = new kakao.maps.Size(24, 35);
-     var imageadd =
-       "https://upload.wikimedia.org/wikipedia/commons/f/f2/678111-map-marker-512.png";
-     var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
+     
      function overraycustomuser(marker, place) {
        kakao.maps.event.addListener(marker, "mouseover", function () {
          var iwContent =
@@ -221,6 +304,8 @@
        });
      }
      for (var i = 0; i < placesaddbyuser.length; i++) {
+       var imageadd = imageselector(placesaddbyuser[i].category);
+       var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
        var usermarker = new kakao.maps.Marker({
          map: map,
          position: new kakao.maps.LatLng(
@@ -320,18 +405,16 @@
        itemStr += '  <span class="tel">' + places.phone + "</span>";
        //카테고리 부분 추가 필요
        var isregister = 0;
-       console.log(usermarkers);
        for (var i = 0; i < usermarkers.length; i++) {
          if (usermarkers[i].getTitle() == places.place_name) {
            isregister = isregister + 1;
          }
        }
-       console.log(isregister);
        if (isregister == 0) {
          itemStr +=
            '<button id="addplace_' +
            (index + 1) +
-           '" onclick="registerplace(this.id)">장소추가</button>';
+           '" onclick="registerplace(this.id)">장소 추가</button>';
        } else {
          itemStr +=
            '<button id="addplace_' +
@@ -465,7 +548,7 @@
              '        <div class="body">' +
              '            <div class="desc">' +
              '                <div class="ellipsis">' +
-             place.addr1 +
+             place.address +
              "</div>" +
              "            </div>" +
              "        </div>" +
@@ -495,24 +578,33 @@
      //공원 마크(현재위치 주변) 띄우기
      var parks = JSON.parse("{{ parkJson|escapejs }}");
      console.log(parks);
-     var imageSrc =
-       "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+     
      //공원용 마크 이미지
      var imageSize = new kakao.maps.Size(24, 35);
-
-     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+     var coords;
+     var geocoder = new kakao.maps.services.Geocoder();
      for (var i = 0; i < parks.length; i++) {
-       var parkmarker = new kakao.maps.Marker({
-         map: null,
-         position: new kakao.maps.LatLng(parks[i].mapx, parks[i].mapy),
-         title: parks[i].title,
-         image: markerImage,
-       });
-
-       parkmarkers.push(parkmarker);
-       overraycustompark(parkmarker, parks[i]);
-     }
-
+      var imageSrc =imageselector(parks[i].category);
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      var parkmarker = new kakao.maps.Marker({
+        map: map,
+        title: parks[i].title,
+        image: markerImage,
+      });    
+      geocoder.addressSearch(parks[i].address, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          console.log(coords);
+        } 
+        parkmarker.setPosition(coords);
+      }); 
+        
+        parkmarkers.push(parkmarker);
+        overraycustompark(parkmarker, parks[i]);
+    }
+    console.log(parkmarkers[0].getPosition());
+    
+    
      function showParkMarker() {
        var radius = 2000;
        var c1 = map.getCenter();
@@ -554,319 +646,92 @@
        }
      }
 
-     //반경확인용 원 그리기 함수
-     var drawingFlag = false; // 원이 그려지고 있는 상태를 가지고 있을 변수입니다
-     var centerPosition; // 원의 중심좌표 입니다
-     var drawingCircle; // 그려지고 있는 원을 표시할 원 객체입니다
-     var drawingLine; // 그려지고 있는 원의 반지름을 표시할 선 객체입니다
-     var drawingOverlay; // 그려지고 있는 원의 반경을 표시할 커스텀오버레이 입니다
-     var drawingDot; // 그려지고 있는 원의 중심점을 표시할 커스텀오버레이 입니다
-
-     var circles = []; // 클릭으로 그려진 원과 반경 정보를 표시하는 선과 커스텀오버레이를 가지고 있을 배열입니다
-
-     // 지도에 클릭 이벤트를 등록합니다
-     kakao.maps.event.addListener(map, "click", function (mouseEvent) {
-       // 클릭 이벤트가 발생했을 때 원을 그리고 있는 상태가 아니면 중심좌표를 클릭한 지점으로 설정합니다
-       if (!drawingFlag) {
-         // 상태를 그리고있는 상태로 변경합니다
-         drawingFlag = true;
-
-         // 원이 그려질 중심좌표를 클릭한 위치로 설정합니다
-         centerPosition = mouseEvent.latLng;
-
-         // 그려지고 있는 원의 반경을 표시할 선 객체를 생성합니다
-         if (!drawingLine) {
-           drawingLine = new kakao.maps.Polyline({
-             strokeWeight: 3, // 선의 두께입니다
-             strokeColor: "#00a0e9", // 선의 색깔입니다
-             strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-             strokeStyle: "solid", // 선의 스타일입니다
-           });
-         }
-
-         // 그려지고 있는 원을 표시할 원 객체를 생성합니다
-         if (!drawingCircle) {
-           drawingCircle = new kakao.maps.Circle({
-             strokeWeight: 1, // 선의 두께입니다
-             strokeColor: "#00a0e9", // 선의 색깔입니다
-             strokeOpacity: 0.1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-             strokeStyle: "solid", // 선의 스타일입니다
-             fillColor: "#00a0e9", // 채우기 색깔입니다
-             fillOpacity: 0.2, // 채우기 불투명도입니다
-           });
-         }
-
-         // 그려지고 있는 원의 반경 정보를 표시할 커스텀오버레이를 생성합니다
-         if (!drawingOverlay) {
-           drawingOverlay = new kakao.maps.CustomOverlay({
-             xAnchor: 0,
-             yAnchor: 0,
-             zIndex: 1,
-           });
-         }
-       }
-     });
-
-     // 지도에 마우스무브 이벤트를 등록합니다
-     // 원을 그리고있는 상태에서 마우스무브 이벤트가 발생하면 그려질 원의 위치와 반경정보를 동적으로 보여주도록 합니다
-     kakao.maps.event.addListener(map, "mousemove", function (mouseEvent) {
-       // 마우스무브 이벤트가 발생했을 때 원을 그리고있는 상태이면
-       if (drawingFlag) {
-         // 마우스 커서의 현재 위치를 얻어옵니다
-         var mousePosition = mouseEvent.latLng;
-
-         // 그려지고 있는 선을 표시할 좌표 배열입니다. 클릭한 중심좌표와 마우스커서의 위치로 설정합니다
-         var linePath = [centerPosition, mousePosition];
-
-         // 그려지고 있는 선을 표시할 선 객체에 좌표 배열을 설정합니다
-         drawingLine.setPath(linePath);
-
-         // 원의 반지름을 선 객체를 이용해서 얻어옵니다
-         var length = drawingLine.getLength();
-
-         if (length > 0) {
-           // 그려지고 있는 원의 중심좌표와 반지름입니다
-           var circleOptions = {
-             center: centerPosition,
-             radius: length,
-           };
-
-           // 그려지고 있는 원의 옵션을 설정합니다
-           drawingCircle.setOptions(circleOptions);
-
-           // 반경 정보를 표시할 커스텀오버레이의 내용입니다
-           var radius = Math.round(drawingCircle.getRadius()),
-             content =
-               '<div class="info">반경 <span class="number">' +
-               radius +
-               "</span>m</div>";
-
-           // 반경 정보를 표시할 커스텀 오버레이의 좌표를 마우스커서 위치로 설정합니다
-           drawingOverlay.setPosition(mousePosition);
-
-           // 반경 정보를 표시할 커스텀 오버레이의 표시할 내용을 설정합니다
-           drawingOverlay.setContent(content);
-
-           // 그려지고 있는 원을 지도에 표시합니다
-           drawingCircle.setMap(map);
-
-           // 그려지고 있는 선을 지도에 표시합니다
-           drawingLine.setMap(map);
-
-           // 그려지고 있는 원의 반경정보 커스텀 오버레이를 지도에 표시합니다
-           drawingOverlay.setMap(map);
-         } else {
-           drawingCircle.setMap(null);
-           drawingLine.setMap(null);
-           drawingOverlay.setMap(null);
-         }
-       }
-     });
-
-     // 지도에 마우스 오른쪽 클릭이벤트를 등록합니다
-     // 원을 그리고있는 상태에서 마우스 오른쪽 클릭 이벤트가 발생하면
-     // 마우스 오른쪽 클릭한 위치를 기준으로 원과 원의 반경정보를 표시하는 선과 커스텀 오버레이를 표시하고 그리기를 종료합니다
-     kakao.maps.event.addListener(map, "rightclick", function (mouseEvent) {
-       if (drawingFlag) {
-         // 마우스로 오른쪽 클릭한 위치입니다
-         var rClickPosition = mouseEvent.latLng;
-
-         // 원의 반경을 표시할 선 객체를 생성합니다
-         var polyline = new kakao.maps.Polyline({
-           path: [centerPosition, rClickPosition], // 선을 구성하는 좌표 배열입니다. 원의 중심좌표와 클릭한 위치로 설정합니다
-           strokeWeight: 3, // 선의 두께 입니다
-           strokeColor: "#00a0e9", // 선의 색깔입니다
-           strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-           strokeStyle: "solid", // 선의 스타일입니다
-         });
-
-         // 원 객체를 생성합니다
-         var circle = new kakao.maps.Circle({
-           center: centerPosition, // 원의 중심좌표입니다
-           radius: polyline.getLength(), // 원의 반지름입니다 m 단위 이며 선 객체를 이용해서 얻어옵니다
-           strokeWeight: 1, // 선의 두께입니다
-           strokeColor: "#00a0e9", // 선의 색깔입니다
-           strokeOpacity: 0.1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-           strokeStyle: "solid", // 선의 스타일입니다
-           fillColor: "#00a0e9", // 채우기 색깔입니다
-           fillOpacity: 0.2, // 채우기 불투명도입니다
-         });
-
-         var radius = Math.round(circle.getRadius()), // 원의 반경 정보를 얻어옵니다
-           content = getTimeHTML(radius); // 커스텀 오버레이에 표시할 반경 정보입니다
-
-         // 반경정보를 표시할 커스텀 오버레이를 생성합니다
-         var radiusOverlay = new kakao.maps.CustomOverlay({
-           content: content, // 표시할 내용입니다
-           position: rClickPosition, // 표시할 위치입니다. 클릭한 위치로 설정합니다
-           xAnchor: 0,
-           yAnchor: 0,
-           zIndex: 1,
-         });
-
-         // 원을 지도에 표시합니다
-         circle.setMap(map);
-
-         // 선을 지도에 표시합니다
-         polyline.setMap(map);
-
-         // 반경 정보 커스텀 오버레이를 지도에 표시합니다
-         radiusOverlay.setMap(map);
-
-         // 배열에 담을 객체입니다. 원, 선, 커스텀오버레이 객체를 가지고 있습니다
-         var radiusObj = {
-           polyline: polyline,
-           circle: circle,
-           overlay: radiusOverlay,
-         };
-
-         // 배열에 추가합니다
-         // 이 배열을 이용해서 "모두 지우기" 버튼을 클릭했을 때 지도에 그려진 원, 선, 커스텀오버레이들을 지웁니다
-         circles.push(radiusObj);
-
-         // 그리기 상태를 그리고 있지 않는 상태로 바꿉니다
-         drawingFlag = false;
-
-         // 중심 좌표를 초기화 합니다
-         centerPosition = null;
-
-         // 그려지고 있는 원, 선, 커스텀오버레이를 지도에서 제거합니다
-         drawingCircle.setMap(null);
-         drawingLine.setMap(null);
-         drawingOverlay.setMap(null);
-       }
-     });
-
-     // 지도에 표시되어 있는 모든 원과 반경정보를 표시하는 선, 커스텀 오버레이를 지도에서 제거합니다
-     function removeCircles() {
-       for (var i = 0; i < circles.length; i++) {
-         circles[i].circle.setMap(null);
-         circles[i].polyline.setMap(null);
-         circles[i].overlay.setMap(null);
-       }
-       circles = [];
-     }
-
-     // 마우스 우클릭 하여 원 그리기가 종료됐을 때 호출하여
-     // 그려진 원의 반경 정보와 반경에 대한 도보, 자전거 시간을 계산하여
-     // HTML Content를 만들어 리턴하는 함수입니다
-     function getTimeHTML(distance) {
-       // 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
-       var walkkTime = (distance / 67) | 0;
-       var walkHour = "",
-         walkMin = "";
-
-       // 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
-       if (walkkTime > 60) {
-         walkHour =
-           '<span class="number">' +
-           Math.floor(walkkTime / 60) +
-           "</span>시간 ";
-       }
-       walkMin = '<span class="number">' + (walkkTime % 60) + "</span>분";
-
-       // 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
-       var bycicleTime = (distance / 227) | 0;
-       var bycicleHour = "",
-         bycicleMin = "";
-
-       // 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
-       if (bycicleTime > 60) {
-         bycicleHour =
-           '<span class="number">' +
-           Math.floor(bycicleTime / 60) +
-           "</span>시간 ";
-       }
-       bycicleMin = '<span class="number">' + (bycicleTime % 60) + "</span>분";
-
-       // 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
-       var content = '<ul class="info">';
-       content += "    <li>";
-       content +=
-         '        <span class="label">총거리</span><span class="number">' +
-         distance +
-         "</span>m";
-       content += "    </li>";
-       content += "    <li>";
-       content +=
-         '        <span class="label">도보</span>' + walkHour + walkMin;
-       content += "    </li>";
-       content += "    <li>";
-       content +=
-         '        <span class="label">자전거</span>' +
-         bycicleHour +
-         bycicleMin;
-       content += "    </li>";
-       content += "</ul>";
-
-       return content;
-     }
-     //반경 확인용 끝
-
      //장소 추가
+     var placeid;
+     var div;
+     var title;
+     var address_name;
      var user = JSON.parse("{{ userJson|escapejs }}");
      var newusermarker = new kakao.maps.Marker();
-     function registerplace(clicked_id) {
-       var request = new XMLHttpRequest();
-       var placeid = document.getElementById(clicked_id);
-       var div = placeid.closest("div");
-       var title = div.querySelector("h5").textContent;
-       var address_name = div.querySelector("#address_name").textContent;
-       var geocoder = new kakao.maps.services.Geocoder();
-       var callback = function (result, status) {
-         if (status === kakao.maps.services.Status.OK) {
-           console.log(title, address_name, result[0].y, result[0].x);
-           var url = "ajax/";
-           request.open("POST", url, true);
-           request.setRequestHeader(
-             "Content-Type",
-             "application/x-www-form-urlencoded"
-           );
-           var xmap = result[0].y;
-           var ymap = result[0].x;
-           var info = {
-             title: title,
-             address: address_name,
-             xmap: xmap,
-             ymap: ymap,
-             author: user.user,
-           };
-           request.send(JSON.stringify(info));
-           var imageadd =
-             "https://upload.wikimedia.org/wikipedia/commons/f/f2/678111-map-marker-512.png";
-           var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
-           var coord = new kakao.maps.LatLng(xmap, ymap);
-           newusermarker.setMap(map);
-           newusermarker.setPosition(coord);
-           newusermarker.setTitle(title);
-           newusermarker.setImage(markerImage);
-           overraycustomuser(newusermarker, info);
-           var handleResponse = () => {
-             if (request.status <= 400) {
-               placeid.innerHTML = "장소 삭제";
-               placeid.onclick = () => {
-                 placedelete(clicked_id);
-               };
-             }
-           };
-           request.onreadystatechange = () => {
-             if (request.readyState === XMLHttpRequest.DONE) {
-               handleResponse();
-             }
-           };
-         }
-       };
-       geocoder.addressSearch(address_name, callback);
+     var geocoder = new kakao.maps.services.Geocoder();
+     var clicked_id;
+     var id;
+     function shutdown(){
+      $("#modal").hide();
      }
+     
+     function registerplace(clicked_id) {
+                
+       placeid = document.getElementById(clicked_id);
+       div = placeid.closest("div");
+       title = div.querySelector("h5").textContent;
+       address_name = div.querySelector("#address_name").textContent;
+       function abc() {
+        $("#modal").show();
+        }
+        abc();
+     }
+     function addplace() {
+      
+      var callback = function (result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+           var request = new XMLHttpRequest(); 
+           var category = document.getElementById("category");
+           category=category.options[category.selectedIndex].value;
+           console.log(category);
+          var url = "ajax/";
+          request.open("POST", url, true);
+          request.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          );
+          var xmap = result[0].y;
+          var ymap = result[0].x;
+          var info = {
+            title: title,
+            address: address_name,
+            xmap: xmap,
+            ymap: ymap,
+            category:category,
+            author: user.user,
+          };
+          request.send(JSON.stringify(info));
+          var handleResponse = () => {
+           if (request.status <= 400) {
+             var imageadd =imageselector(category);
+             var markerImage = new kakao.maps.MarkerImage(imageadd, imageSize);
+             var coord = new kakao.maps.LatLng(xmap, ymap);
+             newusermarker.setMap(map);
+             newusermarker.setPosition(coord);
+             newusermarker.setTitle(title);
+             newusermarker.setImage(markerImage);
+             overraycustomuser(newusermarker, info);
+              placeid.innerHTML = "장소 삭제";
+              placeid.setAttribute('onclick','placedelete(this.id)');
+              shutdown();
+              alert("장소가 등록되었습니다!");
+            }
+          };
+          request.onreadystatechange = () => {
+            if (request.readyState === XMLHttpRequest.DONE) {
+              handleResponse();
+            }
+          };
+         
+        }
+      };
+      geocoder.addressSearch(address_name, callback);
+    }
 
      //장소삭제
      function placedelete(clicked_id) {
        var r =confirm("정말 등록된 장소를 삭제하시겠습니까?.");
        if(r == true){
        var request = new XMLHttpRequest();
-       var placeid = document.getElementById(clicked_id);
-       var div = placeid.closest("div");
-       var title = div.querySelector("h5").textContent;
+     
+       placeid = document.getElementById(clicked_id);
+       div = placeid.closest("div");
+       title = div.querySelector("h5").textContent;
        console.log(title);
        var url = "ajax/delete";
        request.open("POST", url, true);
@@ -890,10 +755,10 @@
           if (newusermarker.getTitle() === title) {
             newusermarker.setMap(null);
           }
+          alert("등록된 장소가 삭제되었습니다!");
            placeid.innerHTML = "장소 추가";
-           placeid.onclick = () => {
-             registerplace(clicked_id);
-           };
+           placeid.setAttribute('onclick','registerplace(this.id)')
+           console.log(placeid);
           }
           else{
             alert("권한이 없습니다.");
