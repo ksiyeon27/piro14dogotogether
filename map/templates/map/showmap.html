@@ -55,10 +55,6 @@
         <li><button onclick="Geo()"><i class="fas fa-street-view"></i></button> </li>
         <li><button id="searchmarker" onclick="checkMarkers()"><i class="fas fa-search-plus"></i></button></li>
         <li><button id="nearpark" onclick="checknearParkMarker()">주변 애견장소 </button></li>
-        <li><button id="allpark" onclick="checkallParkMarker()"> 공원 </button></li>
-        <li><button id="allpark" onclick="checkallParkMarker()"> 식당 </button></li>
-        <li><button id="allpark" onclick="checkallParkMarker()"> 카페 </button></li>
-        <li><button id="allpark" onclick="checkallParkMarker()"> 기타 </button></li>
         <li><button id="allpark" onclick="checkallParkMarker()"> 모든 애견 장소</button></li>
         <li><button onclick=""><i class="fas fa-plus"></i></button></li>
 
@@ -89,10 +85,10 @@
           </form>
           <div id="category_buttons">
             <ul>
-              <li><button onclick="">#식당</button> </li>
+              <li><button onclick="checkallparkmarker()">#식당</button> </li>
               <li><button onclick="">#공원</button></li>
               <li><button onclick="">#카페</button></li>
-              <li><button onclick="">#놀이터</button></li>
+              <li><button onclick="">#기타</button></li>
             </ul>
           </div>
         </div>
@@ -315,6 +311,7 @@
          title: placesaddbyuser[i].title,
          image: markerImage,
        });
+       
 
        usermarkers.push(usermarker);
        overraycustomuser(usermarker, placesaddbyuser[i]);
@@ -583,7 +580,7 @@
      var imageSize = new kakao.maps.Size(24, 35);
      var coords;
      var geocoder = new kakao.maps.services.Geocoder();
-     for (var i = 0; i < parks.length; i++) {
+     for (let i = 0; i < parks.length; i++) {
       var imageSrc =imageselector(parks[i].category);
       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
       var parkmarker = new kakao.maps.Marker({
@@ -594,9 +591,10 @@
       geocoder.addressSearch(parks[i].address, function(result, status) {
         if (status === kakao.maps.services.Status.OK) {
           coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-          console.log(coords);
+          
         } 
         parkmarker.setPosition(coords);
+        console.log(parkmarker.getPosition());
       }); 
         
         parkmarkers.push(parkmarker);
@@ -733,7 +731,7 @@
        div = placeid.closest("div");
        title = div.querySelector("h5").textContent;
        console.log(title);
-       var url = "ajax/delete";
+       var url = "post/comment/modify";
        request.open("POST", url, true);
        request.setRequestHeader(
          "Content-Type",
