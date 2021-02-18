@@ -24,7 +24,7 @@ body{
     font-family: 'NexonLv1Gothic';
 }
 main{
-    min-height:calc(100vh - 50px);
+    min-height:calc(98vh - 50px);
 }
 p {
   line-height: 1.5rem;
