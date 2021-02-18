@@ -12,6 +12,8 @@ from django.contrib.auth import logout as auth_logout
 # needed when define profile_edit:
 from django.core.files.storage import FileSystemStorage
 from blog.models import Post 
+import random
+import json
 
 # 이름 수정 필요.
 def base(request):
@@ -33,8 +35,17 @@ def base(request):
             a=sorted_post[i][0]
             final_post.append(a)
 
-        
-    ctx={'posts':final_post}
+    with open('./faq/static/faq/js/qnas.json', encoding='utf-8') as json_file:
+        qnas = json.load(json_file)
+        qnalist = []
+        for qna in qnas:
+            if qna.get('q'):
+                item=[str(qna['q']),str(qna['a'])]
+                qnalist.append(item)
+        random_index = random.randint(0, len(qnalist)-1)
+        random_qna = qnalist[random_index]
+
+    ctx={'posts':final_post, 'random_qna':random_qna}
     
     return render(request, 'accounts/base.html',ctx)                                   
 

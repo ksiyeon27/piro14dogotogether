@@ -154,16 +154,16 @@
                     <div class="recommend-contents" data-aos="fade-up" data-aos-delay="300" data-aos-once="true">
                         <div class="recommend-contents-grid">
                             <h5 class="rcmd-title">오늘의 산책상식</h5>
-                            {% for post in posts %}
+
                             <div class="recommend-grid-item">
                                 <div class="recommend-content-text">
-                                    <p class="content-title">Q.산책 질문 내용{{ qna.question }}</p>
+                                    <p class="content-title">Q{{ random_qna.0 }}</p>
                                 </div>
                                 <div class="recommend-content-info">
-                                <a href="">답변보기</a>
+                                    <p class="content-body">A. {{ random_qna.1 }}</p>
                                 </div>
                             </div>
-                            {% endfor %}
+
                             <div class="show-more">
                                 <button class="org-fill-btn">
                                     <a href="{% url 'faq:qna' %}">더 알아보기</a>
