@@ -150,7 +150,7 @@
     }
     </script>
     <script>
-        var ul = document.querySelector('.best-ul');
+        const ul = document.querySelector('.best-ul');
         var screen = window.innerWidth;
 
         function move(){
@@ -173,11 +173,6 @@
         ul.style.removeProperty('transition');
         ul.style.removeProperty('transform');
 
-        
-        /*
-        document.addEventListener("DOMContentLoaded",function(){
-            move();
-        });*/
     </script>
   
 {% endblock script %}
