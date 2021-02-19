@@ -27,6 +27,8 @@ from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
 from .models import Post
+from django.views.decorators.csrf import csrf_exempt
+
 
 @login_required
 @require_POST
@@ -184,7 +186,8 @@ def comment_write_view(request, pk):
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
 
 
-def comment_delete_view(request, pk):
+
+def comment_delete_view(request,pk):
     post = get_object_or_404(Post, id=pk)
     comment_id = request.POST.get('comment_id')
     target_comment = Comment.objects.get(pk=comment_id)
@@ -199,20 +202,28 @@ def comment_delete_view(request, pk):
         }
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
 
-def comment_modify_view(request, pk):
-    post = get_object_or_404(Post, id=pk)
-    writer = request.POST.get('writer')
-    content = request.POST.get('content')
-    if content:
-        comment = Comment.objects.filter(post=post, content=content, writer=request.user)
+@csrf_exempt
+@login_required
+def comment_modify_view(request,pk):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        content=req['content']
+        pk=req['pk']
+        writer=req['writer']
+        comment = get_object_or_404(Comment, id=pk)
+        comment.content = content
         comment.save()
         data = {
             'writer': writer,
             'content': content,
-            'created': '방금 전',
+            'created': '방금전',
             'comment_id': comment.id
         }
-        if request.user == post.owner:
+        if request.user == comment.post.owner:
             data['self_comment'] = '(글쓴이)'
-
-        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
+        else:
+            data['self_comment'] = ''
+        return JsonResponse(data)
+    elif request.method == 'GET':
+        return render(request, 'base.html')
+    
