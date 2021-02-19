@@ -17,7 +17,8 @@
     2. Frontend
         - WireFrame Constructor(Frontend Lead Member) : Adobe XD를 이용한 와이어프레임 개발
         - 와이어프레임 프론트엔드 적용 및 수정(프론트엔드 단 기획, 개발 리딩)
-        - 전반 템플릿 구현(Home화면 및 Base.html)
+        - 전반 템플릿 구현(Home화면 및 Base.html,커뮤니티 앱 전체 퍼블리싱)
+    3. UX/UI Designer
 
 ### 3. <a href="https://github.com/yunsik0115">김윤식</a> (Yunsik, Kim)
     1. Backend
