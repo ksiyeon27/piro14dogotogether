@@ -30,6 +30,11 @@ class placeAddByUser(models.Model):
     available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = 'placeAddByUser'
+        verbose_name_plural = 'placeAddByUsers'
+
+
 class currentLocation(models.Model):
     """
     유저의 현재 좌표를 표시하기 위한 모델
