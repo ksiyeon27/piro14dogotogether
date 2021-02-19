@@ -21,11 +21,10 @@
   top: 60vh;
   left: 92vw;
   bottom: 0;
-  width: 6vw;
   margin: 0;
   padding: 0, 5rem;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.7);
+  /* background: rgba(255, 255, 255, 0.7); */
   z-index: 1;
 }
 #map_buttons li {
@@ -333,7 +332,7 @@
   border: 1px solid #888;
   border-radius: 1rem;
   width: 50%; /* Could be more or less, depending on screen size */
-  height: 13rem;
+  /* min-width: 330px; */
   text-align: left;
 }
 .search-modal-content label {
@@ -389,4 +388,40 @@
 }
 .modal-footer button:focus {
   outline: none;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+}
+
+@media screen and (min-width: 480px) and (max-width: 768px) {
+  .search-modal-content {
+    margin: 15% 15%;
+    width: 70%;
+  }
+  .modal-footer button {
+    width: 50%;
+    margin: 0 25%;
+  }
+  #map_buttons {
+    top: 62vh;
+    left: 90vw;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .search-modal-content {
+    margin: 15% 10%;
+    width: 80%;
+  }
+  .search-modal-content label {
+    font-size: 1.1rem;
+  }
+  .modal-footer button {
+    width: 60%;
+    margin: 0 20%;
+  }
+  #map_buttons {
+    top: 57vh;
+    left: 83vw;
+  }
 }
