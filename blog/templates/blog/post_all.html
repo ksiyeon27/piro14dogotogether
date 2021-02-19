@@ -149,31 +149,6 @@
         {% endif %}
     }
     </script>
-    <script>
-        const ul = document.querySelector('.best-ul');
-        var screen = window.innerWidth;
-
-        function move(){
-            var curIndex = 0;
-
-            setInterval(function(){
-                ul.style.transition = '0.7s';
-                ul.style.transform = "translate3d(-"+200*(curIndex+1)+"px, 0px, 0px)";
-                curIndex++;
-                if(curIndex === 4){
-                    curIndex = -1;
-                }
-            },3000);
-        }
-        
-        if(screen <= 768){
-            console.log('mobile');
-            move();
-        }
-        ul.style.removeProperty('transition');
-        ul.style.removeProperty('transform');
-
-    </script>
   
 {% endblock script %}
 

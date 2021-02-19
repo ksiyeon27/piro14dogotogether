@@ -70,19 +70,18 @@
                             {% else  %}
                                 <p class="comment-text-sub">by.{{ comment.writer }}</p>
                             {% endif %}
-                            <p>{{ comment.content }}</p>
+                            <p id="content">{{ comment.content }}</p>
                             <p class="comment-text-sub">{{ comment.created }}</p>
                             {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
                                 <div class="comment-modify">
-                                    <button><a onclick="commentDelete('{{comment.id}}');">삭제</a></button>
-                                    <button name="commentmod" value="{{ comment.id }}">수정</button>
+                                    <button class="btn1" onclick="commentDelete('{{comment.id}}');">삭제</button>
+                                    <button class="btn2" name="commentmod" onclick="commentmodification('{{comment.id}}')"  value="{{ comment.id }}">수정</button>
                                 </div>
                             
                             {% endif %}
                             <hr>
                         </div>
                     </div>
-                    <div class='{{ comment.id }}'></div>
                 {% endfor %}
             {% endif %}
             <input type="hidden" id="comment_writer" value={{request.user}}>
@@ -124,6 +123,7 @@
 
 
 {% block script %}
+
 <script type="text/javascript">
             $(".like").click(function () { // .like 버튼을 클릭 감지
                 var pk = $(this).attr('name')
@@ -153,7 +153,86 @@
                 });
             })
  </script>    
- 
+ <script>
+    function commentmodification(clicked_id){
+        var modify=document.getElementById(clicked_id);
+        console.log(modify);
+        var content=modify.querySelector('#content');
+        var div = modify.querySelector('.comment-text');
+        var div3 = modify.querySelector('.comment-modify');
+        var btn1=modify.querySelector('.btn1');
+        var btn2=modify.querySelector('.btn2');
+        var text=content.textContent;
+        var newcontent = document.createElement('textarea');
+        var newdiv = document.createElement('div');
+        newdiv.className="comment-input";
+        newcontent.className="write-comment-box";
+        newcontent.id="content_id";
+        newcontent.rows="3";
+        var second = div.childNodes[2];
+        console.log(modify);
+        newcontent.textContent = text;
+        div.insertBefore(newdiv,second);
+        newdiv.appendChild(newcontent);
+        div.removeChild(content);
+        div3.removeChild(btn1);
+        div3.removeChild(btn2);
+        var newbutton = document.createElement('button');
+        div3.appendChild(newbutton);
+        newbutton.innerText='수정 완료';
+        newbutton.id=clicked_id;
+        newbutton.className="test";
+        newbutton.setAttribute('onclick','modifycomment()')
+        console.log(newbutton);
+       
+    }
+
+    function modifycomment(){
+        var content= $("#content_id").val();
+        var id_check = $(".test").attr("id");
+        var writer= $("#comment_writer").val();
+        var request = new XMLHttpRequest();
+        var url = "{% url 'blog:comment_modify' object.id %}";
+        request.open("POST", url, true);
+        request.setRequestHeader(
+         "Content-Type",
+         "application/x-www-form-urlencoded"
+       );
+        var info = { content: content, pk:id_check, writer:writer};
+        request.send(JSON.stringify(info));
+        var handleResponse = () => {
+            if (request.status <= 400) {
+                alert("수정되었습니다!");
+                const { writer, content, created, comment_id, self_comment} = JSON.parse(request.response); 
+                var modify=document.getElementById(id_check);
+                while ( modify.hasChildNodes()){
+                     modify.removeChild( modify.firstChild ); 
+                }
+
+                modify.innerHTML=
+                    '<div class="comment-text">'+ 
+                    '<p class="comment-text-sub writer">by.'+writer+'<span> '+self_comment+'</span>'+'</p>'+
+                    '<p id="content">'+content+'</p>'+
+                    '<p class="comment-text-sub">'+created+'</p>'+
+                    '<div class="comment-modify">'+
+                    '<button class="btn1" onclick="commentDelete('+comment_id+')">삭제</button>'+
+                   
+                    '</div><hr></div>';
+
+             }
+             else{
+               alert("수정에 실패하였습니다.");
+             }
+            };
+          
+          request.onreadystatechange = () => {
+            if (request.readyState === XMLHttpRequest.DONE) {
+              handleResponse();
+            }
+          };
+         
+    }
+</script>
  <script type="text/javascript">
     $(document).ready(function () {
         $('#comment_write').click(function () {
@@ -174,14 +253,13 @@
                            '<div id='+response.comment_id+'>'+
                            '<div class="comment-text">'+ 
                            '<p class="comment-text-sub writer">by.'+response.writer+' (글쓴이)</p>'+
-                           '<p>'+response.content+'</p>'+
+                           '<p id="content">'+response.content+'</p>'+
                            '<p class="comment-text-sub">'+response.created+'</p>'+
                            '<div class="comment-modify">'+
-                           '<button><a onclick="commentDelete('+response.comment_id+');">삭제</a></button>'+
-                           '<button><a onclick="commentModification('+response.comment_id+');">수정</a></button>'+
-                           '</div><hr></div></div>'+
-                           '<div class='+response.comment_id+'></div>'
-                        );
+                           '<button class="btn1" onclick="commentDelete('+response.comment_id+')">삭제</button>'+
+                           '<button class="btn2" onclick="commentmodification('+response.comment_id+')">수정</button>'+
+                           '</div><hr></div></div>');
+                        
                         
                     }
                     
@@ -193,9 +271,9 @@
                            '<p>'+response.content+'</p>'+
                            '<p class="comment-text-sub">'+response.created+'</p>'+
                            '<div class="comment-modify">'+
-                           '<button><a onclick="commentDelete('+response.comment_id+');">삭제</a></button>'+
-                           '</div><hr></div></div>'+
-                           '<div class='+response.comment_id+'></div>'
+                           '<button class="btn1" onclick="commentDelete('+response.comment_id+')">삭제</button>'+
+                           '<button class="btn2" onclick="commentmodification('+response.comment_id+')">수정</button>'+
+                           '</div><hr></div></div>'
                         );
                     }
                     $('#content_id').val("");
@@ -241,25 +319,10 @@
         }
     }
 </script>
-<script type="text/javascript">
-    $(document).on("click", "button[name='commentmod']", function(value){
-        var comment_id = value;
-        var editor =
-            '<div class="comment-input">' +
-            '<textarea class="write-comment-box" id="content_id" rows="3" placeholder="댓글을 입력하세요.">' +
-            '</textarea>' +
-            '<button id="comment_write">' +
-            '<a id="comment_modification">작성하기</a>' +
-            '</button>' +
-            '</div>';
-        var prevTr = $(this);
-        prevTr.after(editor);
-        $(this).remove();
-    });
-</script>
+
 
 <script type="text/javascript">
-        $(document).ready(function () {
+      /*  $(document).ready(function () {
         $('#comment_modification').click(function (value) {
             var content= $("#content_id").val();
             var writer= $("#comment_writer").val();
@@ -283,7 +346,7 @@
                 alert('본인 댓글이 아닙니다.');
             },
         });
-        })});
+        })});*/
 
 </script>
 {% endblock %}
