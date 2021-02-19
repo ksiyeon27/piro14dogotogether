@@ -150,7 +150,7 @@ def addplacebysearch(request, searchword):
 
 @csrf_exempt
 @login_required
-def deleteplace(request, searchword):
+def deleteplace(request):
     if request.method=='POST':
        req = json.loads(request.body)
        title=req['title']
@@ -169,7 +169,7 @@ def deleteplace(request, searchword):
 
 @csrf_exempt
 @login_required
-def deleteplacebysearch(request, searchword):
+def deleteplacebysearch(request):
     if request.method == 'POST':
         req = json.loads(request.body)
         title = req['title']
