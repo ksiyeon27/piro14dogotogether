@@ -29,7 +29,6 @@ input[name="login_btn"]:hover {
 div .btns {
   overflow: hidden;
   padding-bottom: 1rem;
-  height: 1rem;
   line-height: 1rem;
 }
 

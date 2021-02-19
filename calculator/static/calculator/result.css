@@ -1,8 +1,8 @@
 /* common screen css */
     /* 현재체중 <= 적정체중. 현재체중 색: 초록색 */
     .bar-graph-bg1{ 
-        width: 100%; background-color: white; border: 1px solid grey; border-radius: 20rem;
-        height:0.7rem;
+        width: 100%; background-color: white; border: 1px solid #49B497; border-radius: 20rem;
+        height:0.9rem; 
     }
     .bar-graph_section1{ 
         height:0.7rem;
@@ -11,8 +11,8 @@
 
     /* 현재체중 > 적정체중. 현재체중 색: 초록색 */
     .bar-graph-bg2{ 
-        background-color: #49B497; border: 1px solid #49B497; border-radius: 20rem;
-        width: 100%; height:0.7rem;
+        width: 100%; background-color: #49B497; border: 1px solid #49B497; border-radius: 20rem;
+        height:0.9rem;
     }
     .bar-graph_section2{ 
         height:0.7rem;
@@ -21,12 +21,12 @@
 
     /* 활동량 그래프 */
     .bar-graph-bg3{ 
-        width: 100%; background-color: white; border: 1px solid grey; border-radius: 20rem;
-        height:0.7rem;
+        width: 100%; background-color: white; border: 1px solid #FF9D00; border-radius: 20rem;
+        height:0.8rem;
     }
     .bar-graph_section3{ 
         height:0.7rem;
-        background-color: #FF9D00; border: 1px solid #FF9D00; box-sizing: border-box; border-radius: 20rem;
+        background-color: #FF9D00; border: 1px solid #FF9D00; border-radius: 20rem;
     }
 
     /* button hover */
@@ -37,9 +37,8 @@
 
 @media screen and (min-width:1024px){
     .wrap {
-        height:100%;
         margin: 0 auto;
-        padding: 10rem 5rem;
+        padding: 5rem;
     }
 
     #image_div {
@@ -55,7 +54,6 @@
     }
 
     .contents_box {
-        height:100%;
         display:flex;
         justify-content: center;
         align-items:center;
@@ -101,6 +99,7 @@
     .url_btns {
         display:flex;
         justify-content: flex-start;
+        margin-bottom: 3rem;
     }
 
     .url_btns a {
@@ -169,8 +168,8 @@
 @media screen and (min-width:768px) and (max-width:1024px){
     .wrap {
         margin: 0 auto;
-        padding-top: 15rem;
-        padding-bottom: 15rem;
+        padding-top: 20rem;
+        padding-bottom: 20rem;
     }
 
     #image_div {
@@ -303,7 +302,7 @@
 @media screen and (min-width:480px) and (max-width:768px){
     .wrap {
         margin: 0 auto;
-        padding-top: 10rem;
+        padding-top: 20rem;
         padding-bottom: 10rem;
     }
 
@@ -437,8 +436,8 @@
 @media screen and (max-width:480px){
     .wrap {
         margin: 0 auto;
-        padding-top: 5rem;
-        padding-bottom: 5rem;
+        padding-top: 15rem;
+        padding-bottom: 15rem;
     }
 
     #image_div {
@@ -547,36 +546,6 @@
     .upper_content .status_text p {
         text-align: left;
         margin: 0;
-    }
-
-    /* 현재체중 <= 적정체중. 현재체중 색: 초록색 */
-    .bar-graph-bg1{ 
-        width: 100%; background-color: white; border: 1px solid grey; border-radius: 20rem;
-        height:0.7rem;
-    }
-    .bar-graph_section1{ 
-        height:0.7rem;
-        background-color: #49B497; border: 1px solid #49B497; box-sizing: border-box; border-radius: 20rem;
-    }
-
-    /* 현재체중 > 적정체중. 현재체중 색: 초록색 */
-    .bar-graph-bg2{ 
-        background-color: #49B497; border: 1px solid #49B497; border-radius: 20rem;
-        width: 100%; height:0.7rem;
-    }
-    .bar-graph_section2{ 
-        height:0.7rem;
-        background-color: white; border: 1px solid white; box-sizing: border-box; border-radius: 20rem;
-    }
-
-    /* 활동량 그래프 */
-    .bar-graph-bg3{ 
-        width: 100%; background-color: white; border: 1px solid grey; border-radius: 20rem;
-        height:0.7rem;
-    }
-    .bar-graph_section3{ 
-        height:0.7rem;
-        background-color: #FF9D00; border: 1px solid #FF9D00; box-sizing: border-box; border-radius: 20rem;
     }
 
     .less_or_more {
