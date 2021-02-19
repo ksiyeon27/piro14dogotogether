@@ -20,9 +20,10 @@
 
 .far {
     font-size:80px;
-    border:1px solid black;
+    background-color:lightgray;
     padding: 2rem;
     border-radius: 2rem;
+    color:gray;
 }
 
 #image_upload {
