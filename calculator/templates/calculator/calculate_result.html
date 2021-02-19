@@ -30,7 +30,7 @@
                             <div class="bar-graph_section1" style="{{weight_status1}}"></div>
                         </div>
                         <div class="status_text">
-                            <p style="font-size:0.8rem;"><small>현재체중: &nbsp;&nbsp; {{current_weight}}kg</small></p>
+                            <p style="font-size:0.8rem;"><small>현재체중: {{current_weight}}kg</small></p>
                             <p style="font-size:0.8rem; color:#49B497"><small>적정체중 미달입니다!!</small></p>
                         </div>
                     {% elif current_weight == appropriate_weight %}
@@ -38,7 +38,7 @@
                             <div class="bar-graph_section1" style="{{weight_status1}}"></div>
                         </div>
                         <div class="status_text">
-                            <p style="font-size:0.8rem;"><small>현재체중: &nbsp;&nbsp; {{current_weight}}kg</small></p>
+                            <p style="font-size:0.8rem;"><small>현재체중: {{current_weight}}kg</small></p>
                             <p style="font-size:0.8rem; color:#49B497"><small>적당한 체중입니다!!</small></p>
                         </div>    
                     {% else %}
@@ -46,7 +46,7 @@
                             <div class="bar-graph_section2" style="{{weight_status2}}"></div>
                         </div>
                         <div class="status_text">
-                            <p style="font-size:0.8rem;"><small>현재체중: &nbsp;&nbsp; {{current_weight}}kg</small></p>
+                            <p style="font-size:0.8rem;"><small>현재체중: {{current_weight}}kg</small></p>
                             <p style="font-size:0.8rem; color:#49B497"><small>적정체중 초과입니다!!</small></p>
                         </div>
                     {% endif %}
