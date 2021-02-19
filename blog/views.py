@@ -187,7 +187,7 @@ def comment_write_view(request, pk):
 
 
 
-def comment_delete_view(request,pk):
+def comment_delete_view(request, pk):
     post = get_object_or_404(Post, id=pk)
     comment_id = request.POST.get('comment_id')
     target_comment = Comment.objects.get(pk=comment_id)
@@ -226,4 +226,3 @@ def comment_modify_view(request,pk):
         return JsonResponse(data)
     elif request.method == 'GET':
         return render(request, 'base.html')
-    
