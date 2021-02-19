@@ -131,10 +131,26 @@ def addplace(request):
     elif request.method == 'GET':
         return render(request, 'base.html')
 
+@csrf_exempt
+@login_required
+def addplacebysearch(request, searchword):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        new_place=placeAddByUser()
+        new_place.name=req['title']
+        new_place.xmap=req['xmap']
+        new_place.ymap=req['ymap']
+        new_place.created_by=request.user
+        new_place.category=req['category']
+        new_place.save()
+        return JsonResponse({'id': str(new_place.id)})
+    elif request.method == 'GET':
+        return render(request, 'base.html')
+
 
 @csrf_exempt
 @login_required
-def deleteplace(request):
+def deleteplace(request, searchword):
     if request.method=='POST':
        req = json.loads(request.body)
        title=req['title']
@@ -147,6 +163,25 @@ def deleteplace(request):
            type = "incorrect"
            return JsonResponse({'type': str(type)})
     
+    elif request.method == 'GET':
+        return render(request, 'base.html')
+
+
+@csrf_exempt
+@login_required
+def deleteplacebysearch(request, searchword):
+    if request.method == 'POST':
+        req = json.loads(request.body)
+        title = req['title']
+        place = placeAddByUser.objects.filter(name=title).first()
+        if request.user == place.created_by:
+            place.delete()
+            type = "correct"
+            return JsonResponse({'type': str(type)})
+        else:
+            type = "incorrect"
+            return JsonResponse({'type': str(type)})
+
     elif request.method == 'GET':
         return render(request, 'base.html')
 
