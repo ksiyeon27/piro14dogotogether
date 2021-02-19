@@ -52,25 +52,16 @@
 
     <div id="map_buttons">
       <ul>
-        <li><button onclick="Geo()"><i class="fas fa-street-view"></i></button> </li>
-        <li><button id="searchmarker" onclick="checkMarkers()"><i class="fas fa-search-plus"></i></button></li>
-        <li><button id="nearpark" onclick="checknearParkMarker()">주변 애견장소 </button></li>
-        <li><button id="allpark" onclick="checkallParkMarker()"> 공원 </button></li>
-        <li><button id="allbistro" onclick="checkallBistroMarker()"> 식당 </button></li>
-        <li><button id="allcafe" onclick="checkallCafeMarker()"> 카페 </button></li>
-        <li><button id="alletc" onclick="checkallEtcMarker()"> 기타 </button></li>
-        <li><button id="all" onclick="checkallMarker()"> 모든 애견 장소</button></li>
-        <li><button onclick=""><i class="fas fa-plus"></i></button></li>
-
+        <li><button onclick="Geo()"><i class="fas fa-street-view fa-lg"></i></button> </li>
+        <li><button id="searchmarker" onclick="checkMarkers()"><i class="fas fa-search-location fa-lg"></i></button></li>
+        <li><button id="nearpark" onclick="checknearParkMarker()">주변</button></li>
+        <li><button id="all" onclick="checkallMarker()">모두</button></li>
       </ul>
     </div>
-    <!-- <div class="place_add_button">
-      <button onclick=""><i class="fas fa-plus"></i></button>
-    </div> -->
 
 
     <a class="search_toggleBtn">
-      <i class="fas fa-search-location fa-lg"></i>
+      <i class="fas fa-search-plus fa-lg"></i>
     </a>
     <div id="menu_wrap" class="bg_white">
       <div class="option">
@@ -89,10 +80,10 @@
           </form>
           <div id="category_buttons">
             <ul>
-              <li><button id="" onclick="">#식당</button> </li>
-              <li><button id="" onclick="">#공원</button></li>
-              <li><button id="" onclick="">#카페</button></li>
-              <li><button id="" onclick="">#놀이터</button></li>
+              <li><button id="allpark" onclick="checkallParkMarker()"> #공원 </button></li>
+              <li><button id="allbistro" onclick="checkallBistroMarker()"> #식당 </button></li>
+              <li><button id="allcafe" onclick="checkallCafeMarker()"> #카페 </button></li>
+              <li><button id="alletc" onclick="checkallEtcMarker()"> #기타 </button></li>
             </ul>
           </div>
         </div>
@@ -315,6 +306,7 @@
          title: placesaddbyuser[i].title,
          image: markerImage,
        });
+       
 
        usermarkers.push(usermarker);
        overraycustomuser(usermarker, placesaddbyuser[i]);

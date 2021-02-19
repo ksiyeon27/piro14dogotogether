@@ -1,3 +1,12 @@
+main{
+  background-color:white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+form{
+  width:95%;
+}
 .create-container {
   width: 100%;
   display: grid;
@@ -7,9 +16,8 @@
 .title-input {
   width: 80%;
   padding: 1rem;
-  font-weight: bold;
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid lightgray;
   text-align: center;
   color: black;
   font-size: 1.3rem;
@@ -26,7 +34,7 @@
 .content-input {
   width: 80%;
   height: 30vw;
-  border: 1px solid black;
+  border: 1px solid lightgray;
   border-radius: 0.5rem;
   padding-left: 1rem;
   padding-top: 1rem;
@@ -60,7 +68,7 @@
   line-height: normal;
   vertical-align: middle;
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid lightgray;
   border-radius: 0.25rem;
   -webkit-appearance: none; /* 네이티브 외형 감추기 */
   -moz-appearance: none;
@@ -81,7 +89,7 @@
   -moz-appearance: none;
   appearance: none;
   height: 1.5rem;
-  border: 1px solid black;
+  border: 1px solid lightgray;
   border-radius: 4px;
   padding-left: 5px;
   color: gray;
@@ -102,7 +110,7 @@
   vertical-align: middle;
   background-color: #fdfdfd;
   cursor: pointer;
-  border: 1px solid black;
+  border: 1px solid lightgray;
   border-radius: 0.25em;
   box-sizing: border-box;
   margin-left: 0.5rem;
@@ -123,7 +131,7 @@
 }
 .tags-input {
   height: 1.5rem;
-  border: 1px solid black;
+  border: 1px solid lightgray;
   border-radius: 0.25rem;
   padding-left: 0.5rem;
   color: gray;
