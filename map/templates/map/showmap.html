@@ -877,37 +877,7 @@
        }
      }
 
-    // 모든 애견 장소 표시
-     function checkallMarker() {
-       var x = document.getElementById("all");
-       var y = document.getElementById("allbistro");
-       var z = document.getElementById("allcafe");
-       var w = document.getElementById("allpark");
-       var p = document.getElementById("alletc");
-       if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
-         y.style.opacity = "0.5";
-         z.style.opacity = "0.5";
-         w.style.opacity = "0.5";
-         p.style.opacity = "0.5";
-         showMarkers(cafemarkers);
-         showMarkers(bistromarkers);
-         showMarkers(parkmarkers);
-         showMarkers(etcmarkers);
-       } else {
-         x.style.opacity = "1";
-         y.style.opacity = "1";
-         z.style.opacity = "1";
-         w.style.opacity = "1";
-         p.style.opacity = "1";
-         hideMarkers(cafemarkers);
-         hideMarkers(bistromarkers);
-         hideMarkers(parkmarkers);
-         hideMarkers(etcmarkers);
-       }
-     }
 
-     showMarkers(parkmarkers);
 
 
      //장소 추가
@@ -1036,5 +1006,37 @@
        };
       }
      }
+
+         // 모든 애견 장소 표시
+     function checkallMarker() {
+       var x = document.getElementById("all");
+       var y = document.getElementById("allbistro");
+       var z = document.getElementById("allcafe");
+       var w = document.getElementById("allpark");
+       var p = document.getElementById("alletc");
+       if (x.style.opacity === "1") {
+         x.style.opacity = "0.5";
+         y.style.opacity = "0.5";
+         z.style.opacity = "0.5";
+         w.style.opacity = "0.5";
+         p.style.opacity = "0.5";
+         showMarkers(cafemarkers);
+         showMarkers(bistromarkers);
+         showMarkers(parkmarkers);
+         showMarkers(etcmarkers);
+       } else {
+         x.style.opacity = "1";
+         y.style.opacity = "1";
+         z.style.opacity = "1";
+         w.style.opacity = "1";
+         p.style.opacity = "1";
+         hideMarkers(cafemarkers);
+         hideMarkers(bistromarkers);
+         hideMarkers(parkmarkers);
+         hideMarkers(etcmarkers);
+       }
+     }
+
+
    </script>
 {% endblock %}
