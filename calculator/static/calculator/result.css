@@ -1,5 +1,9 @@
 /* common screen css */
     /* 현재체중 <= 적정체중. 현재체중 색: 초록색 */
+    body {
+        background-image: url("dogimage/powBack.png");
+        background-color:white;
+    }
     .bar-graph-bg1{ 
         width: 100%; background-color: white; border: 1px solid #49B497; border-radius: 20rem;
         height:0.9rem; 
@@ -117,7 +121,8 @@
 
     .right_container {
         width:30%;
-        border: 2px solid lightgray;
+        border: 1px solid lightgray;
+        background-color:white;
         border-radius:3rem;
         box-sizing: border-box;
         display:flex;
@@ -251,7 +256,8 @@
 
     .right_container {
         width:80%;
-        border: 2px solid lightgray;
+        border: 1px solid lightgray;
+        background-color:white;
         border-radius:3rem;
         box-sizing: border-box;
         display:flex;
@@ -384,7 +390,8 @@
 
     .right_container {
         width:80%;
-        border: 2px solid lightgray;
+        border: 1px solid lightgray;
+        background-color:white;
         border-radius:3rem;
         box-sizing: border-box;
         display:flex;
@@ -518,7 +525,8 @@
     .right_container {
         margin-top: 4rem;
         width:80%;
-        border: 2px solid lightgray;
+        border: 1px solid lightgray;
+        background-color:white;
         border-radius:3rem;
         box-sizing: border-box;
         display:flex;
