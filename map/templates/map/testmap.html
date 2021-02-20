@@ -1063,6 +1063,7 @@
      var parkli = newli(parks,parkmarkers);
     var cafeli = newli(cafes,cafemarkers);
     var bistroli = newli(bistros,bistromarkers);
+    var etcli= newli(etcs, etcmarkers);
     
     var nearparks;
     var nearcafes;
@@ -1145,6 +1146,7 @@
          parkli.style.display='block';
          cafeli.style.display='block';
          bistroli.style.display='block';
+         etcli.style.display='block';
          pagination.style.display='none';
         
      
@@ -1163,6 +1165,7 @@
           parkli.style.display='none';
           cafeli.style.display='none';
           bistroli.style.display='none';
+          etcli.style.display='none';
           pagination.style.display='block';
           
        }
@@ -1179,6 +1182,7 @@
           parkli.style.display='block';
           cafeli.style.display='none';
           bistroli.style.display='none';
+          etcli.style.display='none';
           pagination.style.display='none';
           
  
@@ -1189,12 +1193,36 @@
           parkli.style.display='none';
           cafeli.style.display='none';
           bistroli.style.display='none';
+          etcli.style.display='none';
           pagination.style.display='block';
          
           hideMarkers(parkmarkers);
         }
       }
   //모든 cafe 마크 띄우기(save용)
+
+    function checkallEtcMarker() {
+    var x = document.getElementById("alletc");
+    if (x.style.opacity === "1") {
+      x.style.opacity = "0.5";
+      newplacelist.style.display = 'none';
+      parkli.style.display='none';
+      cafeli.style.display='none';
+      bistroli.style.display='none';
+      etcli.style.display='block';
+      pagination.style.display='none';
+      showMarkers(etcmarkers);
+    } else {
+      x.style.opacity = "1";
+      newplacelist.style.display = 'block';
+      parkli.style.display='none';
+      cafeli.style.display='none';
+      bistroli.style.display='none';
+      etcli.style.display = 'none';
+      pagination.style.display='block';
+      hideMarkers(etcmarkers);
+    }
+  }
 
   function checkallCafeMarker() {
     var x = document.getElementById("allcafe");
@@ -1203,7 +1231,8 @@
       newplacelist.style.display = 'none';
       parkli.style.display='none';
       cafeli.style.display='block';
-      bistroli.style.display='none'
+      bistroli.style.display='none';
+      etcli.style.display='none';
       pagination.style.display='none';
       
       showMarkers(cafemarkers);
@@ -1213,6 +1242,7 @@
       parkli.style.display='none';
       cafeli.style.display='none';
       bistroli.style.display='none';
+      etcli.style.display='none';
       pagination.style.display='block';
      
       hideMarkers(cafemarkers);
@@ -1228,6 +1258,7 @@
       parkli.style.display='none';
       cafeli.style.display='none';
       bistroli.style.display='block';
+      etcli.style.display='none;'
       pagination.style.display='none';
      
       showMarkers(bistromarkers);
@@ -1237,12 +1268,13 @@
       parkli.style.display='none';
       cafeli.style.display='none';
       bistroli.style.display='none';
+      etcli.style.display='none';
       pagination.style.display='block';
      
       hideMarkers(bistromarkers);
     }
   }
- 
-         
+
+
    </script>
 {% endblock %}
