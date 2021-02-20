@@ -1,11 +1,12 @@
-main{
-  background-color:white;
+main {
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
-form{
-  width:95%;
+form {
+  width: 95%;
 }
 .create-container {
   width: 100%;
@@ -160,4 +161,20 @@ small {
 
 .submit-btn:hover {
   background-color: #e87400;
+}
+
+.image-section a {
+  display: inline-block;
+  padding: 0.2rem 0.75rem;
+  margin-right: 0.5%;
+  height: 1.5rem;
+  font-family: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 0.25rem;
+  color: gray;
+  text-align: left;
+  margin-top: -0.2rem;
 }
