@@ -22,17 +22,14 @@
 
   {% block body %}
   <div class="map_wrap">
-    <div
-      id="map"
-      style="width: 100%; height: 100%; position: relative; overflow: hidden"
-    ></div>
+    <div id="map"></div>
 
     <div id="map_buttons">
       <ul>
-        <li><button onclick="Geo()"><i class="fas fa-street-view fa-lg"></i></button> </li>
+        <li><button onclick="Geo()">내 근처 장소</button> </li>
         <li><button id="searchmarker" onclick="checkMarkers()"><i class="fas fa-search-location fa-lg"></i></button></li>
-        <li><button id="near" onclick="checknearMarker()">주변</button></li>
-        <li><button id="all" onclick="checkallMarker()">모두</button></li>
+        <li><button id="near" onclick="checknearMarker()">주변 장소</button></li>
+        <li><button id="all" onclick="checkallMarker()">모든 장소</button></li>
       </ul>
     </div>
 
@@ -116,9 +113,11 @@
 
 
   {% endblock %}
-   {% block footer %}
-   {% endblock %}
-   {% block script %}
+  
+  {% block footer %}
+    {{ block.super }}
+  {% endblock %}
+  {% block script %}
 
     <script type="text/javascript"
     src="{% static 'map/js/showmap.js' %}" ></script>
@@ -489,10 +488,14 @@
      function checkMarkers() {
        var x = document.getElementById("searchmarker");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
+         x.style.opacity = "0.99";
+         x.style.background = "#E87400";
+         x.style.color = "white";
          hideMarkers(markers);
        } else {
          x.style.opacity = "1";
+         x.style.background = "white";
+         x.style.color = "#E87400";
          showMarkers(markers);
        }
      }
@@ -631,10 +634,14 @@
      function checknearParkMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
+         x.style.opacity = "0.99";
+         x.style.background = "#E87400";
+         x.style.color = "white";
          showParkMarker();
        } else {
          x.style.opacity = "1";
+         x.style.background = "white";
+         x.style.color = "#E87400";
          hideMarkers(parkmarkers);
        }
      }
@@ -644,10 +651,14 @@
      function checkallParkMarker() {
        var x = document.getElementById("allpark");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
+         x.style.opacity = "0.99";
+         x.style.background = "#E87400";
+         x.style.color = "white";
          showMarkers(parkmarkers);
        } else {
          x.style.opacity = "1";
+         x.style.background = "white";
+         x.style.color = "#E87400";
          hideMarkers(parkmarkers);
        }
      }
@@ -706,10 +717,14 @@
      function checknearCafeMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
+         x.style.opacity = "0.99";
+         x.style.background = "#E87400";
+         x.style.color = "white";
          showCafeMarker();
        } else {
          x.style.opacity = "1";
+         x.style.background = "white";
+         x.style.color = "#E87400";
          hideMarkers(cafemarkers);
        }
      }
@@ -719,10 +734,14 @@
      function checkallCafeMarker() {
        var x = document.getElementById("allcafe");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
+         x.style.opacity = "0.99";
+         x.style.background = "#E87400";
+         x.style.color = "white";
          showMarkers(cafemarkers);
        } else {
          x.style.opacity = "1";
+         x.style.background = "white";
+         x.style.color = "#E87400";
          hideMarkers(cafemarkers);
        }
      }
@@ -781,10 +800,14 @@
      function checknearBistroMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
+         x.style.opacity = "0.99";
+         x.style.background = "#E87400";
+         x.style.color = "white";
          showBistroMarker();
        } else {
          x.style.opacity = "1";
+         x.style.background = "white";
+         x.style.color = "#E87400";
          hideMarkers(bistromarkers);
        }
      }
@@ -794,10 +817,14 @@
      function checkallBistroMarker() {
        var x = document.getElementById("allbistro");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
+         x.style.opacity = "0.99";
+         x.style.background = "#E87400";
+         x.style.color = "white";
          showMarkers(bistromarkers);
        } else {
          x.style.opacity = "1";
+         x.style.background = "white";
+         x.style.color = "#E87400";
          hideMarkers(bistromarkers);
        }
      }
@@ -844,10 +871,14 @@
      function checknearEtcMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
+         x.style.opacity = "0.99";
+         x.style.background = "#E87400";
+         x.style.color = "white";
          showEtcMarker();
        } else {
          x.style.opacity = "1";
+         x.style.background = "white";
+         x.style.color = "#E87400";
          hideMarkers(etcmarkers);
        }
      }
@@ -857,10 +888,14 @@
      function checkallEtcMarker() {
        var x = document.getElementById("alletc");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
+         x.style.opacity = "0.99";
+         x.style.background = "#E87400";
+         x.style.color = "white";
          showMarkers(etcmarkers);
        } else {
          x.style.opacity = "1";
+         x.style.background = "white";
+         x.style.color = "#E87400";
          hideMarkers(etcmarkers);
        }
      }
@@ -1000,13 +1035,17 @@
      function checknearMarker() {
       var y = document.getElementById("near");
       if (y.style.opacity === "1") {
-         y.style.opacity = "0.5";
+         y.style.opacity = "0.99";
+         y.style.background = "#E87400";
+         y.style.color = "white";
          showEtcMarker();
          showCafeMarker();
          showBistroMarker();
          showParkMarker();
       } else {
          y.style.opacity = "1";
+         y.style.background = "white";
+         y.style.color = "#E87400";
          hideMarkers(parkmarkers);
          hideMarkers(cafemarkers);
          hideMarkers(bistromarkers);
@@ -1021,11 +1060,26 @@
        var w = document.getElementById("allpark");
        var p = document.getElementById("alletc");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
-         y.style.opacity = "0.5";
-         z.style.opacity = "0.5";
-         w.style.opacity = "0.5";
-         p.style.opacity = "0.5";
+         x.style.opacity = "0.99";
+         x.style.background = "#E87400";
+         x.style.color = "white";
+
+         y.style.opacity = "0.99";
+         y.style.background = "#E87400";
+         y.style.color = "white";
+
+         z.style.opacity = "0.99";
+         z.style.background = "#E87400";
+         z.style.color = "white";
+
+         w.style.opacity = "0.99";
+         w.style.background = "#E87400";
+         w.style.color = "white";
+
+         p.style.opacity = "0.99";
+         p.style.background = "#E87400";
+         p.style.color = "white";
+
          showMarkers(cafemarkers);
          showMarkers(bistromarkers);
          showMarkers(parkmarkers);
@@ -1033,10 +1087,25 @@
          showMarkers(usermarkers);
        } else {
          x.style.opacity = "1";
+         x.style.background = "white";
+         x.style.color = "#E87400";
+
          y.style.opacity = "1";
+         y.style.background = "white";
+         y.style.color = "#E87400";
+
          z.style.opacity = "1";
+         z.style.background = "white";
+         z.style.color = "#E87400";
+
          w.style.opacity = "1";
+         w.style.background = "white";
+         w.style.color = "#E87400";
+
          p.style.opacity = "1";
+         p.style.background = "white";
+         p.style.color = "#E87400";
+         
          hideMarkers(cafemarkers);
          hideMarkers(bistromarkers);
          hideMarkers(parkmarkers);
