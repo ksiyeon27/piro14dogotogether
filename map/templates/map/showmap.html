@@ -133,6 +133,69 @@
     crossorigin="anonymous"
   ></script>
   <script>
+    var parks = JSON.parse("{{ parkJson|escapejs }}");
+    var cafes = JSON.parse("{{ cafeJson|escapejs }}");
+    var bistros = JSON.parse("{{ bistroJson|escapejs }}");
+    var newplacelist = document.querySelector('#placeslist');
+    var menuwrap = document.querySelector('#menu_wrap');
+    var pagination = document.querySelector('#pagination');
+    function newli(parks,parkmarkers){
+        var ul =document.createElement('ul');
+        for (let i = 0; i < parks.length; i++) {
+            var li = document.createElement('li');
+            content = '<div class="placeBox">'+ 
+                '<div class="info" >' +
+                    " <h5 >" +
+                    parks[i].title +
+                    "</h5>"+
+                    '    <span id="address_name"                       >' + parks[i].address + "</span>"+
+                  '</div></div>';
+            li.innerHTML=content;
+
+            var iwContent =
+             '<div class="wrap" style="height:35px; width:250px;">' +
+             '    <div class="info">' +
+             '        <div class="title" style="padding-top:2px;">' +
+             parks[i].title +
+             "        </div>" +
+             '        <div class="body">' +
+             '            <div class="desc">' +
+             '                <div class="ellipsis" style="padding-top:3px; padding-bottom:2px;">' +
+             parks[i].address +
+             "</div>" +
+             "            </div>" +
+             "        </div>" +
+             "    </div>" +
+             "</div>",
+            iwRemoveable = true;
+            let infowindow = new kakao.maps.InfoWindow({
+            content: iwContent,
+            removable: iwRemoveable,
+             });
+
+            function func() {
+                 infowindow.open(map, parkmarkers[i]);
+            }
+            function func1(){
+                infowindow.close();
+            }
+            li.addEventListener("mouseover", func, false);
+            li.addEventListener("mouseout", func1, false);
+                      
+            ul.appendChild(li);
+            
+        }
+
+        ul.style.display='none';
+        menuwrap.insertBefore(ul,pagination);
+        return ul;
+    }
+    
+    
+
+
+
+
  // 마커를 담을 배열입니다
      var enter = 1;
      var markers = [];
@@ -488,14 +551,10 @@
      function checkMarkers() {
        var x = document.getElementById("searchmarker");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.99";
-         x.style.background = "#E87400";
-         x.style.color = "white";
+         x.style.opacity = "0.5";
          hideMarkers(markers);
        } else {
          x.style.opacity = "1";
-         x.style.background = "white";
-         x.style.color = "#E87400";
          showMarkers(markers);
        }
      }
@@ -605,6 +664,7 @@
        });
            }
 
+          
 
 
        parkmarkers.push(parkmarker);
@@ -612,6 +672,7 @@
        });
 
      }
+    
 
 
      function showParkMarker() {
@@ -634,35 +695,15 @@
      function checknearParkMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.99";
-         x.style.background = "#E87400";
-         x.style.color = "white";
+         x.style.opacity = "0.5";
          showParkMarker();
        } else {
          x.style.opacity = "1";
-         x.style.background = "white";
-         x.style.color = "#E87400";
          hideMarkers(parkmarkers);
        }
      }
 
-     //모든 공원 마크 띄우기(save용)
-
-     function checkallParkMarker() {
-       var x = document.getElementById("allpark");
-       if (x.style.opacity === "1") {
-         x.style.opacity = "0.99";
-         x.style.background = "#E87400";
-         x.style.color = "white";
-         showMarkers(parkmarkers);
-       } else {
-         x.style.opacity = "1";
-         x.style.background = "white";
-         x.style.color = "#E87400";
-         hideMarkers(parkmarkers);
-       }
-     }
-
+     
      //cafe 마커 어레이
      var cafemarkers = [];
 
@@ -718,34 +759,15 @@
      function checknearCafeMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.99";
-         x.style.background = "#E87400";
-         x.style.color = "white";
+         x.style.opacity = "0.5";
          showCafeMarker();
        } else {
          x.style.opacity = "1";
-         x.style.background = "white";
-         x.style.color = "#E87400";
          hideMarkers(cafemarkers);
        }
      }
 
-     //모든 cafe 마크 띄우기(save용)
-
-     function checkallCafeMarker() {
-       var x = document.getElementById("allcafe");
-       if (x.style.opacity === "1") {
-         x.style.opacity = "0.99";
-         x.style.background = "#E87400";
-         x.style.color = "white";
-         showMarkers(cafemarkers);
-       } else {
-         x.style.opacity = "1";
-         x.style.background = "white";
-         x.style.color = "#E87400";
-         hideMarkers(cafemarkers);
-       }
-     }
+    
 
      //bistro 마커 어레이
      var bistromarkers = [];
@@ -801,34 +823,15 @@
      function checknearBistroMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.99";
-         x.style.background = "#E87400";
-         x.style.color = "white";
+         x.style.opacity = "0.5";
          showBistroMarker();
        } else {
          x.style.opacity = "1";
-         x.style.background = "white";
-         x.style.color = "#E87400";
          hideMarkers(bistromarkers);
        }
      }
 
-     //모든 bistro 마크 띄우기(save용)
-
-     function checkallBistroMarker() {
-       var x = document.getElementById("allbistro");
-       if (x.style.opacity === "1") {
-         x.style.opacity = "0.99";
-         x.style.background = "#E87400";
-         x.style.color = "white";
-         showMarkers(bistromarkers);
-       } else {
-         x.style.opacity = "1";
-         x.style.background = "white";
-         x.style.color = "#E87400";
-         hideMarkers(bistromarkers);
-       }
-     }
+     
 
      //etc 마커 어레이
      var etcmarkers = [];
@@ -872,14 +875,10 @@
      function checknearEtcMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.99";
-         x.style.background = "#E87400";
-         x.style.color = "white";
+         x.style.opacity = "0.5";
          showEtcMarker();
        } else {
          x.style.opacity = "1";
-         x.style.background = "white";
-         x.style.color = "#E87400";
          hideMarkers(etcmarkers);
        }
      }
@@ -889,14 +888,10 @@
      function checkallEtcMarker() {
        var x = document.getElementById("alletc");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.99";
-         x.style.background = "#E87400";
-         x.style.color = "white";
+         x.style.opacity = "0.5";
          showMarkers(etcmarkers);
        } else {
          x.style.opacity = "1";
-         x.style.background = "white";
-         x.style.color = "#E87400";
          hideMarkers(etcmarkers);
        }
      }
@@ -1036,23 +1031,23 @@
      function checknearMarker() {
       var y = document.getElementById("near");
       if (y.style.opacity === "1") {
-         y.style.opacity = "0.99";
-         y.style.background = "#E87400";
-         y.style.color = "white";
+         y.style.opacity = "0.5";
          showEtcMarker();
          showCafeMarker();
          showBistroMarker();
          showParkMarker();
       } else {
          y.style.opacity = "1";
-         y.style.background = "white";
-         y.style.color = "#E87400";
          hideMarkers(parkmarkers);
          hideMarkers(cafemarkers);
          hideMarkers(bistromarkers);
          hideMarkers(etcmarkers);
       }
     }
+    
+    var parkli = newli(parks,parkmarkers);
+    var cafeli = newli(cafes,cafemarkers);
+    var bistroli = newli(bistros,bistromarkers);
          // 모든 애견 장소 표시
      function checkallMarker() {
        var x = document.getElementById("all");
@@ -1061,62 +1056,111 @@
        var w = document.getElementById("allpark");
        var p = document.getElementById("alletc");
        if (x.style.opacity === "1") {
-         x.style.opacity = "0.99";
-         x.style.background = "#E87400";
-         x.style.color = "white";
-
-         y.style.opacity = "0.99";
-         y.style.background = "#E87400";
-         y.style.color = "white";
-
-         z.style.opacity = "0.99";
-         z.style.background = "#E87400";
-         z.style.color = "white";
-
-         w.style.opacity = "0.99";
-         w.style.background = "#E87400";
-         w.style.color = "white";
-
-         p.style.opacity = "0.99";
-         p.style.background = "#E87400";
-         p.style.color = "white";
-
+         x.style.opacity = "0.5";
+         y.style.opacity = "0.5";
+         z.style.opacity = "0.5";
+         w.style.opacity = "0.5";
+         p.style.opacity = "0.5";
          showMarkers(cafemarkers);
          showMarkers(bistromarkers);
          showMarkers(parkmarkers);
          showMarkers(etcmarkers);
          showMarkers(usermarkers);
+         newplacelist.style.display = 'none';
+         parkli.style.display='block';
+         cafeli.style.display='block';
+         bistroli.style.display='block';
+         pagination.style.display='none';
+
+     
        } else {
          x.style.opacity = "1";
-         x.style.background = "white";
-         x.style.color = "#E87400";
-
          y.style.opacity = "1";
-         y.style.background = "white";
-         y.style.color = "#E87400";
-
          z.style.opacity = "1";
-         z.style.background = "white";
-         z.style.color = "#E87400";
-
          w.style.opacity = "1";
-         w.style.background = "white";
-         w.style.color = "#E87400";
-
          p.style.opacity = "1";
-         p.style.background = "white";
-         p.style.color = "#E87400";
-         
          hideMarkers(cafemarkers);
          hideMarkers(bistromarkers);
          hideMarkers(parkmarkers);
          hideMarkers(etcmarkers);
          hideMarkers(usermarkers);
+         newplacelist.style.display = 'block';
+          parkli.style.display='none';
+          cafeli.style.display='none';
+          bistroli.style.display='none';
+          pagination.style.display='block';
        }
      }
 
+    
+     //모든 공원 마크 띄우기(save용)
 
+     function checkallParkMarker() {
+        var x = document.getElementById("allpark");
+        if (x.style.opacity === "1") {
+          x.style.opacity = "0.5";
+          newplacelist.style.display = 'none';
+          parkli.style.display='block';
+          cafeli.style.display='none';
+          bistroli.style.display='none';
+          pagination.style.display='none';
+ 
+          showMarkers(parkmarkers);
+        } else {
+          x.style.opacity = "1";
+          newplacelist.style.display = 'block';
+          parkli.style.display='none';
+          cafeli.style.display='none';
+          bistroli.style.display='none';
+          pagination.style.display='block';
+          hideMarkers(parkmarkers);
+        }
+      }
+  //모든 cafe 마크 띄우기(save용)
 
+  function checkallCafeMarker() {
+    var x = document.getElementById("allcafe");
+    if (x.style.opacity === "1") {
+      x.style.opacity = "0.5";
+      newplacelist.style.display = 'none';
+      parkli.style.display='none';
+      cafeli.style.display='block';
+      bistroli.style.display='none'
+      pagination.style.display='none';
+      showMarkers(cafemarkers);
+    } else {
+      x.style.opacity = "1";
+      newplacelist.style.display = 'block';
+      parkli.style.display='none';
+      cafeli.style.display='none';
+      bistroli.style.display='none';
+      pagination.style.display='block';
+      hideMarkers(cafemarkers);
+    }
+  }
+  //모든 bistro 마크 띄우기(save용)
 
+  function checkallBistroMarker() {
+    var x = document.getElementById("allbistro");
+    if (x.style.opacity === "1") {
+      x.style.opacity = "0.5";
+      newplacelist.style.display = 'none';
+      parkli.style.display='none';
+      cafeli.style.display='none';
+      bistroli.style.display='block';
+      pagination.style.display='none';
+      showMarkers(bistromarkers);
+    } else {
+      x.style.opacity = "1";
+      newplacelist.style.display = 'block';
+      parkli.style.display='none';
+      cafeli.style.display='none';
+      bistroli.style.display='none';
+      pagination.style.display='block';
+      hideMarkers(bistromarkers);
+    }
+  }
+ 
+         
    </script>
 {% endblock %}

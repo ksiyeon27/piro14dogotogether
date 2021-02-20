@@ -145,11 +145,11 @@
         for (let i = 0; i < parks.length; i++) {
             var li = document.createElement('li');
             content = '<div class="placeBox">'+ 
-                '<div class="info">' +
-                    "   <h5>" +
+                '<div class="info" >' +
+                    " <h5 >" +
                     parks[i].title +
                     "</h5>"+
-                    '    <span id="address_name">' + parks[i].address + "</span>"+
+                    '    <span id="address_name"                       >' + parks[i].address + "</span>"+
                   '</div></div>';
             li.innerHTML=content;
 
@@ -169,7 +169,7 @@
              "    </div>" +
              "</div>",
             iwRemoveable = true;
-            var infowindow = new kakao.maps.InfoWindow({
+            let infowindow = new kakao.maps.InfoWindow({
             content: iwContent,
             removable: iwRemoveable,
              });
@@ -1046,7 +1046,9 @@
       }
     }
     
-    
+    var parkli = newli(parks,parkmarkers);
+    var cafeli = newli(cafes,cafemarkers);
+    var bistroli = newli(bistros,bistromarkers);
          // 모든 애견 장소 표시
      function checkallMarker() {
        var x = document.getElementById("all");
@@ -1065,7 +1067,11 @@
          showMarkers(parkmarkers);
          showMarkers(etcmarkers);
          showMarkers(usermarkers);
-     
+         newplacelist.style.display = 'none';
+         parkli.style.display='block';
+         cafeli.style.display='block';
+         bistroli.style.display='block';
+         pagination.style.display='none';
 
      
        } else {
@@ -1079,12 +1085,15 @@
          hideMarkers(parkmarkers);
          hideMarkers(etcmarkers);
          hideMarkers(usermarkers);
+         newplacelist.style.display = 'block';
+          parkli.style.display='none';
+          cafeli.style.display='none';
+          bistroli.style.display='none';
+          pagination.style.display='block';
        }
      }
 
-     var parkli = newli(parks,parkmarkers);
-    var cafeli = newli(cafes,cafemarkers);
-    var bistroli = newli(bistros,bistromarkers);
+    
      //모든 공원 마크 띄우기(save용)
 
      function checkallParkMarker() {
