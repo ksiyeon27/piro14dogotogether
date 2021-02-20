@@ -222,3 +222,72 @@ def search(request, searchword):
 
 
 
+def testmap(request):
+    with open('map/static/map/etc.json', encoding='utf-8') as json_file:
+        etcs = json.load(json_file)   
+    
+    with open('map/static/map/data.json', encoding='utf-8') as json_file:
+        datas = json.load(json_file)
+    
+    parkdict = []
+    cafedict = []
+    bistrodict = []
+    etcdict=[]
+
+    for data in datas:
+        if data['종류'] == "식당":
+            content = {
+                "title": (data['이름']),
+                "address": str(data['주소']),
+                "category":str(data['종류']),
+            }
+            bistrodict.append(content)
+        if data['종류'] == "카페":
+            content = {
+                "title": (data['이름']),
+                "address": str(data['주소']),
+                "category":str(data['종류']),
+            }
+            cafedict.append(content)
+        if data['종류'] == "공원":
+            content = {
+                "title": (data['이름']),
+                "address": str(data['주소']),
+                "category": str(data['종류']),
+            }
+            parkdict.append(content)
+
+    for etc in etcs:
+        content = {
+                "title": (etc['이름']),
+                "category": str(etc['구분']),
+                "mapx":str(etc['xmap']),
+                "mapy":str(etc['ymap']),
+            }
+        etcdict.append(content)
+
+
+    API_KEY = getattr(settings, 'API_KEY', 'API_KEY')
+    parkJson = json.dumps(parkdict, ensure_ascii=False)
+    cafeJson = json.dumps(cafedict, ensure_ascii=False)
+    bistroJson = json.dumps(bistrodict, ensure_ascii=False)
+    etcJson = json.dumps(etcdict, ensure_ascii=False)
+
+    placedict=[]
+    places = placeAddByUser.objects.all()
+    for place in places:
+        content= {
+            "title":place.name,
+            "mapx":str(place.xmap),
+            "mapy":str(place.ymap),
+            "category":str(place.category),
+            "author":str(place.created_by),
+        }
+        placedict.append(content)
+    
+    placeJson = json.dumps(placedict, ensure_ascii=False)
+    user={'user':str(request.user)}
+    userJson=json.dumps(user)
+
+    return render(request, 'map/testmap.html', {'bistroJson':bistroJson, 'cafeJson':cafeJson, 'parkJson': parkJson, 'API_KEY' : API_KEY,'placeJson':placeJson,'userJson':userJson,'etcJson':etcJson,})
+
