@@ -266,7 +266,11 @@ h6 {
 
 /*------------main3-----------*/
 #main3 {
-  margin: 9vw 0 0 0;
+  margin: 10% 0 0 0;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 #main3 img {
   width: 35vw;
@@ -276,7 +280,7 @@ h6 {
 
 .recommend-container {
   margin: 5% 0;
-  width: 70wv;
+  width: 80vw;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -312,6 +316,10 @@ h6 {
 
 .sub-info {
   font-size: 0.7rem;
+  color: rgb(140, 140, 140);
+}
+.sub-info-address{
+  font-size:0.6rem;
   color: rgb(140, 140, 140);
 }
 .content-title {
