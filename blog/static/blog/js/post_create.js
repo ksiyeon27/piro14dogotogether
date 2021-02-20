@@ -9,3 +9,10 @@ $(document).ready(
     $(this).siblings('.upload-name').val(filename);
      }); 
     });
+
+
+var textTarget1 = document.querySelector('.image-section').lastElementChild.previousSibling;
+textTarget1.textContent="";
+
+var textTarget2 = textTarget1.previousSibling.previousSibling.previousSibling;
+textTarget2.textContent="기존";

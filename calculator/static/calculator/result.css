@@ -11,12 +11,12 @@
 
     /* 현재체중 > 적정체중. 현재체중 색: 초록색 */
     .bar-graph-bg2{ 
-        width: 100%; background-color: #49B497; border: 1px solid #49B497; border-radius: 20rem;
+        width: 100%; background-color: red; border: 1px solid red; border-radius: 20rem;
         height:0.9rem;
     }
     .bar-graph_section2{ 
         height:0.7rem;
-        background-color: white; border: 1px solid white; box-sizing: border-box; border-radius: 20rem;
+        background-color: red; border: 1px solid red; box-sizing: border-box; border-radius: 20rem;
     }
 
     /* 활동량 그래프 */
