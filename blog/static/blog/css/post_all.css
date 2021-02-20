@@ -1,6 +1,9 @@
 body{
     background-color:rgb(252, 252, 250);
 }
+main{
+    width:100vw;
+}
 h6{
     color:#342f28;
 }
@@ -124,10 +127,12 @@ form{
     grid-column:span 5;
     border-bottom:1px solid gray;
     padding:3rem 1rem;
+    overflow: hidden;
 }
 .post-text {
     text-align:left;
     float:left;
+    width:70vw;
 }
 .post-text span{
     margin:0 1rem 0 0;
@@ -253,8 +258,8 @@ form{
         margin-top:7%;
     }
     .slide-box{
-        width:200px;
-        margin-left:-100px;
+        width:100vw;
+        overflow: hidden;
         z-index:100;
     }
     .best-ul{
@@ -390,7 +395,7 @@ form{
         overflow:hidden;
         text-overflow:ellipsis;
         white-space:nowrap;
-        width:90%;
+        width:500px;
         margin-bottom:1rem;
     }
     .post-image{

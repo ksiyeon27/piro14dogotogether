@@ -28,7 +28,7 @@
             <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
             <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
             <li><a href="{% url 'accounts:logout' %}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
-            <li><a href="{% url 'accounts:profile' %}">내프로필</a></li>
+            <li><a href="{% url 'accounts:profile' %}">마이페이지</a></li>
         {% else %}
             <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
             <li><a href="{% url 'calculator:firstpage' %}">참고하개</a></li>
@@ -179,8 +179,8 @@
     </main>
 
     {% block footer %}
-        <footer>
-            <small>copyright pirogramming 14기 5조 가치가개 | 전태수 김시연 김윤식 임채원 조은기</small>
+        <footer class="footer">
+            <small>copyright pirogramming 14기 5조 가치가개 <span>| 전태수 김시연 김윤식 임채원 조은기</span></small>
         </footer>
     {% endblock %}
     

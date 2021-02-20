@@ -46,11 +46,11 @@ class CalculatorForm(forms.Form):
                     ('Vizsla', '비즐라'),
                     ('Rottweiler', '로트 와일러'),
                     ('Bernese-Mountain-Dog', '버니즈 마운틴독')] # db, form_display
-    levels = [('5', ''),
-         ('10', ''),
-         ('20', ''),
-         ('30', ''),
-         ('40', '')]
+    levels = [('5', '갈비뼈, 척추의 허리뼈와 엉덩이뼈가 쉽게 만져지는 상태'),
+         ('10', '늑골을 만질 수 있지만 지방이 얇게 덮여 있는 상태'),
+         ('20', '늑골이 만져지지만 피하지방도 적당히 덮여있는 상태'),
+         ('30', '지방이 많아 늑골이 쉽게 만져지는 상태'),
+         ('40', '두터운 지방층이 있어 늑골이 전혀 만져지지 않는 상태')]
 
     bcs = forms.ChoiceField(choices=levels, widget=forms.RadioSelect)
     breeds = forms.ChoiceField(required = True, choices = dog_krname_list, label = '견종')
