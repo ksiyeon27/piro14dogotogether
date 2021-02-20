@@ -1,13 +1,14 @@
-html,body{
-  width:100%;
-  height:100%;
+html,
+body {
+  width: 100%;
+  height: 100%;
 }
 
-#map{
-   width: 100%; 
-   height: 100%; 
-   position: relative; 
-   overflow: hidden
+#map {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 .map_wrap,
 .map_wrap * {
@@ -30,7 +31,7 @@ html,body{
 #map_buttons {
   position: absolute;
   top: 60vh;
-  left: 92vw;
+  left: 88vw;
   bottom: 0;
   margin: 0;
   padding: 0, 5rem;
@@ -44,8 +45,7 @@ html,body{
 }
 
 #map_buttons li button {
-  width:5.5rem;
-  border:0;
+  border: 0;
   box-shadow: 0 2px 20px -10px rgb(106, 102, 94);
   border-radius: 20px;
   background-color: white;
@@ -157,7 +157,7 @@ html,body{
   margin-left: 0.4rem;
   margin-top: 0.5rem;
   overflow: hidden;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -173,7 +173,7 @@ html,body{
   color: #e87400;
   padding: 0.6rem 0.8rem;
   font-size: 0.6rem;
-  width:3.9rem;
+  width: 3.9rem;
 }
 #menu_wrap #category_buttons li button:hover {
   background-color: #e87400;
@@ -315,8 +315,8 @@ html,body{
 #pagination a {
   display: inline-block;
   margin-right: 10px;
-  background-color:white;
-  padding:3px;
+  background-color: white;
+  padding: 3px;
   border-radius: 10px;
 }
 #pagination .on {
@@ -418,7 +418,7 @@ html,body{
   }
   #map_buttons {
     top: 62vh;
-    left: 90vw;
+    left: 83vw;
   }
 }
 
@@ -435,7 +435,7 @@ html,body{
     margin: 0 20%;
   }
   #map_buttons {
-    top: 57vh;
-    left: 83vw;
+    top: 54vh;
+    left: 75vw;
   }
 }
