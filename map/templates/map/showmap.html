@@ -31,7 +31,7 @@
       <ul>
         <li><button onclick="Geo()"><i class="fas fa-street-view fa-lg"></i></button> </li>
         <li><button id="searchmarker" onclick="checkMarkers()"><i class="fas fa-search-location fa-lg"></i></button></li>
-        <li><button id="nearpark" onclick="checknearParkMarker()">주변</button></li>
+        <li><button id="near" onclick="checknearMarker()">주변</button></li>
         <li><button id="all" onclick="checkallMarker()">모두</button></li>
       </ul>
     </div>
@@ -88,9 +88,6 @@
         </div>
       </div>
       {% endif %}
-
-
-
       <ul id="placesList"></ul>
       <div id="pagination"></div>
     </div>
@@ -615,7 +612,7 @@
 
 
      function showParkMarker() {
-       var radius = 2000;
+       var radius = 1000;
        var c1 = map.getCenter();
        for (var i = 0; i < parkmarkers.length; i++) {
          var c2 = parkmarkers[i].getPosition();
@@ -632,7 +629,7 @@
        }
      }
      function checknearParkMarker() {
-       var x = document.getElementById("nearpark");
+       var x = document.getElementById("near");
        if (x.style.opacity === "1") {
          x.style.opacity = "0.5";
          showParkMarker();
@@ -690,7 +687,7 @@
 
 
      function showCafeMarker() {
-       var radius = 2000;
+       var radius = 1000;
        var c1 = map.getCenter();
        for (var i = 0; i < cafemarkers.length; i++) {
          var c2 = cafemarkers[i].getPosition();
@@ -707,7 +704,7 @@
        }
      }
      function checknearCafeMarker() {
-       var x = document.getElementById("nearcafe");
+       var x = document.getElementById("near");
        if (x.style.opacity === "1") {
          x.style.opacity = "0.5";
          showCafeMarker();
@@ -765,7 +762,7 @@
 
 
      function showBistroMarker() {
-       var radius = 2000;
+       var radius = 1000;
        var c1 = map.getCenter();
        for (var i = 0; i < bistromarkers.length; i++) {
          var c2 = bistromarkers[i].getPosition();
@@ -782,10 +779,10 @@
        }
      }
      function checknearBistroMarker() {
-       var x = document.getElementById("nearbistro");
+       var x = document.getElementById("near");
        if (x.style.opacity === "1") {
          x.style.opacity = "0.5";
-         showCafeMarker();
+         showBistroMarker();
        } else {
          x.style.opacity = "1";
          hideMarkers(bistromarkers);
@@ -828,7 +825,7 @@
            }
 
      function showEtcMarker() {
-       var radius = 2000;
+       var radius = 1000;
        var c1 = map.getCenter();
        for (var i = 0; i < etcmarkers.length; i++) {
          var c2 = etcmarkers[i].getPosition();
@@ -845,13 +842,13 @@
        }
      }
      function checknearEtcMarker() {
-       var x = document.getElementById("nearetc");
+       var x = document.getElementById("near");
        if (x.style.opacity === "1") {
          x.style.opacity = "0.5";
-         showCafeMarker();
+         showEtcMarker();
        } else {
          x.style.opacity = "1";
-         hideMarkers(bistromarkers);
+         hideMarkers(etcmarkers);
        }
      }
 
@@ -867,9 +864,6 @@
          hideMarkers(etcmarkers);
        }
      }
-
-
-
 
      //장소 추가
      var placeid;
@@ -1003,7 +997,22 @@
        };
       }
      }
-
+     function checknearMarker() {
+      var y = document.getElementById("near");
+      if (y.style.opacity === "1") {
+         y.style.opacity = "0.5";
+         showEtcMarker();
+         showCafeMarker();
+         showBistroMarker();
+         showParkMarker();
+      } else {
+         y.style.opacity = "1";
+         hideMarkers(parkmarkers);
+         hideMarkers(cafemarkers);
+         hideMarkers(bistromarkers);
+         hideMarkers(etcmarkers);
+      }
+    }
          // 모든 애견 장소 표시
      function checkallMarker() {
        var x = document.getElementById("all");
