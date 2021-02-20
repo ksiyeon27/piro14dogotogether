@@ -74,13 +74,13 @@
                             <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
                             <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
                         </div>
-                        {% if post.image %}
                         <div class="post-image">
                             <a href="{{ post.get_absolute_url }}">
-                                <img src="{{post.image.url}}"/>
+                            {% if post.image %}
+                            <img src="{{post.image.url}}"/>
+                            {% endif %}
                             </a>
                         </div>
-                        {% endif %}
                     </div>
                     
                     {% else %}
@@ -107,12 +107,13 @@
                         <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
                         <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
                     </div>
-                    {% if post.image %}
                     <div class="post-image">
                         <a href="{{ post.get_absolute_url }}">
+                            {% if post.image %}
                             <img src="{{post.image.url}}"/>
+                            {% endif %}
                         </a>
-                    {% endif %}
+
                     </div>
                 </div>
                 
