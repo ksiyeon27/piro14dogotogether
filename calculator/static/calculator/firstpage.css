@@ -1,4 +1,8 @@
 /* common for all screen */
+main {
+    min-height: calc(98vh - 280px);
+}
+
 .wrap {
     display:flex;
     justify-content: center;

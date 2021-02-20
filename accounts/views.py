@@ -119,9 +119,12 @@ def signup(request):
 
 @login_required
 def profile(request):
+    myposts = Post.objects.filter(owner=request.user)
     profile = Profile.objects.get(user=request.user)
-    ctx = {'profile':profile}
+    ctx = {'profile':profile, 'myposts':myposts}
     return render(request, 'accounts/profile.html', ctx)
+
+
 
 @login_required
 def profile_edit(request):

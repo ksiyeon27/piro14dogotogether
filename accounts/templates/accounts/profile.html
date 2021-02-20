@@ -36,5 +36,31 @@
             <a class="profile_edit" href="{% url 'accounts:profile_edit' %}">편집하기</a>
             <a class="profile_edit" href="{% url 'accounts:user_delete' %}">계정탈퇴</a>
         </div>
+        
     </div>
+
+    <div class="sub_container">
+        <div class="myposts_container">
+            <div class="header_text"><strong>내가 쓴 글</strong></div>
+            <div class="myposts_posts">
+                {% for post in myposts %}
+                <div class="information_container">
+                    <div class="myposts_label_box">
+                        <p class="title_label">제목</p>
+                        <p class="created_at_label">생성일</p>
+    
+                    </div>
+                    <div class="field_box">
+                        <a href="{{ post.get_absolute_url }}"><p class="post_title">{{post.title}}</p></a>
+                        <p class="post_created_at">{{ post.created_at }}</p>
+    
+                    </div>
+                    <br>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
