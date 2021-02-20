@@ -1,9 +1,10 @@
 /* common for all screen */
 main {
-    min-height: calc(98vh - 280px);
+    height: calc(98vh - 280px);
 }
 
 .wrap {
+    width:100%;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -16,18 +17,23 @@ main {
 
 .left_container {
     width:50%;
+}
+.left_container img{
+    width:100%;
 
 }
 
 /* right_container */
 .right_container {
+    width:30%;
     text-align:left;
 }
 
 .header_text {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     font-weight: 600;
     height: 5rem;
+    display: inline;
 }
 
 .header_text span {
@@ -35,9 +41,9 @@ main {
 }
 
 .main_text {
-    margin-bottom: 2rem;
+    margin: 2rem 0;
     font-size:1rem;
-    width:70%;
+    width:90%;
 }
 
 .right_container > a {
@@ -60,55 +66,92 @@ main {
 }
 
 @media screen and (min-width:480px) and (max-width:768px) {
-    .header_text {
-        font-size: 1.5rem;
-        font-weight: 600;
-        height: 2rem;
-    }
 
-    .left_container {
-        width:80%;
-    
-    }
-
-    .main_text {
-        font-size: 0.8rem;
-        margin-bottom: 1rem;
-    }
-
-    .right_container > a {
-        width:35%;
-        padding: 0.8rem;
-        font-size:0.8rem;
-    }
-}
-
-@media screen and (max-width:480px) {
     .wrap {
         margin-top: 0;
         height: 100%;
-        background-position: bottom;
+        background-position: 10% 100%;
+        background-size:contain;
     }
 
     .left_container {
         width:0%;
-    
     }
 
     .right_container {
         text-align:center;
-        padding-bottom: 8rem;
+        padding-top:10rem;
+        padding-bottom: 20rem;
+    }
+
+    .header_text {
+        font-size: 2rem;
+        font-weight: 600;
+        height: 2rem;
+        margin-bottom:1rem;
+    }
+
+    .main_text {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        margin: 0 auto;
+    }
+
+    .right_container {
+        width:80%;
+        text-align:center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem 0 5rem 0;
+    }
+
+    .right_container > a {
+        width:35%;
+        padding: 1rem;
+        font-size:0.8rem;
+        margin: 0 auto;
+        margin-top:1rem;
+    }
+}
+
+@media screen and (max-width:480px) {
+   
+    .wrap {
+        width:100%;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 8rem;
+    
+    }
+
+    .left_container {
+        width:90%;
+    }
+
+    .right_container {
+        width:80%;
+        text-align:center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem 0 5rem 0;
     }
 
     .header_text {
         font-size: 1.3rem;
         font-weight: 600;
         height: 2rem;
+        display: inline;
     }
 
     .main_text {
-        margin-bottom: 1rem;
-        font-size:0.9rem;
+        margin:0 0 1rem 0;
+        font-size:0.8rem;
         width: 100%;
     }
 
