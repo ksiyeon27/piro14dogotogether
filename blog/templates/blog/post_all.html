@@ -22,9 +22,9 @@
                 <li class="best-post">
                     <div class="best-box">
                         <a href="{{ post.get_absolute_url }}">
-                        
+                            {% if post.image %}
                             <img src="{{post.image.url}}"/>
-                            
+                            {% endif %}
                             <div class="best-info">
                                 <div>
                                     <p class="best-info-title">{{ post.title }}</p>
@@ -76,7 +76,9 @@
                         </div>
                         <div class="post-image">
                             <a href="{{ post.get_absolute_url }}">
-                                <img src="{{post.image.url}}"/>
+                            {% if post.image %}
+                            <img src="{{post.image.url}}"/>
+                            {% endif %}
                             </a>
                         </div>
                     </div>
@@ -107,8 +109,11 @@
                     </div>
                     <div class="post-image">
                         <a href="{{ post.get_absolute_url }}">
+                            {% if post.image %}
                             <img src="{{post.image.url}}"/>
+                            {% endif %}
                         </a>
+
                     </div>
                 </div>
                 
