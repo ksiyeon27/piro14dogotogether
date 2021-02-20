@@ -16,30 +16,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-    <style>
-      /* The Modal (background) */
-.searchModal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 10; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
-  /* Modal Content/Box */
-  .search-modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 70%; /* Could be more or less, depending on screen size */
-  }
 
-    </style>
     {% endblock %}
   </head>
 
@@ -65,7 +42,30 @@
     </a>
     <div id="menu_wrap" class="bg_white">
       <div class="option">
-
+        {% if searchword %}
+        <div>
+          <form onsubmit="searchPlaces(); return false;">
+            <input
+              type="text"
+              value="{{ searchword }}"
+              id="keyword"
+              placeholder="강아지와 함께 갈 수 있는 플레이스를 찾아보세요!"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='강아지와 함께 갈 수 있는 플레이스를 찾아보세요!'"
+            />
+            <button type="submit"><i class="fas fa-search fa-lg"></i></button>
+          </form>
+          <div id="category_buttons">
+            <ul>
+              <li><button id="allpark" onclick="checkallParkMarker()"> #공원 </button></li>
+              <li><button id="allbistro" onclick="checkallBistroMarker()"> #식당 </button></li>
+              <li><button id="allcafe" onclick="checkallCafeMarker()"> #카페 </button></li>
+              <li><button id="alletc" onclick="checkallEtcMarker()"> #기타 </button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% else %}
         <div>
           <form onsubmit="searchPlaces(); return false;">
             <input
@@ -88,6 +88,8 @@
           </div>
         </div>
       </div>
+      {% endif %}
+
 
 
       <ul id="placesList"></ul>
@@ -98,7 +100,11 @@
     <div class="search-modal-content">
       <form method="post">
         {% csrf_token %}
-        <label for="category"> 어떤 장소인지 알려주세요</label>
+        <div class="modal-shut">
+          <button type="button" onclick="shutdown()" class="btn btn-default" data-dismiss="modal">x</button>
+        </div>
+        <label for="category"> 카테고리를 설정해주세요</label>
+        <p>장소 검색을 정확히 할 수 있도록 적절한 카테고리를 선택해 주세요!</p>
         <select id="category" name="cars">
             <option value="공원">공원</option>
             <option value="식당">식당</option>
@@ -107,7 +113,6 @@
             </select>
         <div class="modal-footer">
             <button type="button" onclick="addplace()" class="btn-ajax">장소 등록</button>
-            <button type="button" onclick="shutdown()" class="btn btn-default" data-dismiss="modal">닫기</button>
         </div>
     </form>
     </div>
@@ -811,12 +816,6 @@
                overraycustompark(etcmarker, etcs[i]);
            }
 
-
-
-
-
-
-
      function showEtcMarker() {
        var radius = 2000;
        var c1 = map.getCenter();
@@ -858,35 +857,7 @@
        }
      }
 
-    // 모든 애견 장소 표시
-     function checkallMarker() {
-       var x = document.getElementById("all");
-       var y = document.getElementById("allbistro");
-       var z = document.getElementById("allcafe");
-       var w = document.getElementById("allpark");
-       var p = document.getElementById("alletc");
-       if (x.style.opacity === "1") {
-         x.style.opacity = "0.5";
-         y.style.opacity = "0.5";
-         z.style.opacity = "0.5";
-         w.style.opacity = "0.5";
-         p.style.opacity = "0.5";
-         showMarkers(cafemarkers);
-         showMarkers(bistromarkers);
-         showMarkers(parkmarkers);
-         showMarkers(etcmarkers);
-       } else {
-         x.style.opacity = "1";
-         y.style.opacity = "1";
-         z.style.opacity = "1";
-         w.style.opacity = "1";
-         p.style.opacity = "1";
-         hideMarkers(cafemarkers);
-         hideMarkers(bistromarkers);
-         hideMarkers(parkmarkers);
-         hideMarkers(etcmarkers);
-       }
-     }
+
 
 
      //장소 추가
@@ -1015,5 +986,39 @@
        };
       }
      }
+
+         // 모든 애견 장소 표시
+     function checkallMarker() {
+       var x = document.getElementById("all");
+       var y = document.getElementById("allbistro");
+       var z = document.getElementById("allcafe");
+       var w = document.getElementById("allpark");
+       var p = document.getElementById("alletc");
+       if (x.style.opacity === "1") {
+         x.style.opacity = "0.5";
+         y.style.opacity = "0.5";
+         z.style.opacity = "0.5";
+         w.style.opacity = "0.5";
+         p.style.opacity = "0.5";
+         showMarkers(cafemarkers);
+         showMarkers(bistromarkers);
+         showMarkers(parkmarkers);
+         showMarkers(etcmarkers);
+         showMarkers(usermarkers);
+       } else {
+         x.style.opacity = "1";
+         y.style.opacity = "1";
+         z.style.opacity = "1";
+         w.style.opacity = "1";
+         p.style.opacity = "1";
+         hideMarkers(cafemarkers);
+         hideMarkers(bistromarkers);
+         hideMarkers(parkmarkers);
+         hideMarkers(etcmarkers);
+         hideMarkers(usermarkers);
+       }
+     }
+
+
    </script>
 {% endblock %}

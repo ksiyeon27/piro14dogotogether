@@ -1,18 +1,18 @@
 /* common for all screen */
 .wrap {
-    height: 100%;
     display:flex;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 12rem;
     background-image: url("../../static/calculator/dogimage/intro.png");
     background-repeat: no-repeat;
-    background-position: left;
+    background-position: 30% 80%;
     background-size: contain;
 }
 
 .left_container {
-    width:40%;
+    width:50%;
+
 }
 
 /* right_container */
@@ -21,7 +21,7 @@
 }
 
 .header_text {
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-weight: 600;
     height: 5rem;
 }
@@ -33,6 +33,7 @@
 .main_text {
     margin-bottom: 2rem;
     font-size:1rem;
+    width:70%;
 }
 
 .right_container > a {
@@ -56,29 +57,61 @@
 
 @media screen and (min-width:480px) and (max-width:768px) {
     .header_text {
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: 600;
-        height: 4rem;
+        height: 2rem;
     }
+
+    .left_container {
+        width:80%;
+    
+    }
+
+    .main_text {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
     .right_container > a {
-        font-size:1rem;
+        width:35%;
+        padding: 0.8rem;
+        font-size:0.8rem;
     }
 }
 
 @media screen and (max-width:480px) {
+    .wrap {
+        margin-top: 0;
+        height: 100%;
+        background-position: bottom;
+    }
+
+    .left_container {
+        width:0%;
+    
+    }
+
+    .right_container {
+        text-align:center;
+        padding-bottom: 8rem;
+    }
 
     .header_text {
         font-size: 1.3rem;
         font-weight: 600;
-        height: 4rem;
+        height: 2rem;
     }
 
     .main_text {
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         font-size:0.9rem;
+        width: 100%;
     }
 
-    .right_container > a {
-        font-size:0.7rem;
+    .right_container a {
+        width:35%;
+        padding: 0.8rem;
+        font-size:0.8rem;
+        margin: 0 auto;
     }
 }
