@@ -280,14 +280,14 @@
      function overraycustomuser(marker, place) {
        kakao.maps.event.addListener(marker, "mouseover", function () {
          var iwContent =
-             '<div class="wrap">' +
+             '<div class="wrap" style="height:35px; width:200px;">' +
              '    <div class="info">' +
-             '        <div class="title">' +
+             '        <div class="title" style="padding-top:2px;">' +
              place.title +
              "        </div>" +
              '        <div class="body">' +
              '            <div class="desc">' +
-             '                <div class="ellipsis">' +
+             '                <div class="ellipsis" style="padding-top:3px; padding-bottom:2px;">' +
              place.author +
              "</div>" +
              "            </div>" +
@@ -549,14 +549,14 @@
      function overraycustompark(marker, place) {
        kakao.maps.event.addListener(marker, "mouseover", function () {
          var iwContent =
-             '<div class="wrap">' +
+             '<div class="wrap" style="height:35px; width:250px;">' +
              '    <div class="info">' +
-             '        <div class="title">' +
+             '        <div class="title" style="padding-top:2px;">' +
              place.title +
              "        </div>" +
              '        <div class="body">' +
              '            <div class="desc">' +
-             '                <div class="ellipsis">' +
+             '                <div class="ellipsis" style="padding-top:3px; padding-bottom:2px;">' +
              place.address +
              "</div>" +
              "            </div>" +
