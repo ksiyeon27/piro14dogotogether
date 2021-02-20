@@ -26,8 +26,8 @@
 
     <div id="map_buttons">
       <ul>
-        <li><button onclick="Geo()">내 근처 장소</button> </li>
-        <li><button id="searchmarker" onclick="checkMarkers()"><i class="fas fa-search-location fa-lg"></i></button></li>
+        <li><button onclick="Geo()">내 위치</button> </li>
+        <li><button id="searchmarker" onclick="checkMarkers()">검색 장소</button></li>
         <li><button id="near" onclick="checknearMarker()">주변 장소</button></li>
         <li><button id="all" onclick="checkallMarker()">모든 장소</button></li>
       </ul>
@@ -714,6 +714,7 @@
          }
        }
      }
+     
      function checknearCafeMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
@@ -1113,6 +1114,8 @@
          hideMarkers(usermarkers);
        }
      }
+
+
 
 
    </script>
