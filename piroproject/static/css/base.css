@@ -723,7 +723,7 @@ footer {
     background-color: #fcbe76;
     width: 100%;
   }
-  footer small{
-    font-size:0.3rem;
+  footer span {
+    display:none;
   }
 }
