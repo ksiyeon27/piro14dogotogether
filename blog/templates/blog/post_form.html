@@ -34,6 +34,7 @@
 
                 <input class="upload-name" value="" disabled="disabled">
                 <label class="file-upload-button" for="id_image">이미지 선택</label>
+
                 {{ form.image|add_class:"form-control"|add_class:"image-input"|attr:"autofocus"}}
             </div>
 
@@ -58,4 +59,7 @@
 {% block script %}    
     <script type="text/javascript" 
     src="{% static 'blog/js/post_create.js' %}" ></script>
+    <script>
+
+    </script>
 {% endblock %}
