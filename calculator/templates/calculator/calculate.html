@@ -29,8 +29,9 @@
                     <div class="item_array">
                         {% for bcs in form.bcs %}
                             <div class="bcs_level">
-                                <label for="id_bcs_{{forloop.counter0}}"><img src="../../static/calculator/dogimage/{{forloop.counter0}}.png" alt="사진" style="width:100%; height:auto;"></label><br /><br />
-                                {{bcs}}<br />
+                                <label for="id_bcs_{{forloop.counter0}}"><img src="../../static/calculator/dogimage/{{forloop.counter0}}.png" alt="사진"></label><br /><br />
+                                <p>{{bcs.choice_label}}</p>
+                                {{bcs.tag}}<br />
                             </div>
                         {% endfor %}
                     </div>
@@ -71,5 +72,6 @@
         Change.setdisplay('.submit_btn', 'none');
         Change.setinnerHTML('.p_text', '<strong>강아지의 기본 정보를 입력해주세요!</strong>');
     }
+
 </script>
 {% endblock %}
