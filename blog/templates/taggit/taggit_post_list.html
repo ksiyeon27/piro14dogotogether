@@ -22,7 +22,9 @@
                             <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
                         </div>
                         <div class="post-image">
+                            {% if post.image %}
                             <img src="{{post.image.url}}"/>
+                            {% endif %}
                         </div>
                     </div>
                     
@@ -51,7 +53,9 @@
                         <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
                     </div>
                     <div class="post-image">
+                        {% if post.image %}
                         <img src="{{post.image.url}}"/>
+                        {% endif %}
                     </div>
                 </div>
                 

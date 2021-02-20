@@ -9,7 +9,7 @@ from piroproject.utils import uuid_upload_to
 class Post(models.Model):
     title = models.CharField(verbose_name='TITLE', max_length=100)
     content = models.TextField('CONTENT')
-    image = models.ImageField(upload_to=uuid_upload_to)
+    image = models.ImageField(upload_to=uuid_upload_to, blank=True)
     likes_user = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         blank=True,

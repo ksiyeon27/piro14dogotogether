@@ -107,15 +107,15 @@
                     <div class="recommend-contents" data-aos="fade-up" data-aos-delay="100" data-aos-once="true">
                         <div class="recommend-contents-grid ">
                             <h5 class="rcmd-title">오늘의 산책장소 top5</h5>
-                            {% for post in posts %}
+                            {% for location in locations %}
                             <div class="recommend-grid-item">
                                 <div class="recommend-content-text">
-                                    <p class="content-title">장소명</p>
-                                    <span class="sub-info">카테고리</span>&nbsp;&nbsp;
-                                    <span class="sub-info">주소</span>
+                                    <p class="content-title">{{ location.name }}</p>
+                                    <span class="sub-info">{{ location.category }}</span>&nbsp;&nbsp;
+                                    <span class="sub-info">{{ location.address }}</span>
                                 </div>
                                 <div class="recommend-content-info">
-                                    <a href="#">지도보기</a>
+                                    <a href="map/search/{{ location.address }} {{ location.name }}">지도보기</a>
                                 </div>
                             </div>
                             {% endfor %}
@@ -137,8 +137,8 @@
                                     <p class="sub-info">{{ post.modified_at|date:"Y-m-d" }}</p>
                                 </div>
                                 <div class="recommend-content-info">
-                                    <p class="sub-info">작성자 <b>{{ post.owner}}</b></p>
-                                    <span class="sub-info">좋아요 {{post.count_likes_user}}</span>
+                                    <p class="sub-info">작성자 <b>{{ post.owner }}</b></p>
+                                    <span class="sub-info">좋아요 {{ post.count_likes_user }}</span>
                                     <span class="sub-info">댓글 수 {{ post.comment_set.all.count }}</span>
                                 </div>
                             </div>

@@ -11,7 +11,8 @@ from django.contrib.auth import login as auth_login, authenticate
 from django.contrib.auth import logout as auth_logout
 # needed when define profile_edit:
 from django.core.files.storage import FileSystemStorage
-from blog.models import Post 
+from blog.models import Post
+from map.models import placeAddByUser
 import random
 import json
 
@@ -45,7 +46,33 @@ def base(request):
         random_index = random.randint(0, len(qnalist)-1)
         random_qna = qnalist[random_index]
 
-    ctx={'posts':final_post, 'random_qna':random_qna}
+    with open('static/map/data.json', encoding='utf-8') as json_file:
+        locations = json.load(json_file)
+        locationlist = []
+        for location in locations:
+            if location["종류"] == "공원":
+                content = {
+                    "name": str(location['이름']),
+                    "address": str(location['주소']),
+                    "category": str(location['종류']),
+                }
+                locationlist.append(content)
+        UseraddedDatas = placeAddByUser.objects.all()
+        for UseraddedData in UseraddedDatas:
+            if UseraddedData.category == "공원":
+                content = {
+                    "name" : UseraddedData.name,
+                    "address": "",
+                    "category": UseraddedData.category,
+                }
+                locationlist.append(content)
+        randomized_loc = []
+        for i in range(5):
+            random_index = random.randint(0, len(locationlist) - 1)
+            random_location = locationlist[random_index]
+            randomized_loc.append(random_location)
+
+    ctx={'posts':final_post, 'random_qna':random_qna, 'locations': randomized_loc}
     
     return render(request, 'accounts/base.html',ctx)                                   
 

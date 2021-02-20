@@ -21,11 +21,10 @@
   top: 60vh;
   left: 92vw;
   bottom: 0;
-  width: 6vw;
   margin: 0;
   padding: 0, 5rem;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.7);
+  /* background: rgba(255, 255, 255, 0.7); */
   z-index: 1;
 }
 #map_buttons li {
@@ -310,4 +309,119 @@
   font-weight: bold;
   cursor: default;
   color: #777;
+}
+/* The Modal (background) */
+.searchModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.search-modal-content {
+  background-color: #fefefe;
+  margin: 15% 25%; /* 15% from the top and centered */
+  padding: 1rem 2.5rem 0.5rem;
+  border: 1px solid #888;
+  border-radius: 1rem;
+  width: 50%; /* Could be more or less, depending on screen size */
+  /* min-width: 330px; */
+  text-align: left;
+}
+.search-modal-content label {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.search-modal-content p {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  margin-bottom: 1rem;
+  color: gray;
+}
+.search-modal-content #category {
+  width: 100%;
+  text-align: center;
+  background-color: #eeeeee;
+  height: 2rem;
+  line-height: 2rem;
+  border-radius: 0.3rem;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+  border: 2px solid gray;
+}
+.modal-shut button {
+  color: black;
+  background-color: white;
+  border: 0;
+  font-size: 1.5rem;
+  position: relative;
+  left: 99%;
+}
+.modal-shut {
+  margin-bottom: 0rem;
+}
+.modal-footer {
+  margin: 1rem;
+}
+
+.modal-footer button {
+  border: 1px solid #e87400;
+  border-radius: 2rem;
+  background-color: white;
+  color: #e87400;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.7rem;
+  margin: 0 35%;
+  width: 30%;
+  height: 2rem;
+}
+.modal-footer button:hover {
+  background-color: #e87400;
+  color: white;
+}
+.modal-footer button:focus {
+  outline: none;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+}
+
+@media screen and (min-width: 480px) and (max-width: 768px) {
+  .search-modal-content {
+    margin: 15% 15%;
+    width: 70%;
+  }
+  .modal-footer button {
+    width: 50%;
+    margin: 0 25%;
+  }
+  #map_buttons {
+    top: 62vh;
+    left: 90vw;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .search-modal-content {
+    margin: 15% 10%;
+    width: 80%;
+  }
+  .search-modal-content label {
+    font-size: 1.1rem;
+  }
+  .modal-footer button {
+    width: 60%;
+    margin: 0 20%;
+  }
+  #map_buttons {
+    top: 57vh;
+    left: 83vw;
+  }
 }
