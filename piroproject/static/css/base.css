@@ -714,4 +714,16 @@ footer {
     font-size: 0.7rem;
     border: 0;
   }
+  footer {
+    position: relative;
+    bottom: 0;
+    height: 30px;
+    padding: 10px 0;
+    color: white;
+    background-color: #fcbe76;
+    width: 100%;
+  }
+  footer small{
+    font-size:0.3rem;
+  }
 }

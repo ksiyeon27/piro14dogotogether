@@ -27,9 +27,11 @@
         </div>
 
         <div class="post-content">
+            {% if object.image %}
             <a href="{{ object.image.url }}">
                 <img class="post-img" src="{{ object.image.url }}" alt="이미지">
             </a>
+            {% endif %}
             <p>{{ object.content|linebreaks }}</p>
         </div>
         
