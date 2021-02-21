@@ -137,19 +137,21 @@
     var parks = JSON.parse("{{ parkJson|escapejs }}");
     var cafes = JSON.parse("{{ cafeJson|escapejs }}");
     var bistros = JSON.parse("{{ bistroJson|escapejs }}");
+    var etcs = JSON.parse("{{ etcJson|escapejs }}");
     var newplacelist = document.querySelector('#placeslist');
     var menuwrap = document.querySelector('#menu_wrap');
     var pagination = document.querySelector('#pagination');
+
     function newli(parks,parkmarkers){
         var ul =document.createElement('ul');
         for (let i = 0; i < parks.length; i++) {
             var li = document.createElement('li');
             content = '<div class="placeBox">'+ 
-                '<div class="info">' +
-                    "   <h5>" +
+                '<div class="info" >' +
+                    " <h5 >" +
                     parks[i].title +
                     "</h5>"+
-                    '    <span id="address_name">' + parks[i].address + "</span>"+
+                    '    <span id="address_name"                       >' + parks[i].address + "</span>"+
                   '</div></div>';
             li.innerHTML=content;
 
@@ -169,7 +171,7 @@
              "    </div>" +
              "</div>",
             iwRemoveable = true;
-            var infowindow = new kakao.maps.InfoWindow({
+            let infowindow = new kakao.maps.InfoWindow({
             content: iwContent,
             removable: iwRemoveable,
              });
@@ -182,17 +184,70 @@
             }
             li.addEventListener("mouseover", func, false);
             li.addEventListener("mouseout", func1, false);
-                      
+
             ul.appendChild(li);
-            
+
         }
 
         ul.style.display='none';
         menuwrap.insertBefore(ul,pagination);
         return ul;
     }
-    
-    
+
+    function newuserli(parks,parkmarkers){
+      var ul =document.createElement('ul');
+        for (let i = 0; i < parks.length; i++) {
+            var li = document.createElement('li');
+            content = '<div class="placeBox">'+ 
+                '<div class="info" >' +
+                    " <h5 >" +
+                    parks[i].title +
+                    "</h5>"+
+                    '    <span id="address_name"                       >' + parks[i].author + "</span>"+
+                  '</div></div>';
+            li.innerHTML=content;
+
+            var iwContent =
+             '<div class="wrap" style="height:35px; width:250px;">' +
+             '    <div class="info">' +
+             '        <div class="title" style="padding-top:2px;">' +
+             parks[i].title +
+             "        </div>" +
+             '        <div class="body">' +
+             '            <div class="desc">' +
+             '                <div class="ellipsis" style="padding-top:3px; padding-bottom:2px;">' +
+             parks[i].author +
+             "</div>" +
+             "            </div>" +
+             "        </div>" +
+             "    </div>" +
+             "</div>",
+            iwRemoveable = true;
+            let infowindow = new kakao.maps.InfoWindow({
+            content: iwContent,
+            removable: iwRemoveable,
+             });
+
+            function func() {
+                 infowindow.open(map, parkmarkers[i]);
+            }
+            function func1(){
+                infowindow.close();
+            }
+            li.addEventListener("mouseover", func, false);
+            li.addEventListener("mouseout", func1, false);
+
+            ul.appendChild(li);
+
+        }
+
+        ul.style.display='none';
+        menuwrap.insertBefore(ul,pagination);
+        return ul;
+
+    }
+
+
 
 
 
@@ -269,26 +324,26 @@
 
      // 키워드로 장소를 검색합니다
      searchPlaces();
-     
+
 
      // 키워드 검색을 요청하는 함수입니다
      function searchPlaces() {
        var keyword = document.getElementById("keyword").value;
 
        if (!keyword.replace(/^\s+|\s+$/g, "")) {
-         
+
          if (enter == 1 ){
-         
+
           enter-=1;
            return false;
-           
+
          }
          else{
-          
+
          alert("키워드를 입력해주세요!");
          return false;
          }
-        
+
        }
 
        // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
@@ -383,7 +438,7 @@
          title: placesaddbyuser[i].title,
          image: markerImage,
        });
-       
+
 
        usermarkers.push(usermarker);
        overraycustomuser(usermarker, placesaddbyuser[i]);
@@ -647,7 +702,7 @@
 
      //공원 마크(현재위치 주변) 띄우기
      var parks = JSON.parse("{{ parkJson|escapejs }}");
-     
+
      //공원용 마크 이미지
      var geocoder = new kakao.maps.services.Geocoder();
      for (let i = 0; i < parks.length; i++) {
@@ -665,7 +720,7 @@
        });
            }
 
-          
+
 
 
        parkmarkers.push(parkmarker);
@@ -673,7 +728,26 @@
        });
 
      }
-    
+    function nearmarkers(near,marker){
+        var basket1=[];
+        var basket2=[];
+        var radius = 1000;
+       var c1 = map.getCenter();
+       for (var i = 0; i < marker.length; i++) {
+         var c2 = marker[i].getPosition();
+         var poly = new kakao.maps.Polyline({
+           path: [c1, c2],
+         });
+         var dist = poly.getLength();
+         console.log(dist);
+         if (dist < radius) {
+           basket1.push(near[i]);
+           basket2.push(marker[i]);
+         } 
+       }
+       return {basket1:basket1,basket2:basket2};
+    }
+
 
 
      function showParkMarker() {
@@ -704,7 +778,7 @@
        }
      }
 
-     
+
      //cafe 마커 어레이
      var cafemarkers = [];
 
@@ -756,7 +830,7 @@
          }
        }
      }
-     
+
      function checknearCafeMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
@@ -768,7 +842,7 @@
        }
      }
 
-    
+
 
      //bistro 마커 어레이
      var bistromarkers = [];
@@ -832,29 +906,38 @@
        }
      }
 
-     
 
-     //etc 마커 어레이
-     var etcmarkers = [];
 
-     //etc 마크(현재위치 주변) 띄우기
+    var etcmarkers = [];
+
+     //cafe 마크(현재위치 주변) 띄우기
      var etcs = JSON.parse("{{ etcJson|escapejs }}");
      console.log(etcs);
 
-     //etc 마크 이미지
+     //cafe 마크 이미지
+
+     var geocoder = new kakao.maps.services.Geocoder();
      for (let i = 0; i < etcs.length; i++) {
-               var imageSrc = imageselector(etcs[i].category);
+       geocoder.addressSearch(etcs[i].address, function(result, status){
+           if(status === kakao.maps.services.Status.OK){
+               var imageSrc =imageselector(etcs[i].category);
                var imageSize = new kakao.maps.Size(24, 35);
                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-               var coords = new kakao.maps.LatLng(etcs[i].mapy, etcs[i].mapx);
+               var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
                var etcmarker = new kakao.maps.Marker({
                map: null,
                position: coords,
                title: etcs[i].title,
-               image: markerImage});
-               etcmarkers.push(etcmarker);
-               overraycustompark(etcmarker, etcs[i]);
+               image: markerImage,
+       });
            }
+
+       etcmarkers.push(etcmarker);
+       overraycustompark(etcmarker, etcs[i]);
+       });
+
+     }
+
 
      function showEtcMarker() {
        var radius = 1000;
@@ -873,14 +956,15 @@
          }
        }
      }
+
      function checknearEtcMarker() {
        var x = document.getElementById("near");
        if (x.style.opacity === "1") {
          x.style.opacity = "0.5";
-         showEtcMarker();
+         showCafeMarker();
        } else {
          x.style.opacity = "1";
-         hideMarkers(etcmarkers);
+         hideMarkers(cafemarkers);
        }
      }
 
@@ -985,7 +1069,7 @@
        placeid = document.getElementById(clicked_id);
        div = placeid.closest("div");
        title = div.querySelector("h5").textContent;
-       
+
        var url = "ajax/delete";
        request.open("POST", url, true);
        request.setRequestHeader(
@@ -997,7 +1081,7 @@
       var handleResponse = () => {
          if (request.status <= 400) {
           var type = JSON.parse(request.response);
-         
+
           if(type.type === "correct"){
           for (var i = 0; i < usermarkers.length; i++) {
             if (usermarkers[i].getTitle() === title) {
@@ -1011,11 +1095,11 @@
             }
           }
 
-          
+
           alert("등록된 장소가 삭제되었습니다!");
            placeid.innerHTML = "장소 추가";
            placeid.setAttribute('onclick','registerplace(this.id)')
-          
+
           }
           else{
             alert("권한이 없습니다.");
@@ -1029,24 +1113,82 @@
        };
       }
      }
+     var parkli = newli(parks,parkmarkers);
+    var cafeli = newli(cafes,cafemarkers);
+    var bistroli = newli(bistros,bistromarkers);
+    var etcli= newli(etcs, etcmarkers);
+    var userli= newuserli(placesaddbyuser,usermarkers);
+    
+    var nearparks;
+    var nearcafes;
+    var nearbistros;
+    var nearusers;
+    var nearetcs;
+    var nearparksli;
+    var nearcafesli;
+    var bistrosli;
+    var nearetcsli;
+    var nearusersli;
+    var a=1;
+
      function checknearMarker() {
+         if(a !=1 ){
+        menuwrap.removeChild(nearparksli);
+        menuwrap.removeChild(nearcafesli);
+        menuwrap.removeChild(nearbistrosli);
+        menuwrap.removeChild(nearetcsli);
+        menuwrap.removeChild(nearusersli);
+         }
+         a-=1;
+         nearparks=nearmarkers(parks,parkmarkers);
+         nearcafes=nearmarkers(cafes,cafemarkers);
+         nearbistros=nearmarkers(bistros,bistromarkers);
+         nearetcs=nearmarkers(etcs,etcmarkers);
+         nearusers=nearmarkers(placesaddbyuser,usermarkers);
+         console.log(nearusers);
+         nearparksli=newli(nearparks.basket1,nearparks.basket2);
+         nearcafesli=newli(nearcafes.basket1,nearcafes.basket2);
+         nearbistrosli=newli(nearbistros.basket1,nearbistros.basket2);
+         nearetcsli=newli(nearetcs.basket1,nearetcs.basket2);
+         nearusersli=newuserli(nearusers.basket1,nearusers.basket2);
       var y = document.getElementById("near");
       if (y.style.opacity === "1") {
+          
          y.style.opacity = "0.5";
          showEtcMarker();
          showCafeMarker();
          showBistroMarker();
          showParkMarker();
+         
+        
+         newplacelist.style.display = 'none';
+         parkli.style.display='none';
+         cafeli.style.display='none';
+         bistroli.style.display='none';
+         pagination.style.display='none';
+         nearparksli.style.display='block';
+         nearcafesli.style.display='block';
+         nearbistrosli.style.display='block';
+         nearusersli.style.display='block';
       } else {
          y.style.opacity = "1";
          hideMarkers(parkmarkers);
          hideMarkers(cafemarkers);
          hideMarkers(bistromarkers);
          hideMarkers(etcmarkers);
+         
+         
+         newplacelist.style.display = 'block';
+         parkli.style.display='none';
+         cafeli.style.display='none';
+         bistroli.style.display='none';
+         pagination.style.display='none';
+        
       }
+      
     }
-    
-    
+
+
          // 모든 애견 장소 표시
      function checkallMarker() {
        var x = document.getElementById("all");
@@ -1065,8 +1207,14 @@
          showMarkers(parkmarkers);
          showMarkers(etcmarkers);
          showMarkers(usermarkers);
-     
-
+         newplacelist.style.display = 'none';
+         parkli.style.display='block';
+         cafeli.style.display='block';
+         bistroli.style.display='block';
+         etcli.style.display='block';
+         userli.style.display='block';
+         pagination.style.display='none';
+        
      
        } else {
          x.style.opacity = "1";
@@ -1079,12 +1227,18 @@
          hideMarkers(parkmarkers);
          hideMarkers(etcmarkers);
          hideMarkers(usermarkers);
+         newplacelist.style.display = 'block';
+          parkli.style.display='none';
+          cafeli.style.display='none';
+          bistroli.style.display='none';
+          etcli.style.display='none';
+          userli.style.display='none';
+          pagination.style.display='block';
+          
        }
      }
 
-     var parkli = newli(parks,parkmarkers);
-    var cafeli = newli(cafes,cafemarkers);
-    var bistroli = newli(bistros,bistromarkers);
+    
      //모든 공원 마크 띄우기(save용)
 
      function checkallParkMarker() {
@@ -1095,6 +1249,9 @@
           parkli.style.display='block';
           cafeli.style.display='none';
           bistroli.style.display='none';
+          etcli.style.display='none';
+          pagination.style.display='none';
+          
  
           showMarkers(parkmarkers);
         } else {
@@ -1103,10 +1260,36 @@
           parkli.style.display='none';
           cafeli.style.display='none';
           bistroli.style.display='none';
+          etcli.style.display='none';
+          pagination.style.display='block';
+         
           hideMarkers(parkmarkers);
         }
       }
   //모든 cafe 마크 띄우기(save용)
+
+    function checkallEtcMarker() {
+    var x = document.getElementById("alletc");
+    if (x.style.opacity === "1") {
+      x.style.opacity = "0.5";
+      newplacelist.style.display = 'none';
+      parkli.style.display='none';
+      cafeli.style.display='none';
+      bistroli.style.display='none';
+      etcli.style.display='block';
+      pagination.style.display='none';
+      showMarkers(etcmarkers);
+    } else {
+      x.style.opacity = "1";
+      newplacelist.style.display = 'block';
+      parkli.style.display='none';
+      cafeli.style.display='none';
+      bistroli.style.display='none';
+      etcli.style.display = 'none';
+      pagination.style.display='block';
+      hideMarkers(etcmarkers);
+    }
+  }
 
   function checkallCafeMarker() {
     var x = document.getElementById("allcafe");
@@ -1116,6 +1299,9 @@
       parkli.style.display='none';
       cafeli.style.display='block';
       bistroli.style.display='none';
+      etcli.style.display='none';
+      pagination.style.display='none';
+      
       showMarkers(cafemarkers);
     } else {
       x.style.opacity = "1";
@@ -1123,6 +1309,9 @@
       parkli.style.display='none';
       cafeli.style.display='none';
       bistroli.style.display='none';
+      etcli.style.display='none';
+      pagination.style.display='block';
+     
       hideMarkers(cafemarkers);
     }
   }
@@ -1136,17 +1325,23 @@
       parkli.style.display='none';
       cafeli.style.display='none';
       bistroli.style.display='block';
+      etcli.style.display='none;'
+      pagination.style.display='none';
+     
       showMarkers(bistromarkers);
     } else {
       x.style.opacity = "1";
-      hideMarkers(bistromarkers);
       newplacelist.style.display = 'block';
       parkli.style.display='none';
       cafeli.style.display='none';
       bistroli.style.display='none';
+      etcli.style.display='none';
+      pagination.style.display='block';
+     
+      hideMarkers(bistromarkers);
     }
   }
- 
-         
+
+
    </script>
 {% endblock %}
