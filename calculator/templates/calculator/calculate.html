@@ -1,8 +1,8 @@
-{% extends "calculator/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% load widget_tweaks %}
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'calculator/calculate.css' %}">
+    <link rel="stylesheet" href="{% static 'calculator/css/calculate.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -29,7 +29,7 @@
                     <div class="item_array">
                         {% for bcs in form.bcs %}
                             <div class="bcs_level">
-                                <label for="id_bcs_{{forloop.counter0}}"><img src="../../static/calculator/dogimage/{{forloop.counter0}}.png" alt="사진"></label><br /><br />
+                                <label for="id_bcs_{{forloop.counter0}}"><img src="../../static/calculator/img/{{forloop.counter0}}.png" alt="사진"></label><br /><br />
                                 <p>{{bcs.choice_label}}</p>
                                 {{bcs.tag}}<br />
                             </div>

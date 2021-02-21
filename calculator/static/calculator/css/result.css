@@ -1,7 +1,7 @@
 /* common screen css */
     /* 현재체중 <= 적정체중. 현재체중 색: 초록색 */
     body {
-        background-image: url("dogimage/powBack.png");
+        background-image: url("../img/powBack.png");
         background-color:white;
     }
     .bar-graph-bg1{ 
