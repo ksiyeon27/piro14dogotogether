@@ -194,6 +194,59 @@
         return ul;
     }
 
+    function newuserli(parks,parkmarkers){
+      var ul =document.createElement('ul');
+        for (let i = 0; i < parks.length; i++) {
+            var li = document.createElement('li');
+            content = '<div class="placeBox">'+ 
+                '<div class="info" >' +
+                    " <h5 >" +
+                    parks[i].title +
+                    "</h5>"+
+                    '    <span id="address_name"                       >' + parks[i].author + "</span>"+
+                  '</div></div>';
+            li.innerHTML=content;
+
+            var iwContent =
+             '<div class="wrap" style="height:35px; width:250px;">' +
+             '    <div class="info">' +
+             '        <div class="title" style="padding-top:2px;">' +
+             parks[i].title +
+             "        </div>" +
+             '        <div class="body">' +
+             '            <div class="desc">' +
+             '                <div class="ellipsis" style="padding-top:3px; padding-bottom:2px;">' +
+             parks[i].author +
+             "</div>" +
+             "            </div>" +
+             "        </div>" +
+             "    </div>" +
+             "</div>",
+            iwRemoveable = true;
+            let infowindow = new kakao.maps.InfoWindow({
+            content: iwContent,
+            removable: iwRemoveable,
+             });
+
+            function func() {
+                 infowindow.open(map, parkmarkers[i]);
+            }
+            function func1(){
+                infowindow.close();
+            }
+            li.addEventListener("mouseover", func, false);
+            li.addEventListener("mouseout", func1, false);
+
+            ul.appendChild(li);
+
+        }
+
+        ul.style.display='none';
+        menuwrap.insertBefore(ul,pagination);
+        return ul;
+
+    }
+
 
 
 
@@ -889,17 +942,17 @@
      function showEtcMarker() {
        var radius = 1000;
        var c1 = map.getCenter();
-       for (var i = 0; i < cafemarkers.length; i++) {
-         var c2 = cafemarkers[i].getPosition();
+       for (var i = 0; i < etcmarkers.length; i++) {
+         var c2 = etcmarkers[i].getPosition();
          var poly = new kakao.maps.Polyline({
            path: [c1, c2],
          });
          var dist = poly.getLength();
          console.log(dist);
          if (dist < radius) {
-           cafemarkers[i].setMap(map);
+           etcmarkers[i].setMap(map);
          } else {
-           cafemarkers[i].setMap(null);
+           etcmarkers[i].setMap(null);
          }
        }
      }
@@ -1064,13 +1117,18 @@
     var cafeli = newli(cafes,cafemarkers);
     var bistroli = newli(bistros,bistromarkers);
     var etcli= newli(etcs, etcmarkers);
+    var userli= newuserli(placesaddbyuser,usermarkers);
     
     var nearparks;
     var nearcafes;
     var nearbistros;
+    var nearusers;
+    var nearetcs;
     var nearparksli;
     var nearcafesli;
     var bistrosli;
+    var nearetcsli;
+    var nearusersli;
     var a=1;
 
      function checknearMarker() {
@@ -1078,15 +1136,21 @@
         menuwrap.removeChild(nearparksli);
         menuwrap.removeChild(nearcafesli);
         menuwrap.removeChild(nearbistrosli);
+        menuwrap.removeChild(nearetcsli);
+        menuwrap.removeChild(nearusersli);
          }
          a-=1;
-         nearparks=nearmarkers(parks,parkmarkers)
-
-        nearcafes=nearmarkers(cafes,cafemarkers);
+         nearparks=nearmarkers(parks,parkmarkers);
+         nearcafes=nearmarkers(cafes,cafemarkers);
          nearbistros=nearmarkers(bistros,bistromarkers);
+         nearetcs=nearmarkers(etcs,etcmarkers);
+         nearusers=nearmarkers(placesaddbyuser,usermarkers);
+         console.log(nearusers);
          nearparksli=newli(nearparks.basket1,nearparks.basket2);
          nearcafesli=newli(nearcafes.basket1,nearcafes.basket2);
          nearbistrosli=newli(nearbistros.basket1,nearbistros.basket2);
+         nearetcsli=newli(nearetcs.basket1,nearetcs.basket2);
+         nearusersli=newuserli(nearusers.basket1,nearusers.basket2);
       var y = document.getElementById("near");
       if (y.style.opacity === "1") {
           
@@ -1105,6 +1169,7 @@
          nearparksli.style.display='block';
          nearcafesli.style.display='block';
          nearbistrosli.style.display='block';
+         nearusersli.style.display='block';
       } else {
          y.style.opacity = "1";
          hideMarkers(parkmarkers);
@@ -1147,6 +1212,7 @@
          cafeli.style.display='block';
          bistroli.style.display='block';
          etcli.style.display='block';
+         userli.style.display='block';
          pagination.style.display='none';
         
      
@@ -1166,6 +1232,7 @@
           cafeli.style.display='none';
           bistroli.style.display='none';
           etcli.style.display='none';
+          userli.style.display='none';
           pagination.style.display='block';
           
        }
