@@ -48,8 +48,7 @@ def showmap(request):
         content = {
                 "title": (etc['이름']),
                 "category": str(etc['구분']),
-                "mapx":str(etc['xmap']),
-                "mapy":str(etc['ymap']),
+                "address": str(etc['주소']),
             }
         etcdict.append(content)
 
@@ -261,8 +260,7 @@ def testmap(request):
         content = {
                 "title": (etc['이름']),
                 "category": str(etc['구분']),
-                "mapx":str(etc['xmap']),
-                "mapy":str(etc['ymap']),
+                "address": str(etc['주소']),
             }
         etcdict.append(content)
 
