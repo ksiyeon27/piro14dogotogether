@@ -1,6 +1,6 @@
 /* common for all screen */
 main {
-    min-height: calc(98vh - 280px);
+    height: calc(98vh - 280px);
 }
 
 .wrap {
@@ -8,8 +8,7 @@ main {
     display:flex;
     justify-content: center;
     align-items: center;
-    margin-top: 12rem;
-   
+    margin-top: 30rem;
 }
 
 .left_container {
@@ -63,27 +62,31 @@ main {
 }
 
 @media screen and (min-width:480px) and (max-width:768px) {
+
     .wrap {
-        width:100%;
-        display:flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin-top: 12rem;
-    }
-    .header_text {
-        font-size: 1.5rem;
-        font-weight: 600;
-        height: 2rem;
+        margin-top: 0;
+        height: 100%;
+        background-position: 10% 100%;
+        background-size:contain;
     }
 
-    .left_container {
-        width:80%;
+    .right_container {
+        text-align:center;
+        padding-top:10rem;
+        padding-bottom: 20rem;
+    }
+
+    .header_text {
+        font-size: 2rem;
+        font-weight: 600;
+        height: 2rem;
+        margin-bottom:1rem;
     }
 
     .main_text {
-        font-size: 0.8rem;
-        margin: 0 0 1rem 0;
+        font-size: 1.0rem;
+        margin-bottom: 1rem;
+        text-align:left;
     }
 
     .right_container {
@@ -98,8 +101,9 @@ main {
 
     .right_container > a {
         width:35%;
-        padding: 0.8rem;
+        padding: 1rem;
         font-size:0.8rem;
+        margin-top:1rem;
     }
 }
 
