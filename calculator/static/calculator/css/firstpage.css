@@ -8,11 +8,7 @@ main {
     display:flex;
     justify-content: center;
     align-items: center;
-    margin-top: 12rem;
-    background-image: url("../../static/calculator/dogimage/intro.png");
-    background-repeat: no-repeat;
-    background-position: 30% 80%;
-    background-size: contain;
+    margin-top: 30rem;
 }
 
 .left_container {
@@ -74,10 +70,6 @@ main {
         background-size:contain;
     }
 
-    .left_container {
-        width:0%;
-    }
-
     .right_container {
         text-align:center;
         padding-top:10rem;
@@ -92,9 +84,9 @@ main {
     }
 
     .main_text {
-        font-size: 1.2rem;
+        font-size: 1.0rem;
         margin-bottom: 1rem;
-        margin: 0 auto;
+        text-align:left;
     }
 
     .right_container {
@@ -111,7 +103,6 @@ main {
         width:35%;
         padding: 1rem;
         font-size:0.8rem;
-        margin: 0 auto;
         margin-top:1rem;
     }
 }
