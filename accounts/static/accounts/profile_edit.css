@@ -1,0 +1,116 @@
+.form_container {
+    display:flex;
+    height:100%;
+    justify-content: center;
+    align-items:center;
+}
+
+.header_text {
+    margin: 2rem auto;
+    width:80%;
+    border-bottom: 1px solid lightgray;
+    text-align:left;
+    padding-bottom:1.3rem;
+    font-size: 1.2rem;
+    font-weight:700;
+}
+.input_container p {
+    margin: 1rem auto;
+}
+
+.far {
+    font-size:80px;
+    background-color:lightgray;
+    padding: 2rem;
+    border-radius: 2rem;
+    color:gray;
+}
+
+#image_upload {
+    text-align:left;
+    padding-left: 1rem;
+    font-size: 0.8rem;
+}
+#image_upload a {
+    text-decoration:none;
+    color:black;
+    word-break:break-all;
+}
+
+input[name='name'], input[name='nickname'], input[name='email'] {
+    width:80%;
+    border:1px solid transparent;
+    border-radius: 20rem;
+    padding:0.5rem;
+    background-color: rgb(231, 227, 227)
+}
+
+input[name='image'] {
+    width:80%;
+    padding:0.2rem;
+}
+
+input[name='profile_edit']{
+    display: block;
+    margin:3rem auto;
+    width: 40%;
+    border-radius:20rem;
+    box-sizing: border-box;
+    border-color:transparent;
+    padding: 0.5rem;
+    background-color: #FF9D00;
+    color:white;
+}
+
+input[name="profile_edit"]:hover {
+    background-color: #E87400;
+}
+
+@media screen and (min-width:1024px) {
+    .input_container {
+        width:30%;
+        border:1px solid lightgray;
+        box-sizing: border-box;
+        border-radius: 3rem;
+        padding: 1rem 2rem;
+        background-color:white;
+    }
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) {
+    .input_container {
+        width:40%;
+        border:1px solid lightgray;
+        box-sizing: border-box;
+        border-radius: 3rem;
+        padding: 1rem 2rem;
+        background-color:white;
+    }
+}
+
+@media screen and (min-width:480px) and (max-width:768px) {
+    .input_container {
+        width:70%;
+        border:1px solid lightgray;
+        box-sizing: border-box;
+        border-radius: 3rem;
+        padding: 1rem 2rem;
+        background-color:white;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .input_container {
+        width:90%;
+        border:1px solid lightgray;
+        box-sizing: border-box;
+        border-radius: 3rem;
+        padding: 1rem 2rem;
+        background-color:white;
+    }
+
+    input[name='profile_edit']{
+        margin:1.5rem auto;
+        padding: 0.3rem;
+    }
+}

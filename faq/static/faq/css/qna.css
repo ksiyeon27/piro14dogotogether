@@ -1,0 +1,68 @@
+body {
+  background-image: url("../img/powBack.png");
+  background-repeat: no-repeat;
+  background-color: white;
+}
+
+main{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding:10% 0;
+}
+
+.sub-title {
+  color: #707070;
+  margin: 1rem;
+}
+#wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0 0 0;
+}
+.accordion {
+  max-width: 750px;
+  display: inline;
+}
+.accordion .contentBx {
+  position: relative;
+  margin: 10px 20px;
+  box-shadow: 0 2px 20px -10px #b2b2b2;
+}
+
+.accordion .contentBx .label {
+  position: relative;
+  padding: 30px;
+  background: #ff9933;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.accordion .contentBx .label::before {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+}
+.accordion .contentBx.active .label::before {
+  content: "-";
+}
+
+.accordion .contentBx .content {
+  position: relative;
+  background: white;
+  height: 0;
+  overflow: hidden;
+  transition: 0.5s;
+  overflow-y: auto;
+  border-radius: 0 0 8px 8px;
+}
+.accordion .contentBx.active .content {
+  min-height: 20px;
+  height: auto;
+  padding: 30px;
+}

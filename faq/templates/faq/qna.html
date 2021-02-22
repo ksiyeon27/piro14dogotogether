@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'faq/css/qna.css' %}"> 
+{% endblock %}
+
+{% block body %}
+    <div class="main">
+        <h3 class="title">알아보개</h3>
+        <p class="sub-title">반려견 산책과 관련된 기본적인 상식들을 알아보세요!</p>
+    </div>
+    <section id="wrapper">
+        <div class="accordion">
+
+            {% for qna in qnalist  %}
+                <div class="contentBx">
+                    <div class="label">Q{{ qna.0 }}</div>
+                    <div class="content">
+                        <p>A. {{ qna.1 }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'faq/js/accordion.js' %}" ></script>
+{% endblock script %}

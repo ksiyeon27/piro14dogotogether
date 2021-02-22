@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block extra_head %}
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" href="{% static 'blog/css/post_create.css' %}">
+{% endblock %}
+
+
+{% block body %}
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <div class="font-weight-bold">다시 시도해주세요!</div>
+        {{ form.errors }}
+    </div>
+    {% endif %}
+
+
+    <form action="" method="post" enctype="multipart/form-data" class="card pt-3">
+        {% csrf_token %}
+
+        <div class="create-container">
+            <div class="from group-row">
+                {{ form.title|add_class:"form-control"|add_class:"title-input"|attr:"autofocus"|attr:'placeholder=제목을_입력하세요'}}
+            </div>
+            <br/>
+            <div class="from group-row">
+                {{ form.content|add_class:"form-control"|add_class:"content-input"|attr:"autofocus"|attr:'placeholder=내용을_작성하세요'}}
+            </div>
+            
+            <div class="from group-row image-section">
+                <span class="image-name">이미지 </span>
+
+                <input class="upload-name" value="" disabled="disabled">
+                <label class="file-upload-button" for="id_image">이미지 선택</label>
+
+                {{ form.image|add_class:"form-control"|add_class:"image-input"|attr:"autofocus"}}
+            </div>
+
+            
+            <div class="from group-row tags-section">
+                <span class="tags-name">태그 </span>
+                {{ form.tags|add_class:"form-control"|add_class:"tags-input"|attr:"autofocus"|attr:'placeholder="#태그"형식으로_입력하세요.(여러_태그_입력시_콤마(,)를_이용해_구분해주세요)' }}
+            </div>    
+            <!--<small class="form-text text-muted">{{ form.tags.help_text }}</small>-->
+
+            <br/></br/>
+            <div class="form-group">
+                <div class="submit">
+                    <input type="submit" value="등록하기" class="submit-btn"/>
+                </div>
+            </div>
+            <br/>
+        </div>
+    </form>
+{% endblock %}
+
+{% block script %}    
+    <script type="text/javascript" 
+    src="{% static 'blog/js/post_create.js' %}" ></script>
+    <script>
+
+    </script>
+{% endblock %}

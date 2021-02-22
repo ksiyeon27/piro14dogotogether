@@ -1,0 +1,200 @@
+/* common for all screen */
+.form_container {
+    display:flex;
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+    width: 100%;
+    justify-content: center;
+    align-items:center;
+}
+
+.input_container {
+    margin: 0 auto;
+}
+
+.input_container .p_text {
+    margin: 3rem 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+/* submit1-견종과 현재체중 입력 화면 */
+.submit1 {
+    width:70%;
+    margin: 0 auto;
+}
+
+#breeds_label, #current_weight_label {
+    margin-bottom: 0.5rem;
+}
+
+select[name='breeds'], input[name='current_weight'] {
+    width:100%;
+    border:1px solid transparent;
+    background-color: rgb(231, 227, 227);
+    padding: 0.8rem 0;
+}
+
+button[name='next'] {
+    display: block;
+    margin:0 auto;
+    width: 50%;
+    border-radius:20rem;
+    box-sizing: border-box;
+    border-color:transparent;
+    margin-top: 3.5rem;
+    padding: 1rem;
+    background-color: #FF9D00;
+    color:white;
+    font-weight:600;
+    font-size:1rem;
+}
+
+button[name="next"]:hover, button[name='previous']:hover, input[name='submit']:hover {
+    background-color: #E87400;
+}
+
+
+
+/* submit2- 강아지 모습 선택 화면 */
+.submit2 {
+    display:none;
+    width:100%;
+}
+
+.item_array {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap:wrap;
+    width:100%;
+}
+
+.item_array img {
+    width:240px;
+    height:240px;
+}
+
+.bcs_level p {
+    font-size:0.7rem;
+}
+
+input[name='submit'] {
+    display:none;
+    margin:0 auto;
+    width: 15%;
+    border-radius:20rem;
+    box-sizing: border-box;
+    border-color:transparent;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #FF9D00;
+    color:white;
+    font-weight:600;
+    font-size:1rem;
+}
+
+#breeds_label, #current_weight_label {
+    text-align:left;
+}
+
+.item_array {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit2 .bcs_level {
+    margin:2rem 0.5rem 0 0.5rem;
+}
+
+button[name='previous'] {
+    display: block;
+    margin:0 auto;
+    width: 15%;
+    border-radius:20rem;
+    box-sizing: border-box;
+    border-color:transparent;
+    margin-top: 5rem;
+    padding: 1rem;
+    background-color: #FF9D00;
+    color:white;
+    font-weight:600;
+    font-size:1rem;
+}
+
+.error_message {
+    font-size:0.7rem;
+    color:red;
+}
+
+@media screen and (min-width:480px) and (max-width: 768px){
+    .input_container .p_text {
+        margin: 3rem 0;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .submit1 {
+        width:55%;
+        margin: 0 auto;
+    }
+
+    button[name='next'] {
+        width: 50%;
+        margin-top: 2.5rem;
+        padding: 0.7rem;
+        background-color: #FF9D00;
+        color:white;
+        font-weight:600;
+        font-size:0.8rem;
+    }
+
+    button[name='previous'] {
+        width: 35%;
+        margin-top: 4rem;
+        padding: 0.5rem;
+        font-size:0.9rem;
+    }
+
+    input[name='submit'] {
+        width: 35%;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        font-size:0.9rem;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .input_container .p_text {
+        margin: 2.5rem 0;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .submit1 {
+        width:70%;
+        margin: 0 auto;
+    }
+
+    button[name='next'] {
+        width: 50%;
+        margin-top: 4rem;
+        padding: 0.7rem;
+        font-size:0.8rem;
+    }
+
+    button[name='previous'] {
+        width: 35%;
+        margin-top: 4rem;
+        padding: 0.5rem;
+        font-size:0.8rem;
+    }
+
+    input[name='submit'] {
+        width: 35%;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        font-size:0.8rem;
+    }
+}

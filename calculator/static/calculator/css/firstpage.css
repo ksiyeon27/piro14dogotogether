@@ -1,0 +1,151 @@
+/* common for all screen */
+main {
+    min-height: calc(98vh - 280px);
+}
+
+.wrap {
+    width:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12rem;
+   
+}
+
+.left_container {
+    width:50%;
+}
+.left_container img{
+    width:100%;
+
+}
+
+/* right_container */
+.right_container {
+    width:30%;
+    text-align:left;
+}
+
+.header_text {
+    font-size: 2.5rem;
+    font-weight: 600;
+    height: 5rem;
+    display: inline;
+}
+
+.header_text span {
+    color:#FF9D00;
+}
+
+.main_text {
+    margin: 2rem 0;
+    font-size:1rem;
+    width:90%;
+}
+
+.right_container > a {
+    display: block;
+    text-align:center;
+    text-decoration:none;
+    border-radius:20rem;
+    width:40%;
+    box-sizing: border-box;
+    border-color:transparent;
+    padding: 1rem;
+    background-color: #FF9D00;
+    color:white;
+    font-weight:600;
+    font-size:1.2rem;
+}
+
+.right_container > a:hover {
+    background-color: #E87400;
+}
+
+@media screen and (min-width:480px) and (max-width:768px) {
+    .wrap {
+        width:100%;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 12rem;
+    }
+    .header_text {
+        font-size: 1.5rem;
+        font-weight: 600;
+        height: 2rem;
+    }
+
+    .left_container {
+        width:80%;
+    }
+
+    .main_text {
+        font-size: 0.8rem;
+        margin: 0 0 1rem 0;
+    }
+
+    .right_container {
+        width:80%;
+        text-align:center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem 0 5rem 0;
+    }
+
+    .right_container > a {
+        width:35%;
+        padding: 0.8rem;
+        font-size:0.8rem;
+    }
+}
+
+@media screen and (max-width:480px) {
+   
+    .wrap {
+        width:100%;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 8rem;
+    
+    }
+
+    .left_container {
+        width:90%;
+    }
+
+    .right_container {
+        width:80%;
+        text-align:center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem 0 5rem 0;
+    }
+
+    .header_text {
+        font-size: 1.3rem;
+        font-weight: 600;
+        height: 2rem;
+        display: inline;
+    }
+
+    .main_text {
+        margin:0 0 1rem 0;
+        font-size:0.8rem;
+        width: 100%;
+    }
+
+    .right_container a {
+        width:35%;
+        padding: 0.8rem;
+        font-size:0.8rem;
+        margin: 0 auto;
+    }
+}

@@ -1,0 +1,195 @@
+{% load static %}
+{% load socialaccount %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>가치가개!-강아지 산책 정보 공유 사이트</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}"> 
+    <script src="https://kit.fontawesome.com/9ada8679dc.js" crossorigin="anonymous"></script>
+    
+    
+    {% block extra_head %}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    {% endblock %}
+</head>
+<body>
+    {% block nav %}
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{% url 'accounts:base' %}"><i class="fas fa-paw"></i>가치가개</a>
+        </div>
+        <ul class="menu">
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
+            <li><a href="{% url 'calculator:firstpage'%}">참고하개</a></li>
+            <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
+            <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
+            <li><a href="{% url 'accounts:logout' %}" onclick="return confirm('로그아웃 하시겠습니까?');">로그아웃</a></li>    
+            <li><a href="{% url 'accounts:profile' %}">마이페이지</a></li>
+        {% else %}
+            <li><a href="{% url 'map:showmap'%}">같이가개</a></li>
+            <li><a href="{% url 'calculator:firstpage' %}">참고하개</a></li>
+            <li><a href="{% url 'blog:post_list' %}">물어보개</a></li>
+            <li><a href="{% url 'faq:qna' %}">알아보개</a></li>
+            <li><a href="{% url 'accounts:login' %}">로그인</a></li>
+            <li><a href="{% url 'accounts:signup' %}">회원가입</a></li>
+        {% endif %}
+        </ul>
+        <a href="" class="navbar_toggleBtn">
+            <i class="fas fa-bars"></i>
+        </a>
+    </nav>
+    {% endblock %}
+        
+    
+    <main>
+        {% block body %}
+            <section id="main1">
+                <div class="header">
+                    <div class="header-title">
+                        <h1 class="header-title-left animate__animated animate__flipInX">반려견 산책정보<h1>
+                        <div class="header-title-right animate__animated animate__fadeInUp animate__fast">전부 다<br>
+                            <span style="font-weight:bold">가치가개</span>에서!
+                        </div>
+                    </div>
+                    <p class="sub-title animate__animated animate__fadeInUp animate__fast">강아지 활동량,애견 동반 가능한 카페,식당,반려견 놀이터까지<br>강아지와 함께하는 활동에 대한 모든 정보를 가치가개에서 쉽게 찾아보세요!</p>
+                </div>
+            </section>
+
+            <section id="main2">
+                <div class="main2-container">
+                    <div class="main-item animate__animated animate__fadeInUp">
+                        <a href="{% url 'map:showmap'%}">
+                            <i class="fas fa-dog"></i>
+                            <h6>같이가개</h6>
+                            <p> 반려견과의 나들이 어디로 갈까? 애견 동반 가능한 장소들을 지도에서 한눈에 찾기!</p>
+                            <button class="org-btn-sm">바로가기</button>
+                        </a>
+                    </div>
+
+                    <div class="main-item animate__animated animate__fadeInUp animate__delay-1s">
+                        <a href="{% url 'calculator:firstpage' %}">
+                            <i class="fas fa-paw"></i>
+                            <h6>참고하개</h6>
+                            <p> 우리 강아지는 산책을 얼마나 시켜야 할까? 활동량, 기초대사량, 적정체중, 견종별 특징까지 한번에 알아보기!</p>
+                            <button class="org-btn-sm">바로가기</button>
+                        </a>
+                    </div>
+
+                    <div class="main-item animate__animated animate__fadeInUp animate__delay-1s">
+                        <a href="{% url 'blog:post_list' %}">
+                            <i class="fas fa-comments"></i>
+                            <h6>물어보개</h6>
+                            <p>반려견과 다녀온 애견동반 핫플들을 모아 다른 사람들과 함께 공유하고 자유롭게 소통하기!</p>
+                            <button class="org-btn-sm">바로가기</button>
+                        </a>
+                    </div>
+                    
+                    <div class="main-item animate__animated animate__fadeInUp animate__delay-1s">
+                        <a href="{% url 'faq:qna' %}">
+                            <i class="fas fa-book"></i>
+                            <h6>알아보개</h6>
+                            <p>반려견과 산책할 때 알아두어야 할 기본 지식들을 알아보개 리스트에서 한번에 체크하기!</p>
+                            <button class="org-btn-sm">바로가기</button>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="main3">
+                <h2 class="animate__animated animate__fadeInUp">BEST top5 모아보개!</h2>
+                <p class="sub-title animate__animated animate__fadeInUp">다른 사람들이 관심있게 본 새로운 산책 관련 정보들을 확인해보세요!</p>
+
+                <div class="recommend-container">
+                    <div class="recommend-contents" data-aos="fade-up" data-aos-delay="100" data-aos-once="true">
+                        <div class="recommend-contents-grid ">
+                            <h5 class="rcmd-title">오늘의 산책장소 top5</h5>
+                            {% for location in locations %}
+                            <div class="recommend-grid-item">
+                                <div class="recommend-content-text">
+                                    <p class="content-title">{{ location.name }}</p>
+                                    <span class="sub-info">{{ location.category }}</span>&nbsp;&nbsp;
+                                    <span class="sub-info-address">{{ location.address }}</span>
+                                </div>
+                                <div class="recommend-content-info">
+                                    <a href="map/search/{{ location.address }} {{ location.name }}">지도보기</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="show-more">
+                                <button class="org-fill-btn">
+                                    <a href="{% url 'map:showmap' %}">더 알아보기</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recommend-contents" data-aos="fade-up" data-aos-delay="200" data-aos-once="true">
+                        <div class="recommend-contents-grid">
+                            <h5 class="rcmd-title">오늘의 인기글 top5</h5>
+                            {% for post in posts %}
+                            <div class="recommend-grid-item">
+                                <div class="recommend-content-text">
+                                    <p class="content-title"><a class="content-title" href="{{ post.get_absolute_url }}">{{ post.title }}</a></p>
+                                    <p class="sub-info">{{ post.modified_at|date:"Y-m-d" }}</p>
+                                </div>
+                                <div class="recommend-content-info">
+                                    <p class="sub-info">작성자 <b>{{ post.owner }}</b></p>
+                                    <span class="sub-info">좋아요 {{ post.count_likes_user }}</span>
+                                    <span class="sub-info">댓글 수 {{ post.comment_set.all.count }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="show-more">
+                                <button class="org-fill-btn">
+                                    <a href="{% url 'blog:post_list' %}">더 알아보기</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recommend-contents" data-aos="fade-up" data-aos-delay="300" data-aos-once="true">
+                        <div class="recommend-contents-grid">
+                            <h5 class="rcmd-title">오늘의 산책상식</h5>
+
+                            <div class="recommend-grid-item">
+                                <div class="recommend-content-text">
+                                    <p class="content-title">Q{{ random_qna.0 }}</p>
+                                </div>
+                                <div class="recommend-content-info">
+                                    <p class="content-body">A. {{ random_qna.1 }}</p>
+                                </div>
+                            </div>
+
+                            <div class="show-more">
+                                <button class="org-fill-btn">
+                                    <a href="{% url 'faq:qna' %}">더 알아보기</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <img class="mainDog" src="{% static '../../static/img/mainDog.png' %}"/>
+            </section>
+        {% endblock %}
+    </main>
+
+    {% block footer %}
+        <footer class="footer">
+            <small>copyright pirogramming 14기 5조 가치가개 <span>| 전태수 김시연 김윤식 임채원 조은기</span></small>
+        </footer>
+    {% endblock %}
+    
+    <script type="text/javascript" src="{% static 'js/navbar_toggle.js' %}"></script>
+    
+    {% block script %}
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init();</script>
+    <script type="text/javascript" src="{% static 'js/fadeup.js' %}"></script>
+    {% endblock %}
+</body>
+</html>

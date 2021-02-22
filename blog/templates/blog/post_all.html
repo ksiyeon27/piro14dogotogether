@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'blog/css/post_all.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{% endblock %}
+
+{% block body %}
+    <div class="blog-header">
+        <h5 class="animate__animated animate__fadeInUp animate__fast">물어보개</h5>
+        <p class="animate__animated animate__fadeInUp animate__fast">반려견 산책과 관련된 정보와 후기를 사람들과 자유롭게 공유해보세요!</p>
+    </div>
+<div class="blog-container">
+    
+    <div class="best-container">
+        <h6 class="best-post-title">인기 top5 게시글</h6>
+        <div class="slide-box">
+            <ul class="best-ul">
+                {% for post in sorted %}
+                <li class="best-post">
+                    <div class="best-box">
+                        <a href="{{ post.get_absolute_url }}">
+                            {% if post.image %}
+                            <img src="{{post.image.url}}"/>
+                            {% endif %}
+                            <div class="best-info">
+                                <div>
+                                    <p class="best-info-title">{{ post.title }}</p>
+                                    <p>{{ post.modified_at|date:"Y-m-d" }}</p>
+                                    <p>by. {{ post.owner}}</p>
+                                    <p>
+                                        <i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }} &nbsp;
+                                        <i class="far fa-heart"></i> {{post.count_likes_user}}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="post-container">
+        <div class="post-grid"> 
+            <h6 class="all-post-title">전체글보기</h6>
+            
+            <div class="post-search">
+                <form class="form-inline my-2 my-lg-0" action="/community/search/" method="POST">{% csrf_token %}
+                <div class="col filter-box">
+                    <select class="custom-select custom-select-md filter" name="type">
+                        <option value="all">전체</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="writer">작성자</option>
+                    </select>
+                </div>
+                    <input class="search" type="search" placeholder="검색어를 입력한 후 Enter를 눌러주세요." name="search_word"/>
+                </form>
+                
+                <!--<button class="filter">최신순 <i class="fas fa-caret-down"></i></button>-->
+            </div>
+            {% for post in posts %}
+                {% if post.secret %}
+                    {% if request.user == post.owner %}
+                    <div class="post-content">
+                        <div class="post-text">
+                            <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                            <span>by. {{ post.owner}}</span>
+                            <h6><a href="{{ post.get_absolute_url }}"><i class="fas fa-lock"></i> {{ post.title }}</a></h6>
+                            <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+                            <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                        </div>
+                        <div class="post-image">
+                            <a href="{{ post.get_absolute_url }}">
+                            {% if post.image %}
+                            <img src="{{post.image.url}}"/>
+                            {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    
+                    {% else %}
+                    <div class="post-content">
+                        <div class="post-text">
+                            <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                            <span>by. 비공개</span>
+                            <h6>비밀글입니다.</a></h6>
+                            <span><i class="far fa-comment-dots"></i> 비공개</span>
+                            <span><i class="far fa-heart"></i> 비공개</span>
+                        </div>
+                        <div class="post-image">
+                            <i class="fas fa-images"></i>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% else %}
+                <div class="post-content">
+                    <div class="post-text">
+                        <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                        <span>by. {{ post.owner}}</span>
+                        <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
+                        <p>{{post.content}}</p>
+                        <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+                        <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                    </div>
+                    <div class="post-image">
+                        <a href="{{ post.get_absolute_url }}">
+                            {% if post.image %}
+                            <img src="{{post.image.url}}"/>
+                            {% endif %}
+                        </a>
+
+                    </div>
+                </div>
+                
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+    
+    <button type="button" class="create-btn" onclick="create_confirm();">
+        <i class="fas fa-plus"></i>
+    </button>
+    
+
+    <div class="pagination">
+        <span>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+            {% endif %}
+
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">다음</a>
+            {% endif %}
+        </span>
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script>
+    function create_confirm(){
+        {% if not user.is_authenticated %}
+            alert("로그인 후 작성해주세요!");
+            return false;
+        {% else %}
+            location.href="{% url 'blog:add'%}";
+        {% endif %}
+    }
+    </script>
+  
+{% endblock script %}
+

@@ -1,0 +1,57 @@
+{% extends "accounts/base.html" %}
+{% load socialaccount %}
+{% load static %}
+{% load widget_tweaks %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/login.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script> 
+{% endblock %}
+
+{% block body %}
+<div class="form_container">
+    <div class="input_container">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <p class="usernameform">
+                {{ form.username|add_class:"input-lg" }}
+                {% if form.username.errors %}
+					{% for error in form.username.errors %}
+					<p class="error_message_lg">{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+            </p>
+            <p class="passwordform">
+                {{ form.password|add_class:"input-pw" }}
+                {% if form.password.errors %}
+					{% for error in form.password.errors %}
+					<p class="error_message_pw">{{ error }}</p>
+					{% endfor %}
+				{% endif %} 
+            </p>   
+            <input type='submit' name='login_btn' value='로그인'/><br />
+            <div class="btns">
+                <div class="social_login">
+                    <a class="google" href="{% provider_login_url 'google' %}"><img src="{% static 'img/google.png' %}" style="width:1.2rem; height:1.2rem;"></a>
+                    <a class="naver" href="{% provider_login_url 'naver' %}"><img src="https://t1.daumcdn.net/cfile/tistory/997861355D14D41D2D" style="width:1.2rem; height:1.2rem;"></a>
+                </div>
+                <a class="signup" href="{% url 'accounts:signup' %}">회원가입</a>
+            </div>
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class="error_message">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $( document ).ready( function() {
+        $( '.input-lg' ).attr( 'placeholder', 'ID' );
+        $( '.input-pw' ).attr( 'placeholder', 'PASSWD' );
+    } );
+</script>
+{% endblock %}

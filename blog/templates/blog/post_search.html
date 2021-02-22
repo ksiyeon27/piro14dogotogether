@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'blog/css/post_search.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="search-container">
+    <div class="search-grid">
+        <h4 class="all-search-title">'{{ search_term }}' 검색 결과</h4>
+        <div class="post-search">
+                <form class="form-inline my-2 my-lg-0" action="/community/search/" method="POST">{% csrf_token %}
+                <div class="col filter-box">
+                    <select class="custom-select custom-select-md filter" name="type">
+                        <option value="all">전체</option>
+                        <option value="title">제목</option>
+                        <option value="content">내용</option>
+                        <option value="writer">작성자</option>
+                    </select>
+                </div>
+                    <input class="search" type="search" placeholder="검색어를 입력한 후 Enter를 눌러주세요." name="search_word"/>
+                </form>
+                
+                <!--<button class="filter">최신순 <i class="fas fa-caret-down"></i></button>-->
+            </div>
+        {% if object_list %}
+            {% for post in object_list %}
+                {% if post.secret %}
+                    {% if request.user == post.owner %}
+                    <div class="post-content">
+                        <div class="post-text">
+                            <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                            <span>by. {{ post.owner}}</span>
+                            <h6><a href="{{ post.get_absolute_url }}"><i class="fas fa-lock"></i> {{ post.title }}</a></h6>
+                            <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+                            <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                        </div>
+                        <div class="post-image">
+                            {% if post.image %}
+                            <img src="{{post.image.url}}"/>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% else %}
+                    <div class="post-content">
+                        <div class="post-text">
+                            <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                            <span>by. 비공개</span>
+                            <h6>비밀글입니다.</a></h6>
+                            <span><i class="far fa-comment-dots"></i> 비공개</span>
+                            <span><i class="far fa-heart"></i> 비공개</span>
+                        </div>
+                        <div class="post-image">
+                            <i class="fas fa-images"></i>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% else %}
+                <div class="post-content">
+                    <div class="post-text">
+                        <span>{{ post.modified_at|date:"Y-m-d" }}</span>
+                        <span>by. {{ post.owner}}</span>
+                        <h6><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h6>
+                        <p>{{post.content}}</p>
+                        <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+                        <span><i class="far fa-heart"></i> {{post.count_likes_user}}</span>
+                    </div>
+                    <div class="post-image">
+                        {% if post.image %}
+                            <img src="{{post.image.url}}"/>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                {% endif %}
+            {% endfor %}
+        {% elif search_term %}
+        <div class="post-content">
+            <p>'{{ search_term }}' 와 일치하는 게시글이 존재하지 않습니다!</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<button class="go-post-all"><a href="{% url 'blog:index' %}">목록으로 돌아가기</a></button>
+{% endblock %}

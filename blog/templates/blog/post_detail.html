@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load taggit_templatetags2_tags %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'blog/css/post_detail.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+{% endblock %}
+
+{% block body %}
+<div class="post-container">
+    <div class="post-grid">
+        <div class="tag-list">
+            {% get_tags_for_object object as "tags" %}
+            {% for tag in tags %}
+                <a href="{% url 'blog:tagged_object_list' tag.name %}">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="post-header">
+            <!--<a href="{% url 'blog:tag_cloud' %}"><span class="btn btn-info btn-sm">Tag Cloud</span></a>-->
+            <h3 class="post-title">{{ object.title }}</h3>
+            
+            <span class="post-title-info"> {{ object.created_at|date:'Y-m-d'}} </span>
+            <span class="post-title-info"> by.{{ object.owner}} </span>
+            <hr>
+        </div>
+
+        <div class="post-content">
+            {% if object.image %}
+            <a href="{{ object.image.url }}">
+                <img class="post-img" src="{{ object.image.url }}" alt="이미지">
+            </a>
+            {% endif %}
+            <p>{{ object.content|linebreaks }}</p>
+        </div>
+        
+        <!-- additional container:like, comment count, update, delete-->
+        
+        <div class="like-and-comment">
+            <div class="like-and-comment-content">
+                {% if likes %}
+                <button class="like like-btn" name="{{ post.id }}"><i class='fas fa-heart' style='color:#F58A8A'></i></button>
+                <span id="count-{{ post.id }}">{{ post.likes_user.all.count }}</span>
+                {% else %}
+                <button class="like like-btn" name="{{ post.id }}"><i class="far fa-heart"></i></button>
+                <span id="count-{{ post.id }}">{{ post.likes_user.all.count }}</span>
+                {% endif %}
+                <span><i class="far fa-comment-dots"></i> {{ post.comment_set.all.count }}</span>
+            </div>
+        </div>
+
+        <div class="modify-and-delete">
+            <div class="modify-and-delete-content">
+                {% if request.user == object.owner %}
+                    <button type="button"  onclick="location.href='{% url 'blog:update' object.pk %}'; ">수정</button>
+                    <form class="delete-btn" method="POST" action="{% url 'blog:delete' object.pk %}">
+                        {% csrf_token %}<input class="delete-btn" type="submit" onclick="return confirm('게시글을 삭제 하시겠습니까?');" value="삭제">
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="comment-container">
+            <hr>
+            {% if comments %} <!-- 이거 이상함 post 아이디 구별&카운트 필요함-->
+                {% for comment in comments %}
+                    <div id='{{ comment.id }}'>
+                        <div class="comment-text">
+                            {% if comment.writer == object.owner %}
+                                <p class="comment-text-sub writer">by.{{ comment.writer }}&nbsp;<span>(글쓴이)</span></p>
+                            {% else  %}
+                                <p class="comment-text-sub">by.{{ comment.writer }}</p>
+                            {% endif %}
+                            <p id="content">{{ comment.content }}</p>
+                            <p class="comment-text-sub">{{ comment.created }}</p>
+                            {% if comment.writer == request.user or request.user.level == '0' or request.user.level == '1' %}
+                                <div class="comment-modify">
+                                    <button class="btn1" onclick="commentDelete('{{comment.id}}');">삭제</button>
+                                    <button class="btn2" name="commentmod" onclick="commentmodification('{{comment.id}}')"  value="{{ comment.id }}">수정</button>
+                                </div>
+                            
+                            {% endif %}
+                            <hr>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <input type="hidden" id="comment_writer" value={{request.user}}>
+            <div id="comment_list"></div>
+        </div>
+
+        {% csrf_token %}
+        <div class="comment-input">
+            <textarea class="write-comment-box" id="content_id" rows="3" placeholder="댓글을 입력하세요."></textarea>
+            <button id="comment_write">작성하기</button>
+        </div>
+        
+    </div>
+</div>
+<div class="page-linker">
+    <div class="page-linker-grid">
+        <div class="before-page">
+        {% if object.get_previous %}
+            <a href="{{ object.get_previous.get_absolute_url }}" title="View Previous Post">
+                <i class="fas fa-arrow-left"></i>&nbsp;이전글&nbsp;&nbsp;&nbsp;<span class="other-title">{{ object.get_previous }}</span>
+            </a>
+        {% endif %}
+        </div>
+        <div>
+            <a href="{% url 'blog:post_list' %}" title="View Next Post">
+                전체글보기
+            </a>
+        </div>
+        <div class="next-page">
+        {% if object.get_next %}
+            <a href="{{ object.get_next.get_absolute_url }}" title="View Next Post">
+                <span class="other-title">{{ object.get_next }}</span>&nbsp;&nbsp;&nbsp;다음글&nbsp;<i class="fas fa-arrow-right"></i>
+            </a>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+
+<script type="text/javascript">
+            $(".like").click(function () { // .like 버튼을 클릭 감지
+                var pk = $(this).attr('name')
+                $.ajax({ // ajax로 서버와 통신
+                    type: "POST", // 데이터를 전송하는 방법 
+                    url: "{% url 'blog:post_like' %}", // 통신할 url을 지정
+                    data: { 
+                        'pk': pk, 
+                        'csrfmiddlewaretoken': '{{ csrf_token }}' 
+                    }, // 서버로 데이터 전송시 옵션, pk를 넘겨야 어떤 post인지 알 수 있음
+                    dataType: "json",
+                    success: function (response) { // 성공
+                        $("#count-" + pk).html(response.likes_count); // 좋아요 개수 변경
+                        if(response.message == '좋아요 취소'){
+                            $(".like-btn").html("<i class='far fa-heart'></i>");
+                        }
+                        else{
+                            //색깔 있는 좋아요
+                            $(".like-btn").html("<i class='fas fa-heart' style='color:#F58A8A'></i>");
+                        }
+
+                    },
+                    error: function (request, status, error) { // 실패
+                        alert("로그인이 필요합니다.");
+                        window.location.replace("{% url 'accounts:login' %}") // 로그인 페이지로 넘어가기
+                    },
+                });
+            })
+ </script>    
+ <script>
+    function commentmodification(clicked_id){
+        var modify=document.getElementById(clicked_id);
+        console.log(modify);
+        var content=modify.querySelector('#content');
+        var div = modify.querySelector('.comment-text');
+        var div3 = modify.querySelector('.comment-modify');
+        var btn1=modify.querySelector('.btn1');
+        var btn2=modify.querySelector('.btn2');
+        var text=content.textContent;
+        var newcontent = document.createElement('textarea');
+        var newdiv = document.createElement('div');
+        newdiv.className="comment-input";
+        newcontent.className="write-comment-box";
+        newcontent.id="content_id";
+        newcontent.rows="3";
+        var second = div.childNodes[2];
+        console.log(modify);
+        newcontent.textContent = text;
+        div.insertBefore(newdiv,second);
+        newdiv.appendChild(newcontent);
+        div.removeChild(content);
+        div3.removeChild(btn1);
+        div3.removeChild(btn2);
+        var newbutton = document.createElement('button');
+        div3.appendChild(newbutton);
+        newbutton.innerText='수정 완료';
+        newbutton.id=clicked_id;
+        newbutton.className="test";
+        newbutton.setAttribute('onclick','modifycomment()')
+        console.log(newbutton);
+       
+    }
+
+    function modifycomment(){
+        var content= $("#content_id").val();
+        var id_check = $(".test").attr("id");
+        var writer= $("#comment_writer").val();
+        var request = new XMLHttpRequest();
+        var url = "{% url 'blog:comment_modify' object.id %}";
+        request.open("POST", url, true);
+        request.setRequestHeader(
+         "Content-Type",
+         "application/x-www-form-urlencoded"
+       );
+        var info = { content: content, pk:id_check, writer:writer};
+        request.send(JSON.stringify(info));
+        var handleResponse = () => {
+            if (request.status <= 400) {
+                alert("수정되었습니다!");
+                const { writer, content, created, comment_id, self_comment} = JSON.parse(request.response); 
+                var modify=document.getElementById(id_check);
+                while ( modify.hasChildNodes()){
+                     modify.removeChild( modify.firstChild ); 
+                }
+
+                modify.innerHTML=
+                    '<div class="comment-text">'+ 
+                    '<p class="comment-text-sub writer">by.'+writer+'<span> '+self_comment+'</span>'+'</p>'+
+                    '<p id="content">'+content+'</p>'+
+                    '<p class="comment-text-sub">'+created+'</p>'+
+                    '<div class="comment-modify">'+
+                    '<button class="btn1" onclick="commentDelete('+comment_id+')">삭제</button>'+
+                   
+                    '</div><hr></div>';
+
+             }
+             else{
+               alert("수정에 실패하였습니다.");
+             }
+            };
+          
+          request.onreadystatechange = () => {
+            if (request.readyState === XMLHttpRequest.DONE) {
+              handleResponse();
+            }
+          };
+         
+    }
+</script>
+ <script type="text/javascript">
+    $(document).ready(function () {
+        $('#comment_write').click(function () {
+            var content= $("#content_id").val();
+            var writer= $("#comment_writer").val();
+            $.ajax({
+                type: "POST",
+                url: "{% url 'blog:comment_new' object.id %}",
+                dataType: "json",
+                data: {
+                    'writer': writer,
+                    'content': content,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                },
+                success: function (response) {
+                    if (response.self_comment) {
+                        $('#comment_list').append(
+                           '<div id='+response.comment_id+'>'+
+                           '<div class="comment-text">'+ 
+                           '<p class="comment-text-sub writer">by.'+response.writer+' (글쓴이)</p>'+
+                           '<p id="content">'+response.content+'</p>'+
+                           '<p class="comment-text-sub">'+response.created+'</p>'+
+                           '<div class="comment-modify">'+
+                           '<button class="btn1" onclick="commentDelete('+response.comment_id+')">삭제</button>'+
+                           '<button class="btn2" onclick="commentmodification('+response.comment_id+')">수정</button>'+
+                           '</div><hr></div></div>');
+                        
+                        
+                    }
+                    
+                    else{
+                        $('#comment_list').append(
+                           '<div id='+response.comment_id+'>'+
+                           '<div class="comment-text">'+ 
+                           '<p class="comment-text-sub writer">by.'+response.writer+'</p>'+
+                           '<p>'+response.content+'</p>'+
+                           '<p class="comment-text-sub">'+response.created+'</p>'+
+                           '<div class="comment-modify">'+
+                           '<button class="btn1" onclick="commentDelete('+response.comment_id+')">삭제</button>'+
+                           '<button class="btn2" onclick="commentmodification('+response.comment_id+')">수정</button>'+
+                           '</div><hr></div></div>'
+                        );
+                    }
+                    $('#content_id').val("");
+                },
+                error:function (request, status, error) {
+                    if ($('#content_id').val()=="") {
+                        alert('댓글을 입력해주세요.');
+                    }
+                    else{ // 실패-로그인 안된 조건 추가 필요
+                        alert('로그인 후 이용해주세요.');
+                        window.location.replace("{% url 'accounts:login' %}") // 로그인 페이지로 넘어가기
+                    }
+                },
+            })
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    function commentDelete(value) {
+        var comment_id = value;
+        var delete_warning = confirm('댓글을 삭제하시겠습니까?');
+        if (delete_warning == true) {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'blog:comment_delete' object.id %}",
+                dataType: "json",
+                data: {
+                    'comment_id': comment_id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                },
+                success: function (response) {
+                    if(response.deleted == true){
+                        var target_comment = document.getElementById(response.comment_id);
+                        target_comment.parentNode.removeChild(target_comment);
+                    }
+                    
+                },
+                error: function () {
+                    alert('본인 댓글이 아닙니다.');
+                },
+            });
+        }
+    }
+</script>
+
+
+<script type="text/javascript">
+      /*  $(document).ready(function () {
+        $('#comment_modification').click(function (value) {
+            var content= $("#content_id").val();
+            var writer= $("#comment_writer").val();
+            $.ajax({
+                type: "POST",
+                url: "{% url 'blog:comment_modify' object.id %}",
+                dataType: "json",
+                data: {
+                    'comment_id': comment_id,
+                    'writer': writer,
+                    'content': content,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                },
+                success: function (response) {
+                $('#'+response.comment_id).replaceWith('<div><div id='+response.comment_id+'><strong>'+response.writer+'&nbsp;<span>'+response.self_comment+'</span></strong>'+
+                       '<span style="float:right;">'+response.created+'</span>'+
+                       '<div><div style="white-space:pre-wrap; text-align:left;">'+response.content+
+                       '</div><div style="text-align:right;"><a onclick="commentDelete('+response.comment_id+');">댓글삭제</a></div></div><hr></div><div class='+response.comment_id+'></div>');
+            },
+            error: function () {
+                alert('본인 댓글이 아닙니다.');
+            },
+        });
+        })});*/
+
+</script>
+{% endblock %}

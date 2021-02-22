@@ -1,0 +1,51 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'accounts/delete.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="wrap">
+    <div class="container">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            <p class="explain_text"><span>{{ request.user.profile.name|default:request.user }}</span> 회원님의 계정이 삭제됩니다.<br>탈퇴시 개인정보 및 이용정보가 삭제되며 복구할 수 없습니다. <br><br><span>본인의 비밀번호를 입력한 후 하단의 유의사항 동의에 체크하세요.</span></p>
+            <div>
+                <p>{{ password_form.password }}</p>
+                {% if password_form.password.errors %}
+                <script type="text/javascript">
+                    document.getElementsByName('password')[0].setAttribute('class', 'form-control is-invalid')
+                </script>
+                {% for error in password_form.password.errors %}
+                <div class="invalid-feedback">
+                    <p class="error_message">{{ error }}</p>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <small>
+                    본인인증을 위해 비밀번호를 입력해주세요.
+                </small>
+            </div>
+        
+            <label>
+                <input type="checkbox" name="ck" onClick="checkDisable(this.form)">
+                <span>유의사항 동의</span>
+            </label>
+            <div class="btn_div"><button type="submit" name="bt" disabled="true" >탈퇴하기</button></div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}    
+<script type="text/javascript">
+    function checkDisable(form) {
+        if (form.ck.checked == true) {
+            form.bt.disabled = false;
+        } else {
+            form.bt.disabled = true;
+        }
+    }
+</script>
+{% endblock %}
