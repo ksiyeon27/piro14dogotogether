@@ -32,7 +32,7 @@
             <input type='submit' name='login_btn' value='로그인'/><br />
             <div class="btns">
                 <div class="social_login">
-                    <a class="google" href="{% provider_login_url 'google' %}"><img src="https://t1.daumcdn.net/cfile/tistory/99094C455D14D2661E" style="width:1.2rem; height:1.2rem;"></a>
+                    <a class="google" href="{% provider_login_url 'google' %}"><img src="{% static 'img/google.png' %}" style="width:1.2rem; height:1.2rem;"></a>
                     <a class="naver" href="{% provider_login_url 'naver' %}"><img src="https://t1.daumcdn.net/cfile/tistory/997861355D14D41D2D" style="width:1.2rem; height:1.2rem;"></a>
                 </div>
                 <a class="signup" href="{% url 'accounts:signup' %}">회원가입</a>
