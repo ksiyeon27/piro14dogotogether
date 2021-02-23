@@ -14,11 +14,12 @@
 
 ### 2. <a href="https://github.com/lisa425">임채원</a> (Chaewon, Im)
     1. Backend
-    2. Frontend
+        - 프로젝트 배포
+    3. Frontend
         - WireFrame Constructor(Frontend Lead Member) : Adobe XD를 이용한 와이어프레임 개발
         - 와이어프레임 프론트엔드 적용 및 수정(프론트엔드 단 기획, 개발 리딩)
         - 전반 템플릿 구현(Home화면 및 Base.html,커뮤니티 앱 전체 퍼블리싱)
-    3. UX/UI Designer
+    4. UX/UI Designer
         - 서비스 전체 플로우 기획 & ui 컨셉,레이아웃,인터렉션 디자인
 
 ### 3. <a href="https://github.com/yunsik0115">김윤식</a> (Yunsik, Kim)
