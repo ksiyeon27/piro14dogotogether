@@ -6,14 +6,17 @@
 ### 1. <a href="https://github.com/jts159753">전태수</a>  (Taesu Jeon, TEAM LEADER)
     1. BackEnd
         - Ajax 통신을 위한 모델 및 뷰 구현(Community 내부)
+        - AJAX를 이용한 댓글 수정
     2. Frontend
         - Ajax와 Javascript를 이용한 좋아요 기능 구현
         - KAKAOMAP API 적용 담당
     3. IDEA Designer
         - 가치가개 아이디어 제공, 구현에 필요한 기능 구상 발표
+        - 최종발표, PPT 작성 
 
 ### 2. <a href="https://github.com/lisa425">임채원</a> (Chaewon, Im)
     1. Backend
+        - 프로젝트 배포(AWS, NGINX, USWGI 이용) Domain 설정 및 https 프로토콜 적용
     2. Frontend
         - WireFrame Constructor(Frontend Lead Member) : Adobe XD를 이용한 와이어프레임 개발
         - 와이어프레임 프론트엔드 적용 및 수정(프론트엔드 단 기획, 개발 리딩)
@@ -24,7 +27,8 @@
 ### 3. <a href="https://github.com/yunsik0115">김윤식</a> (Yunsik, Kim)
     1. Backend
         - 커뮤니티 앱 내부 기본 기능(포스트 수정, 생성, 삭제, 목록) 구현
-        - Ajax를 이용하여 내부 댓글 기능 사용을 위한 모델, 뷰 함수 구현
+        - Kakao map api 적용을 통한 marker표시 및 데이터 처리
+        - 댓글 create, delete ajax 구현
     2. Data Mining
         - KAKAO MAP API에 적용하기 위한 데이터 크롤링(반려동물 병원, 위치정보, 기타설명 등등, excel 파일)
         - 데이터 출처 (https://www.culture.go.kr/data/openapi/openapiView.do?id=519&gubun=B)
@@ -36,6 +40,7 @@
         - 소셜 로그인, 로그인, 회원가입을 포함한 accounts 앱 구현당 담당
         - Naver, Google 소셜 로그인 구현
         - 견종별 산책 시간 계산을 위한 데이터 크롤링 담당
+        - kakao map api geolocation 구현 담당(Javascript)
     2. Frontend
 
 ### 5. <a href="https://github.com/eungi78">조은기</a> (Eungi, Cho)
@@ -44,7 +49,8 @@
         - Naver, Google 소셜 로그인 구현
         - 견종별 산책 시간 계산을 위한 데이터 크롤링 담당
     2. Frontend
-    3. Data Mining
+        - data mining을 통해 추출된 애견 전문사이트 데이터 프론트엔드 단에 
+    4. Data Mining
         - 외국 애견 전문 사이트에서 견종 크롤링, 견종 체중 공식과 결과 페이지에 도출할 이미지 크롤링.
 
 ## 2. 아이디어 소개

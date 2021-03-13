@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .models import Profile
-from .forms import ProfileForm, CheckPasswordForm, LoginForm
+from .forms import ProfileForm, LoginForm
 # decorators import
 from django.contrib.auth.decorators import login_required
 # needed when define signup:
@@ -15,6 +15,7 @@ from blog.models import Post
 from map.models import placeAddByUser
 import random
 import json
+from allauth.socialaccount.models import SocialAccount
 
 # 이름 수정 필요.
 def base(request):
@@ -145,14 +146,9 @@ def profile_edit(request):
 @login_required
 def user_delete(request):
     if request.method == 'POST':
-        password_form = CheckPasswordForm(request.user, request.POST)
-        
-        if password_form.is_valid():
-            request.user.delete()
-            auth_logout(request)
-            url = reverse("accounts:base")
-            return redirect(url)
+        request.user.delete()
+        auth_logout(request)
+        url = reverse("accounts:base")
+        return redirect(url)
     else:
-        password_form = CheckPasswordForm(request.user)
-
-    return render(request, 'accounts/user_delete.html', {'password_form':password_form})
+        return render(request, 'accounts/user_delete.html')
